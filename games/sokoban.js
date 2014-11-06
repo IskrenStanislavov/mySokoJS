@@ -1,6 +1,7 @@
 define(function(require) {
 	var Levels = require("games/sokoban/levels");
 	var tiles  = require("games/sokoban/tiles");
+	var Tray  = require("games/sokoban/tray");
 	var Stage  = require("libs/stage");
 
 	var Sokoban = function(){
@@ -28,7 +29,7 @@ define(function(require) {
 		}
 	};
 
-	Sokoban.simpleLevel = "WWWW;WP+W;WWWW";
+	Sokoban.simpleLevel = "WWWWW;WPB-W;WWWW";
 	Sokoban.tileConfig = {
 		'width': 50,
 		'height':50,
@@ -47,13 +48,8 @@ define(function(require) {
 
 	Sokoban.prototype.start = function(data) {
 		tiles.build(Sokoban.tileConfig);
-		var test = new tiles.Tile({
-			"row": 0,
-			"column":1,
-			"kind":"wall",
-		});
-		// console.error(test);
- 		this.stage.add(test);
+		var tray = new Tray(Sokoban.simpleLevel, Sokoban.symbols.iso);
+ 		this.stage.addGame(tray);
 	};
 
 	return Sokoban;

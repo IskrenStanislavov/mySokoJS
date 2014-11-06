@@ -22,13 +22,13 @@ define(function(require) {
 	$.extend(Tile.prototype, new createjs.Sprite());
 
 	Tile.prototype.calculate = function(kind){
-		if (!Tile.config) {
+		if (!Tile.dimensions) {
 			throw "first set the Tile configurations";
 		}
 		// this.animation = new createjs.Sprite(Tile.animationSS, "empty");
-		this.x = Tile.config.width * this.row;
-		this.y = Tile.config.height * this.column;
-		this.play(kind);
+		this.x = Tile.dimensions.width * this.column;
+		this.y = Tile.dimensions.height * this.row;
+		this.gotoAndPlay(kind);
 
 		this.hasPlayer = true;
 	};
@@ -41,9 +41,8 @@ define(function(require) {
 		this.hasPlayer = false;
 	};
 
-	Tile.animationSS = new createjs.SpriteSheet({
+	Tile.spriteConfig = {
 		images: ["img/NightShift3 - Gerry Wiseman7f.png"],
-		frames: {width:50, height:50},
 		animations: {
 			"empty":0,
 			'player':1,
@@ -73,10 +72,16 @@ define(function(require) {
 
 			'author':23,
 			},
-	});
+	};
 
 	var build = function(config) { 
-		Tile.config = config;
+		Tile.dimensions = {
+			'width': config.width,
+			'height': config.height,
+		};
+		Tile.spriteConfig.frames = $.extend({}, Tile.dimensions);
+		Tile.animationSS = new createjs.SpriteSheet(Tile.spriteConfig);
+
 	}
 
 	return {

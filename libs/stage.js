@@ -26,6 +26,16 @@ define(function(require) {
 		},
 		add:function(child) {
 			this.addChild(child);
+		},
+
+		addGame: function(tray) {
+			var that = this;
+			this.canvas.width  = tray.width;
+			this.canvas.height = tray.height;
+
+			tray.tiles.forEach(function(tile, i){
+				that.add(tile);
+			})
 		}
 
 	});
