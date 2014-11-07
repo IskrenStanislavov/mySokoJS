@@ -49,7 +49,7 @@ define(function(require) {
 			'box':2,
 			// 'box+start':[],
 
-			"target":7,
+			"target-box":7,
 			'target+player':8,
 			'target+player+up':35,
 			'target+player+up+start':[42,48],

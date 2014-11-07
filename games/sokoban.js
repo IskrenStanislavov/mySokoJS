@@ -29,7 +29,7 @@ define(function(require) {
 		}
 	};
 
-	Sokoban.simpleLevel = "WWWWW;WPB-W;WWWW";
+	Sokoban.simpleLevel = "WWWWW;WPB-W;WWWWW";
 	Sokoban.tileConfig = {
 		'width': 50,
 		'height':50,
