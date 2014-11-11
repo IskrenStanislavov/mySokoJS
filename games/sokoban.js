@@ -49,6 +49,7 @@ define(function(require) {
 	Sokoban.prototype.start = function(data) {
 		tiles.build(Sokoban.tileConfig);
 		var tray = new Tray(Sokoban.simpleLevel, Sokoban.symbols.iso);
+		tiles.recalculateWalls(tray.getTiles());
  		this.stage.addGame(tray);
 	};
 

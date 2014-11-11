@@ -41,14 +41,14 @@ define(function(require) {
 		this.hasPlayer = false;
 	};
 
-	Tile.spriteConfig = {
-		images: ["img/NightShift3 - Gerry Wiseman7f.png"],
-		animations: {
+
+	Tile.kinds = {
 			"empty":0,
 			'player':1,
 			'box':2,
 			// 'box+start':[],
 
+			"target":7,
 			"target-box":7,
 			'target+player':8,
 			'target+player+up':35,
@@ -71,8 +71,23 @@ define(function(require) {
 			'player+right':31,
 
 			'author':23,
-			},
 	};
+
+	Tile.spriteConfig = {
+		images: ["img/NightShift3 - Gerry Wiseman7f.png"],
+		animations:Tile.kinds,
+	};
+
+	recalculateWalls = function(sortedTiles) {
+		console.error("Walls not ready yet");
+		// var that = this;
+		// sortedTiles.forEach(function(tile, i) {
+		// 	if (tile.kind === Tile.kinds.wall){
+		// 		console.log('');
+		// 	}
+		// });
+	};
+
 
 	var build = function(config) { 
 		Tile.dimensions = {
@@ -87,6 +102,7 @@ define(function(require) {
 	return {
 		'Tile':Tile,
 		'build': build,
+		'recalculateWalls': recalculateWalls,
 	};
 
 });
