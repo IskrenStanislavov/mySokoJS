@@ -3,6 +3,8 @@ define(function(require) {
 	var tiles  = require("games/sokoban/tiles");
 	var Tray  = require("games/sokoban/tray");
 	var Stage  = require("libs/stage");
+	var Handlers = require("games/sokoban/handlers");
+	new Handlers();
 
 	var Sokoban = function(){
 		this.init();
