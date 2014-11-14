@@ -4,10 +4,12 @@ define(function(require) {
 	var Tray  = require("games/sokoban/tray");
 	var Stage  = require("libs/stage");
 	var Handlers = require("games/sokoban/handlers");
-	new Handlers();
+	var CommandList = require("games/sokoban/commandList");
 
 	var Sokoban = function(){
 		this.init();
+		this.commandList = new CommandList();
+		this.handlers = new Handlers(this.commandList);
 	};
 
 	Sokoban.symbols = {

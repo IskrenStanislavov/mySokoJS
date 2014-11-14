@@ -1,7 +1,8 @@
 
 define(function(require) {
 
-	var Handlers = function() {
+	var Handlers = function(commandList) {
+		this.commandList = commandList;
 		this.init();	
 	};
 
@@ -12,51 +13,46 @@ define(function(require) {
 
 		},
 
+		"detach": function(){
+			document.onkeydown = null;
+			document.onkeyup = function(){
+				document.onkeydown = this.handleKeyDown.bind(this);
+			}.bind(this);
+		},
+
 		'handleKeyDown': function(evt) {
+			var doDetach = false;
 			evt = (evt) ? evt : ((window.event) ? window.event : null);
 
 			if (evt) {
 				if (evt.keyCode === 37) {
 					this.commandList.addMove("Left");
+					doDetach = true;
 				} else if (evt.keyCode === 38) {
 					this.commandList.addMove("Up");
+					doDetach = true;
 				} else if (evt.keyCode === 39) {
 					this.commandList.addMove("Right");
+					doDetach = true;
 				} else if (evt.keyCode === 40) {
 					this.commandList.addMove("Down");
+					doDetach = true;
 				} else if (evt.keyCode === 90) {
 					if (evt.ctrlKey) {
+						doDetach = true;
 						this.commandList.goBack();
 					}
 				} else if (evt.keyCode === 89) {
 					if (evt.ctrlKey) {
+						doDetach = true;
 						this.commandList.goForward();
 					}
 				}
+
+				if (doDetach){
+					this.detach();
+				}
 				this.stopBubbleEvent(evt);
-				// pintarEstado();
-						// if(posH>0){
-						// 	if (aNivelActual[posV].charAt(posH-1)==" " || aNivelActual[posV].charAt(posH-1)=="."){
-						// 		numM++;
-						// 		inJugador(posV,posH-1);	
-						// 		outBloque(posV,posH);
-						// 		strMovimientos += "l";
-						// 		posH = posH - 1;
-						// 	}else if (aNivelActual[posV].charAt(posH-1)=="$" || aNivelActual[posV].charAt(posH-1)=="*"){
-						// 		if(posH-2>0){
-						// 			c = aNivelActual[posV].charAt(posH-2);
-						// 			if (c == " " || c == "."){
-						// 				numP++;
-						// 				inTesoro(posV,posH-2);
-						// 				outBloque(posV,posH-1);
-						// 				inJugador(posV,posH-1);
-						// 				outBloque(posV,posH);
-						// 				strMovimientos += "L";
-						// 				posH = posH - 1;
-						// 			}
-						// 		}
-						// 	}
-		    // 			}
 			}
 		},
 
