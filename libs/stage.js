@@ -33,9 +33,10 @@ define(function(require) {
 			this.canvas.width  = tray.width;
 			this.canvas.height = tray.height;
 
-			tray.tiles.forEach(function(tile, i){
+			tray.tiles && tray.tiles.forEach(function(tile, i){
 				that.add(tile);
-			})
+			});
+			tray.player && that.addChildAt(tray.player, tray.tiles.length);
 		}
 
 	});

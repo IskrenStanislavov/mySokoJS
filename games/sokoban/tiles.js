@@ -1,3 +1,13 @@
+//Tile factory pattern used
+
+// playerTile can move, handlers controlled
+// wall - never moves, always in state: "full"
+// target - never moves, but can have states: empty, box, player
+// empty - doesn move, but can exchange with player only!
+// box Tile can move - player can move it towards the direction
+
+//друг вариант е просто да се сменят позициите на които се намират кутийките и играча ни
+
 	// Sokoban.standartLevel = {
 	// 	'P': 'player',
 	// 	'W': 'wall',
@@ -25,12 +35,15 @@ define(function(require) {
 		if (!Tile.dimensions) {
 			throw "first set the Tile configurations";
 		}
+		$.extend(this, Tile.dimensions);
 		// this.animation = new createjs.Sprite(Tile.animationSS, "empty");
-		this.x = Tile.dimensions.width * this.column;
-		this.y = Tile.dimensions.height * this.row;
+		this.x = this.width * this.column;
+		this.y = this.height * this.row;
 		this.gotoAndPlay(kind);
-
-		this.hasPlayer = true;
+		this.hasPlayer = false;
+		if ( kind === 'player' ) {
+			this.hasPlayer = true;
+		}// else {console.log(kind);}
 	};
 
 	Tile.prototype.playerIn = function(){
@@ -41,6 +54,9 @@ define(function(require) {
 		this.hasPlayer = false;
 	};
 
+	Tile.prototype.isPlayer = function(){
+		return !!this.hasPlayer;
+	};
 
 	Tile.kinds = {
 			"empty":0,

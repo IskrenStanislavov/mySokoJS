@@ -7,9 +7,10 @@ define(function(require) {
 	var CommandList = require("games/sokoban/commandList");
 
 	var Sokoban = function(){
+		this.stage = null;
 		this.init();
 		this.commandList = new CommandList();
-		this.handlers = new Handlers(this.commandList);
+		this.handlers = new Handlers(this.stage, this.commandList);
 	};
 
 	Sokoban.symbols = {
@@ -21,6 +22,7 @@ define(function(require) {
 			'+': 'target+box',
 			'-': 'target-box',
 			';': 'new line',
+			'A': 'author'
 		},
 		'xsb': {
 			'@': 'player',
@@ -30,10 +32,11 @@ define(function(require) {
 			'*': 'target+box',
 			'.': 'target-box',
 			'|': 'new line',
+			'A': 'author'
 		}
 	};
 
-	Sokoban.simpleLevel = "WWWWW;WPB-W;WWWWW";
+	Sokoban.simpleLevel = "WWWWWA;WPB-WA;WWWWWA";
 	Sokoban.tileConfig = {
 		'width': 50,
 		'height':50,
@@ -51,10 +54,11 @@ define(function(require) {
 	};
 
 	Sokoban.prototype.start = function(data) {
-		tiles.build(Sokoban.tileConfig);
-		var tray = new Tray(Sokoban.simpleLevel, Sokoban.symbols.iso);
-		tiles.recalculateWalls(tray.getTiles());
- 		this.stage.addGame(tray);
+		tiles.build( Sokoban.tileConfig );
+		var tray = new Tray( Sokoban.simpleLevel, Sokoban.symbols.iso );
+		tiles.recalculateWalls( tray.getTiles() );
+ 		this.stage.addGame( tray );
+ 		this.handlers.refresh();
 	};
 
 	return Sokoban;

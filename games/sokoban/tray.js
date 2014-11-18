@@ -7,14 +7,17 @@ define(function(require) {
 		this.parse( level, iso );
 		this.width =  this.columns * Tile.dimensions.width;
 		this.height = (this.rows+1) * Tile.dimensions.height;
+		// this.players = [];
 		// this.recalculate_walls();
 	};
 
 	Tray.prototype.parse = function(stringLevel, iso) {
 		this.rows = 0;
 		this.columns = 0;
+		this.player = null;
 		var cCol = 0;
 		var kind;
+		var tile;
 
 		this.tiles = [];
 		this.matrixOfTiles = [[]]
@@ -29,13 +32,17 @@ define(function(require) {
 				this.matrixOfTiles.push([]);
 				cCol = 0;
 			} else {
-				this.tiles.push(new Tile({
+				tile = new Tile({
 					"row":this.rows,
 					"column":cCol,
 					"kind":kind,
-				}));
-				this.matrixOfTiles[this.rows].push(this.tiles[ this.tiles.length-1 ]);
+				});
+				this.tiles.push(tile);
+				this.matrixOfTiles[this.rows].push(tile);
 				cCol += 1;
+				if (!this.player && tile && tile.isPlayer()){
+					this.player = tile;
+				}
 			}
 		}
 	};
