@@ -16,14 +16,12 @@ define(function(require) {
 		},
 
 		"handleDown": function( event ) {
-			event.remove();
 			this.startX = event.stageX;
 			this.startY = event.stageY;
 			console.log('down', event, 'down at:('+event.stageX+','+event.stageY+')');
 		},
 
 		"handleMove": function( event ) {
-			event.target.off('pressmove', this.handleMove, this);
 			// console.log('move', event);
 			var deltaX = this.startX - event.stageX;
 			var deltaY = this.startY - event.stageY;
@@ -31,30 +29,34 @@ define(function(require) {
 			var yCondition = (Math.abs(deltaY) > event.target.height);
 			if ( xCondition || yCondition ) {
 				event.remove();
+				this.stage.removeChild(event.target);
+				this.stage.addChild(event.target);
 				if (Math.abs(deltaX) > Math.abs(deltaY)){
 					if (deltaX > 0){
-						this.startX += event.target.width;
+						// this.startX += event.target.width;
 						this.commandList.addMove("Right");
 					} else {
-						this.startX -= event.target.width;
+						// this.startX -= event.target.width;
 						this.commandList.addMove("Left");
 					}
 				} else {
 					if (deltaY > 0){
-						this.startY += event.target.height;
+						// this.startY += event.target.height;
 						this.commandList.addMove("Up");
 					} else {
-						this.startY -= event.target.height;
+						// this.startY -= event.target.height;
 						this.commandList.addMove("Down");
 					}
 				}
+				// event.target.x = this.startX;
+				// event.target.y = this.startY;
 			}
 		},
 
 		"handleUp": function( event ) {
 			console.log('up', event);
-			this.allowTouches(event.target);
 			event.remove();
+			this.allowTouches(event.target);
 			// this.startX = event.x;
 			// this.startY = event.y;
 		},
@@ -67,13 +69,11 @@ define(function(require) {
 			}.bind(this));
 		},
 
-		"allowTouches": function(target){
+		"allowTouches": function(target) {
 			var ctx = this;
-			// target.
-			target.off('mousedown', this.handleDown, ctx);
-			target.off('pressmove', this.handleMove, ctx);
-			target.off('pressup', this.handleUp, ctx);
-
+			target.removeAllEventListeners('mousedown');
+			target.removeAllEventListeners('pressmove');
+			target.removeAllEventListeners('pressup');
 			target.on('mousedown', this.handleDown, ctx);
 			target.on('pressmove', this.handleMove, ctx);
 			target.on('pressup', this.handleUp, ctx);
