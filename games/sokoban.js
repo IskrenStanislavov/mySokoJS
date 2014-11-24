@@ -37,10 +37,6 @@ define(function(require) {
 	};
 
 	Sokoban.simpleLevel = "WWWWWA;WPB-WA;WWWWWA";
-	Sokoban.tileConfig = {
-		'width': 50,
-		'height':50,
-	};
 	Sokoban.levelsCollections = {
 		"./games/sokoban/levels.json": 'iso',
 		"./games/sokoban/niveles_homs.json": 'xsb',
@@ -48,13 +44,11 @@ define(function(require) {
 	};
 
 	Sokoban.prototype.init = function() {
-		// this.tileConfig = Sokoban.tileConfig;
 		this.stage = new Stage();
 		this.levels = new Levels(Sokoban.levelsCollections);
 	};
 
 	Sokoban.prototype.start = function(data) {
-		tiles.build( Sokoban.tileConfig );
 		var tray = new Tray( Sokoban.simpleLevel, Sokoban.symbols.iso );
 		tiles.recalculateWalls( tray.getTiles() );
  		this.stage.addGame( tray );

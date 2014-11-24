@@ -26,13 +26,17 @@ define(function(require) {
 		// this.hasPlayer = false;
 		this.initialize(Tile.animationSS, data.kind);
 		$.extend(this, Tile.dimensions);
-		this.row 	= data.row 		|| 0;
-		this.column = data.column	|| 0;
-		// this.initialRow 	= data.row;
-		// this.initialColumn 	= data.column;
-		this.kind = data.kind;
+		this.setPositions(data.row||0, data.column||0);
+		this.kind = data.kind || "empty";
 		this.calculate(data.kind);
 	};
+
+	Tile.dimensions = {
+		'width' : 50,
+		'height': 50,
+	};
+
+	$.extend(Tile.prototype, Tile.dimensions);
 	$.extend(Tile.prototype, new createjs.Sprite());
 
 	Tile.prototype.getKind = function(){
@@ -43,12 +47,24 @@ define(function(require) {
 	// 	return this.kind;
 	// };
 
-	Tile.prototype.calculate = function(){
+	Tile.prototype.resetToInitial = function(){
+		$.extend(this, this.initialPositions);
+		this.x = this.width * this.column;
+		this.y = this.height * this.row;
+	};
+
+	Tile.prototype.setPositions = function(row, column){
+		this.initialPositions = {
+			"row": row,
+			"column": column,
+		};
+		this.resetToInitial();
+	};
+
+	Tile.prototype.calculate = function(row, column){
 		if (!Tile.dimensions) {
 			throw "first set the Tile configurations";
 		}
-		this.x = this.width * this.column;
-		this.y = this.height * this.row;
 		this.hasPlayer = false;
 		if ( this.getKind() === 'player' ) {
 			this.hasPlayer = true;
@@ -99,9 +115,12 @@ define(function(require) {
 	};
 
 	Tile.spriteConfig = {
-		images: ["img/NightShift3 - Gerry Wiseman7f.png"],
-		animations:Tile.kinds,
+		'images'	: ["img/NightShift3 - Gerry Wiseman7f.png"],
+		'animations': Tile.kinds,
+		'frames'	: $.extend({}, Tile.dimensions),
 	};
+
+	Tile.animationSS = new createjs.SpriteSheet(Tile.spriteConfig);
 
 	recalculateWalls = function(sortedTiles) {
 		console.error("Walls not ready yet");
@@ -115,18 +134,12 @@ define(function(require) {
 
 
 	var build = function(config) { 
-		Tile.dimensions = {
-			'width': config.width,
-			'height': config.height,
-		};
-		Tile.spriteConfig.frames = $.extend({}, Tile.dimensions);
-		Tile.animationSS = new createjs.SpriteSheet(Tile.spriteConfig);
+		// Tile.spriteConfig.frames = $.extend({}, Tile.dimensions);
 
 	}
 
 	return {
 		'Tile':Tile,
-		'build': build,
 		'recalculateWalls': recalculateWalls,
 	};
 
