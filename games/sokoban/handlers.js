@@ -21,6 +21,13 @@ define(function(require) {
 			console.log('down', event, 'down at:('+event.stageX+','+event.stageY+')');
 		},
 
+		"logDown": function( event ) {
+			var x = event.target.column;
+			var y = event.target.row;
+			var kind = event.target.getKind();
+			console.log('tile:', kind, 'down at:('+x+','+y+')');
+		},
+
 		"handleMove": function( event ) {
 			// console.log('move', event);
 			var deltaX = this.startX - event.stageX;
@@ -65,8 +72,20 @@ define(function(require) {
 			this.stage.children.forEach(function(child){
 				if (!!child.isPlayer && child.isPlayer()){
 					this.allowTouches(child);
+				} else {
+					this.justLog(child);
 				}
 			}.bind(this));
+		},
+
+		"justLog": function(target) {
+			var ctx = this;
+			target.removeAllEventListeners('mousedown');
+			target.removeAllEventListeners('pressmove');
+			target.removeAllEventListeners('pressup');
+			target.on('mousedown', this.logDown, ctx);
+			// target.on('pressmove', this.handleMove, ctx);
+			// target.on('pressup', this.handleUp, ctx);
 		},
 
 		"allowTouches": function(target) {

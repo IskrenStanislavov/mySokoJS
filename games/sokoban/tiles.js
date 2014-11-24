@@ -22,26 +22,35 @@ define(function(require) {
 	var createjs	= require('libs/easeljs-0.7.1.min');
 
 	var Tile = function(data){
-		this.isTarget = false;
-		this.hasPlayer = false;
+		// this.isTarget = false;
+		// this.hasPlayer = false;
+		this.initialize(Tile.animationSS, data.kind);
+		$.extend(this, Tile.dimensions);
 		this.row 	= data.row 		|| 0;
 		this.column = data.column	|| 0;
-		this.initialize(Tile.animationSS, "empty");
+		// this.initialRow 	= data.row;
+		// this.initialColumn 	= data.column;
+		this.kind = data.kind;
 		this.calculate(data.kind);
 	};
 	$.extend(Tile.prototype, new createjs.Sprite());
 
-	Tile.prototype.calculate = function(kind){
+	Tile.prototype.getKind = function(){
+		return this.kind;
+	};
+
+	// Tile.prototype.zIndex = function(){
+	// 	return this.kind;
+	// };
+
+	Tile.prototype.calculate = function(){
 		if (!Tile.dimensions) {
 			throw "first set the Tile configurations";
 		}
-		$.extend(this, Tile.dimensions);
-		// this.animation = new createjs.Sprite(Tile.animationSS, "empty");
 		this.x = this.width * this.column;
 		this.y = this.height * this.row;
-		this.gotoAndPlay(kind);
 		this.hasPlayer = false;
-		if ( kind === 'player' ) {
+		if ( this.getKind() === 'player' ) {
 			this.hasPlayer = true;
 		}// else {console.log(kind);}
 	};
