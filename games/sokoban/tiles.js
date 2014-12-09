@@ -132,12 +132,6 @@ define(function(require) {
 		// });
 	};
 
-
-	var build = function(config) { 
-		// Tile.spriteConfig.frames = $.extend({}, Tile.dimensions);
-
-	}
-
 	return {
 		'Tile':Tile,
 		'recalculateWalls': recalculateWalls,
