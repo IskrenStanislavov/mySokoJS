@@ -10,8 +10,11 @@ define(function(require) {
 	$.extend(Handlers.prototype, {
 		"init": function() {
 			if ( createjs.Touch.isSupported() ){
+				console.warn("touch");
 				createjs.Touch.enable(this.stage);
-			}
+			} else{
+				console.warn("mouse");
+			} // else: mouse events
 		},
 
 		"handleDown": function( event ) {

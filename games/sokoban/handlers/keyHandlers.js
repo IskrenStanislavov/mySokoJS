@@ -11,6 +11,7 @@ define(function(require) {
 		"init": function() {
 			document.onkeydown = this.keyDown.bind(this);
 			document.onkeyup = this.keyUp.bind(this);
+			console.warn("keys");
 		},
 
 		'getEvent': function(evt) {
