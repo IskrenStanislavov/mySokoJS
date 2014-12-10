@@ -10,11 +10,15 @@ define(function(require) {
 	$.extend(Handlers.prototype, {
 		"init": function() {
 			console.warn("touch");
+			document.ondrag = function(event){
+				alert();
+			}.bind(this);
 			// enable touch interactions if supported on the current device:
-			createjs.Touch.enable(this.stage, {singleTouch:true});
+			createjs.Touch.enable( this.stage, true, true ); //single touch, prevent default
 		},
 
 		"handleDown": function( event ) {
+			this.downFlag = true;
 			this.startX = event.stageX;
 			this.startY = event.stageY;
 			console.log('down', event, 'down at:('+event.stageX+','+event.stageY+')');
@@ -28,6 +32,7 @@ define(function(require) {
 		},
 
 		"handleMove": function( event ) {
+			this.stopBubbleEvent(event);
 			// console.log('move', event);
 			var deltaX = this.startX - event.stageX;
 			var deltaY = this.startY - event.stageY;
@@ -82,25 +87,35 @@ define(function(require) {
 			// }.bind(this));
 		},
 
-		"justLog": function(target) {
+		"allowTouches": function(target) {
+
 			var ctx = this;
 			target.removeAllEventListeners('mousedown');
 			target.removeAllEventListeners('pressmove');
 			target.removeAllEventListeners('pressup');
-			target.on('mousedown', this.logDown, ctx);
-			// target.on('pressmove', this.handleMove, ctx);
-			// target.on('pressup', this.handleUp, ctx);
-		},
+			target.on('mousedown', this.handleDown, ctx);
+			target.on('pressmove', this.handleMove, ctx);
+			target.on('pressup', this.handleUp, ctx);
+			// target.on('mouseup', function(){
+			// 	alert('mouseup');
+			// }, ctx);
+		}, 
 
-		"allowTouches": function(target) {
+		'stopBubbleEvent': function(e) {
+			//e.cancelBubble is supported by IE - this will kill the bubbling process.
+			if (document.all) {
+				e.keyCode = 0;
+				e.cancelBubble = true;
+				e.returnValue = false;
+				e.retainFocus = true;
+			}
 
-			var ctx = this;
-			// target.removeAllEventListeners('mousedown');
-			// target.removeAllEventListeners('pressmove');
-			// target.removeAllEventListeners('pressup');
-			// target.on('mousedown', this.handleDown, ctx);
-			// target.on('pressmove', this.handleMove, ctx);
-			// target.on('pressup', this.handleUp, ctx);
+			//e.stopPropagation works in Firefox.
+			if (e.stopPropagation) {
+				e.stopPropagation();
+				e.preventDefault();
+			}
+			return false;
 		}
 
 	});
