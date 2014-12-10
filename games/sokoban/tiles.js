@@ -68,6 +68,7 @@ define(function(require) {
 		this.hasPlayer = false;
 		if ( this.getKind() === 'player' ) {
 			this.hasPlayer = true;
+			this.name = "player";
 		}// else {console.log(kind);}
 	};
 

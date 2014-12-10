@@ -9,9 +9,14 @@ define(function(require) {
 
 	$.extend(Handlers.prototype, {
 		"init": function() {
-			console.warn("touch");
-			// enable touch interactions if supported on the current device:
-			createjs.Touch.enable(this.stage, {singleTouch:true});
+			// enabled mouse over / out events
+			this.stage.enableMouseOver(10);
+			this.stage.mouseMoveOutside = false; // no tracking when mouse leaves the canvas
+			this.stage.addEventListener('click', function(evt){
+				console.warn("clickOK")
+			})
+			console.warn("mouse");
+			// createjs.Touch.enable(this.stage, {singleTouch:true});// doesnt work here
 		},
 
 		"handleDown": function( event ) {
@@ -74,6 +79,7 @@ define(function(require) {
 			var player = this.stage.getChildByName("player");
 			this.allowTouches(player);
 			// this.stage.children.forEach(function(child){
+			// 	child
 			// 	if (!!child.isPlayer && child.isPlayer()){
 			// 		this.allowTouches(child);
 			// 	// } else {
@@ -93,14 +99,12 @@ define(function(require) {
 		},
 
 		"allowTouches": function(target) {
-
+console.warn("mouse/touch added to target");
 			var ctx = this;
-			// target.removeAllEventListeners('mousedown');
-			// target.removeAllEventListeners('pressmove');
-			// target.removeAllEventListeners('pressup');
-			// target.on('mousedown', this.handleDown, ctx);
-			// target.on('pressmove', this.handleMove, ctx);
-			// target.on('pressup', this.handleUp, ctx);
+			target.addEventListener("click", function(e){
+				console.warn("mousedown handled on stage");
+				this.stage.removeAllEventListeners('click');
+			}, this);
 		}
 
 	});

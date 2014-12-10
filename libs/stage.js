@@ -14,17 +14,13 @@ define(function(require) {
 
 	$.extend(Stage.prototype, {
 		init: function() {
-			// enabled mouse over / out events
-			this.enableMouseOver(10);
-			this.mouseMoveOutside = false; // no tracking when mouse leaves the canvas
-
+			this.initialize("game");// parent init
 			createjs.Ticker.useRAF = true;
 			createjs.Ticker.setFPS(25);
 			createjs.Ticker.addEventListener("tick", this);//update the stage
-			// enable touch interactions if supported on the current device:
-			createjs.Touch.enable(this, {singleTouch:true});
 		},
-		add:function(child) {
+
+		add: function(child) {
 			this.addChild(child);
 		},
 
