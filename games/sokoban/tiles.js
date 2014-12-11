@@ -1,4 +1,9 @@
-//Tile factory pattern used
+//Tile factory pattern used - ??? to be used ???
+
+
+//XXX: GROUND layer with unmovable tiles ("target", "wall" & "empty" place): "ground" or "base"
+//XXX: "1st-FLOOR" layer with movable (crates & player) & unmovable tiles (walls): 
+
 
 // playerTile can move, handlers controlled
 // wall - never moves, always in state: "full"
@@ -31,13 +36,26 @@ define(function(require) {
 		this.calculate(data.kind);
 	};
 
+	var TileFactory = function(){
+		// ground level tiles: target, box-initial positions & player initial positions, initial walls
+		this.target = Object.create( Tile, {"kind": "target"} );
+		this.empty = Object.create( Tile, {"kind": "empty"} );
+
+		// 1st floor tiles
+		this.player =  Tile( {"kind": "player"} );
+		this.wall =  Tile( {"kind": "wall"} );
+		this.box =  Tile( {"kind": "wall"} );
+	};
+
 	Tile.dimensions = {
 		'width' : 50,
 		'height': 50,
 	};
 
+	// $.extend(Tile.prototype, new createjs.Sprite());
+	// Tile.prototype = Object.create(createjs.Sprite);
+	Tile.prototype = new createjs.Sprite();
 	$.extend(Tile.prototype, Tile.dimensions);
-	$.extend(Tile.prototype, new createjs.Sprite());
 
 	Tile.prototype.getKind = function(){
 		return this.kind;
@@ -83,6 +101,12 @@ define(function(require) {
 	Tile.prototype.isPlayer = function(){
 		return !!this.hasPlayer;
 	};
+
+	//XXX: Tile.success - animate "win" for the current tile when solved or moved to the correct place
+	//XXX: Tile.begin - plays animation when the game starts
+	//XXX: Tile.move - plays animation when the player moves the main caracter
+	//XXX: Tile.undo - plays animation when the player moves back in the history
+	//XXX: TIle.still - static image
 
 	Tile.kinds = {
 			"empty":0,

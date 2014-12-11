@@ -1,3 +1,10 @@
+// XXX:
+//  delta X
+//  delta Y
+// detect S
+// detect V
+// detect acc
+
 
 define(function(require) {
 	var createjs	= require('libs/easeljs-0.7.1.min');
@@ -32,7 +39,9 @@ define(function(require) {
 		},
 
 		"handleMove": function( event ) {
+			// XXX: check if stopBubbling disables the sliding of the page on the top and the bottom
 			this.stopBubbleEvent(event);
+
 			// console.log('move', event);
 			var deltaX = this.startX - event.stageX;
 			var deltaY = this.startY - event.stageY;

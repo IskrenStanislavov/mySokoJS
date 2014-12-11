@@ -1,3 +1,4 @@
+//XXX: detect handlers by userAgent/device
 
 define(function(require) {
 	var KeyHandlers = require("games/sokoban/handlers/keyHandlers");
