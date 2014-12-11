@@ -1,14 +1,12 @@
 
 define(function(require) {
-	var Tile  = require("games/sokoban/tiles").Tile;
+	var tiles  = require("games/sokoban/tiles");
 
 	Tray = function(level, iso){
 		// for (var i=)
 		this.parse( level, iso );
 		this.width =  this.columns * Tile.dimensions.width;
 		this.height = (this.rows+1) * Tile.dimensions.height;
-		// this.players = [];
-		// this.recalculate_walls();
 	};
 
 	Tray.prototype.parse = function(stringLevel, iso) {
@@ -20,7 +18,7 @@ define(function(require) {
 		var tile;
 
 		this.tiles = [];
-		this.matrixOfTiles = [[]]
+		this.matrixOfTiles = [[]];
 		for ( var i=0; i<stringLevel.length; i+=1 ) {
 			symbol = stringLevel[i];
 			kind = iso[symbol]
@@ -32,7 +30,7 @@ define(function(require) {
 				this.matrixOfTiles.push([]);
 				cCol = 0;
 			} else {
-				tile = new Tile({
+				tile = tiles.newTile({
 					"row":this.rows,
 					"column":cCol,
 					"kind":kind,

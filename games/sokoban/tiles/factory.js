@@ -25,31 +25,35 @@
 
 define(function(require) {
 	var createjs	= require('libs/easeljs-0.7.1.min');
-	var TileFactory = require('games/sokoban/tiles/factory');
-	var factory = new TileFactory();
+	var Tile 		= require('games/sokoban/tiles/tile');
+	var Config 		= require('games/sokoban/tiles/config');
+	var Floor 		= Config.Floors;
 
-	//XXX: Tile.success - animate "win" for the current tile when solved or moved to the correct place
-	//XXX: Tile.begin - plays animation when the game starts
-	//XXX: Tile.move - plays animation when the player moves the main caracter
-	//XXX: Tile.undo - plays animation when the player moves back in the history
-	//XXX: TIle.still - static image
+	var Factory = function(){
+		// ground level tiles: target, box-initial positions & player initial positions, initial walls
+		this.bases = {};
+		var that = this;
 
-	recalculateWalls = function(sortedTiles) {
-		console.error("Walls not ready yet");
-		// var that = this;
-		// sortedTiles.forEach(function(tile, i) {
-		// 	if (tile.kind === Tile.kinds.wall){
-		// 		console.log('');
-		// 	}
-		// });
+		Config.groundFloorTiles.forEach(function( kind, idx ) {
+			that.bases[kind] = new Tile( kind, Floor.ground );
+			console.warn(kind);
+		});
+
+		Config.firstFloorTiles.forEach(function( kind, idx ) {
+			that.bases[kind] = new Tile( kind, Floor.first );
+			console.warn(kind);
+		});
+
+		this.player =  this.bases["player"];
 	};
 
-	return {
-		// 'Tile':Tile,
-		'newTile': function(data){
-			factory.newTile(data.kind, data.row, data.column)
+	$.extend(Factory.prototype, {
+		"newTile": function(kind, row, col) {
+			console.warn(kind);
+			return this.bases[kind].cloneAt(row, col);
 		},
-		'recalculateWalls': recalculateWalls,
-	};
+	});
+
+	return Factory;
 
 });
