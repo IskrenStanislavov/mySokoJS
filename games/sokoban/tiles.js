@@ -36,7 +36,7 @@ define(function(require) {
 
 	return {
 		// 'Tile':Tile,
-		'newTile': function(data){
+		'newTile': function(data) {
 			factory.newTile(data.kind, data.row, data.column)
 		},
 		'recalculateWalls': recalculateWalls,

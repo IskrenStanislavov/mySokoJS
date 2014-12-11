@@ -1,6 +1,8 @@
+//XXX: separate ground and first floors in two different trays; even rename to floors
 
 define(function(require) {
 	var tiles  = require("games/sokoban/tiles");
+	var Tile = tiles.Tile;
 
 	Tray = function(level, iso){
 		// for (var i=)

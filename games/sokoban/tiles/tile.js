@@ -25,6 +25,9 @@ define(function(require) {
 		this.sprite = sprite;
 	};
 
+	Tile.dimensions = tileConfig.dimensions;
+
+	Tile.prototype.dimensions = tileConfig.dimensions;
 	Tile.prototype.initialPositions = {"row":0, "column":0};
 	Tile.prototype.row = 0;
 	Tile.prototype.column = 0;
