@@ -22,7 +22,7 @@ define(function(require) {
 		if ( sprite === undefined ) {
 			sprite = new SpriteBase(kind, floor);
 		}
-		this.sprite = sprite;
+		this.sprite = sprite.clone();
 	};
 
 	Tile.dimensions = tileConfig.dimensions;
@@ -45,8 +45,9 @@ define(function(require) {
 		// used to reposition the tile
 		this.row = row;
 		this.column = column;
-		this.sprite.x = this.width * this.column;
-		this.sprite.y = this.height * this.row;
+		this.sprite.x = this.dimensions.width * this.column;
+		this.sprite.y = this.dimensions.height * this.row;
+		console.warn(this.sprite.x, this.sprite.y);
 	};
 
 	Tile.prototype.getKind = function(){

@@ -33,17 +33,6 @@ define(function(require) {
 			this.update();
 		},
 
-		addGame: function(tray) {
-			var that = this;
-			this.canvas.width  = tray.width;
-			this.canvas.height = tray.height;
-
-			tray.tiles && tray.tiles.forEach(function(tile, i){
-				that.addChild(tile);
-			});
-			tray.player && that.addChildAt(tray.player, tray.tiles.length);
-		}
-
 	});
 
 	return Stage; 

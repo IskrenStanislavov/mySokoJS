@@ -54,9 +54,9 @@ define(function(require) {
 	};
 
 	Sokoban.prototype.start = function(data) {
-		var tray = new Tray( Sokoban.simpleLevel, Sokoban.symbols.iso );
+		var tray = new Tray( this.stage, Sokoban.simpleLevel, Sokoban.symbols.iso );
 		tiles.recalculateWalls( tray.getTiles() );
- 		this.stage.addGame( tray );
+		// tray.presentToStage(this.stage);
  		this.handlers.refresh();
 	};
 

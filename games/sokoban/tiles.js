@@ -16,6 +16,7 @@
 define(function(require) {
 	var createjs	= require('libs/easeljs-0.7.1.min');
 	var TileFactory = require('games/sokoban/tiles/factory');
+	var TileConfig = require('games/sokoban/tiles/config');
 	var factory = new TileFactory();
 
 	//XXX: Tile.success - animate "win" for the current tile when solved or moved to the correct place
@@ -37,8 +38,10 @@ define(function(require) {
 	return {
 		// 'Tile':Tile,
 		'newTile': function(data) {
-			factory.newTile(data.kind, data.row, data.column)
+			return factory.newTile(data.kind, data.row, data.column)
 		},
+		"player": factory.player,
+		"dimensions": TileConfig.dimensions,
 		'recalculateWalls': recalculateWalls,
 	};
 

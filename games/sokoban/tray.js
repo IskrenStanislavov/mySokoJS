@@ -1,14 +1,28 @@
 //XXX: separate ground and first floors in two different trays; even rename to floors
 
 define(function(require) {
-	var tiles  = require("games/sokoban/tiles");
-	var Tile = tiles.Tile;
+	var Tiles  = require("games/sokoban/tiles");
 
-	Tray = function(level, iso){
+	Tray = function(stage, level, iso){
 		// for (var i=)
+		this.stage = stage;
 		this.parse( level, iso );
-		this.width =  this.columns * Tile.dimensions.width;
-		this.height = (this.rows+1) * Tile.dimensions.height;
+		// this.stage = stage;
+	};
+
+	Tray.prototype.presentToStage = function(stage) {
+		stage.canvas.width  = this.columns * Tiles.dimensions.width;
+		stage.canvas.height = (this.rows+1) * Tiles.dimensions.height;
+
+		console.warn(this.tiles);
+		if ( this.tiles.length > 0 ) {
+			this.tiles.forEach(function(tile, i){
+				if (tile !== Tiles.player){
+					stage.addChild(tile.sprite);
+				}
+			});
+		}
+		this.player && stage.addChildAt(this.player.sprite, this.tiles.length);
 	};
 
 	Tray.prototype.parse = function(stringLevel, iso) {
@@ -35,7 +49,7 @@ define(function(require) {
 				this.tilesByKinds.push([]);
 				cCol = 0;
 			} else {
-				tile = tiles.newTile({
+				tile = Tiles.newTile({
 					"row":this.rows,
 					"column":cCol,
 					"kind":kind,
@@ -50,6 +64,7 @@ define(function(require) {
 			}
 		}
 		console.warn(this.tilesByKinds);
+		this.presentToStage(this.stage);
 	};
 
 	Tray.prototype.parseOriginal = function(stringLevel, iso) {

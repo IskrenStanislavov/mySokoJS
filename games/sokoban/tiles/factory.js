@@ -39,7 +39,6 @@ define(function(require) {
 
 	$.extend(Factory.prototype, {
 		"newTile": function(kind, row, col) {
-			console.warn(kind);
 			return this.bases[kind].cloneAt(row, col);
 		},
 	});
