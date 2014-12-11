@@ -1,3 +1,6 @@
+//XXX: http://html5hub.com/screen-size-management-in-mobile-html5-games/
+
+//xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
 define(function(require) {
 	var Levels = require("games/sokoban/levels");
 	var tiles  = require("games/sokoban/tiles");
@@ -16,21 +19,23 @@ define(function(require) {
 	Sokoban.symbols = {
 		'iso': {
 			'P': 'player',
+			'*': 'target+player',
 			'W': 'wall',
 			' ': 'empty',
 			'B': 'box',
 			'+': 'target+box',
-			'-': 'target-box',
+			'-': 'target',
 			';': 'new line',
 			'A': 'author'
 		},
 		'xsb': {
 			'@': 'player',
+			'+': 'target+player',
 			'#': 'wall',
 			' ': 'empty',
 			'$': 'box',
 			'*': 'target+box',
-			'.': 'target-box',
+			'.': 'target',
 			'|': 'new line',
 			'A': 'author'
 		}
@@ -38,9 +43,9 @@ define(function(require) {
 
 	Sokoban.simpleLevel = "WWWWWA;WPB-WA;WWWWWA";
 	Sokoban.levelsCollections = {
-		"./games/sokoban/levels.json": 'iso',
-		"./games/sokoban/niveles_homs.json": 'xsb',
-		"./games/sokoban/levels_erim_sever.json": 'xsb',
+		"./games/sokoban/levels/levels_iskren.json": 'iso',
+		"./games/sokoban/levels/niveles_homs.json": 'xsb',
+		"./games/sokoban/levels/levels_erim_sever.json": 'xsb',
 	};
 
 	Sokoban.prototype.init = function() {

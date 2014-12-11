@@ -13,16 +13,6 @@
 
 //друг вариант е просто да се сменят позициите на които се намират кутийките и играча ни
 
-	// Sokoban.standartLevel = {
-	// 	'P': 'player',
-	// 	'W': 'wall',
-	// 	' ': 'empty',
-	// 	'B': 'box',
-	// 	'+': 'target+box',
-	// 	'-': 'target-box',
-	// 	';': 'new line',
-	// };
-
 define(function(require) {
 	var createjs	= require('libs/easeljs-0.7.1.min');
 	var TileFactory = require('games/sokoban/tiles/factory');

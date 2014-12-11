@@ -13,16 +13,6 @@
 
 //друг вариант е просто да се сменят позициите на които се намират кутийките и играча ни
 
-	// Sokoban.standartLevel = {
-	// 	'P': 'player',
-	// 	'W': 'wall',
-	// 	' ': 'empty',
-	// 	'B': 'box',
-	// 	'+': 'target+box',
-	// 	'-': 'target-box',
-	// 	';': 'new line',
-	// };
-
 define(function(require) {
 
 	var Config = new Object();
@@ -41,7 +31,7 @@ define(function(require) {
 			// 'box+start':[],
 
 			"target":7,
-			"target-box":7,
+			// "target-box":7,
 			'target+player':8,
 			'target+player+up':35,
 			'target+player+up+start':[42,48],
