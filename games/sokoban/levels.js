@@ -13,7 +13,7 @@ define(function(require) {
 		var that = this;
 		var keys = Object.keys(levels_data);
 		var i = keys.length;
-		keys.forEach(function(path, ix){
+		keys.forEach(function(path, ix) {
 			$.getJSON(path, function(data) {
 					console.error(data);
 					Object.keys(data).forEach(function(key, i) {

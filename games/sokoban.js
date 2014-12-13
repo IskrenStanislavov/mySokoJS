@@ -16,31 +16,6 @@ define(function(require) {
 		this.handlers = new Handlers(this.stage, this.commandList);
 	};
 
-	Sokoban.symbols = {
-		'iso': {
-			'P': 'player',
-			'*': 'target+player',
-			'W': 'wall',
-			' ': 'empty',
-			'B': 'box',
-			'+': 'target+box',
-			'-': 'target',
-			';': 'new line',
-			'A': 'author'
-		},
-		'xsb': {
-			'@': 'player',
-			'+': 'target+player',
-			'#': 'wall',
-			' ': 'empty',
-			'$': 'box',
-			'*': 'target+box',
-			'.': 'target',
-			'|': 'new line',
-			'A': 'author'
-		}
-	};
-
 	Sokoban.simpleLevel = "WWWWWA;WPB-WA;WWWWWA";
 	Sokoban.levelsCollections = {
 		"./games/sokoban/levels/levels_iskren.json": 'iso',
@@ -54,8 +29,8 @@ define(function(require) {
 	};
 
 	Sokoban.prototype.start = function(data) {
-		var demoRoom = new Room( this.stage, Sokoban.simpleLevel, Sokoban.symbols.iso );
-		tiles.recalculateWalls( demoRoom.getTiles() );
+		var demoRoom = new Room( this.stage, Sokoban.simpleLevel, "iso" );
+		// tiles.recalculateWalls( demoRoom.getTiles() );
 		// demoRoom.presentToStage(this.stage);
  		this.handlers.refresh();
 	};
