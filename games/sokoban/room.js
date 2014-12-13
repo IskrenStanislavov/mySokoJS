@@ -3,7 +3,7 @@
 define(function(require) {
 	var Tiles  = require("games/sokoban/tiles");
 
-	Room = function(stage, level, iso){
+	var Room = function(stage, level, iso){
 		// for (var i=)
 		this.stage = stage;
 		this.parse( level, iso );
