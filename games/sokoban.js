@@ -4,7 +4,7 @@
 define(function(require) {
 	var Levels = require("games/sokoban/levels");
 	var tiles  = require("games/sokoban/tiles");
-	var Tray  = require("games/sokoban/tray");
+	var Room  = require("games/sokoban/room");
 	var Stage  = require("libs/stage");
 	var Handlers = require("games/sokoban/handlers");
 	var CommandList = require("games/sokoban/commandList");
@@ -54,9 +54,9 @@ define(function(require) {
 	};
 
 	Sokoban.prototype.start = function(data) {
-		var tray = new Tray( this.stage, Sokoban.simpleLevel, Sokoban.symbols.iso );
-		tiles.recalculateWalls( tray.getTiles() );
-		// tray.presentToStage(this.stage);
+		var demoRoom = new Room( this.stage, Sokoban.simpleLevel, Sokoban.symbols.iso );
+		tiles.recalculateWalls( demoRoom.getTiles() );
+		// demoRoom.presentToStage(this.stage);
  		this.handlers.refresh();
 	};
 

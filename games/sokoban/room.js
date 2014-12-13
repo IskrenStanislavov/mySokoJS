@@ -1,16 +1,16 @@
-//XXX: separate ground and first floors in two different trays; even rename to floors
+//XXX: separate ground and first floors in two different files; even rename to floors
 
 define(function(require) {
 	var Tiles  = require("games/sokoban/tiles");
 
-	Tray = function(stage, level, iso){
+	Room = function(stage, level, iso){
 		// for (var i=)
 		this.stage = stage;
 		this.parse( level, iso );
 		// this.stage = stage;
 	};
 
-	Tray.prototype.presentToStage = function(stage) {
+	Room.prototype.presentToStage = function(stage) {
 		stage.canvas.width  = this.columns * Tiles.dimensions.width;
 		stage.canvas.height = (this.rows+1) * Tiles.dimensions.height;
 
@@ -25,7 +25,7 @@ define(function(require) {
 		this.player && stage.addChildAt(this.player.sprite, this.tiles.length);
 	};
 
-	Tray.prototype.parse = function(stringLevel, iso) {
+	Room.prototype.parse = function(stringLevel, iso) {
 		//this will parse only the ground floor - 	Config.groundFloorTiles = ["target", "empty", "author"];
 		this.rows = 0;
 		this.columns = 0;
@@ -67,7 +67,7 @@ define(function(require) {
 		this.presentToStage(this.stage);
 	};
 
-	Tray.prototype.parseOriginal = function(stringLevel, iso) {
+	Room.prototype.parseOriginal = function(stringLevel, iso) {
 		this.rows = 0;
 		this.columns = 0;
 		this.player = null;
@@ -103,10 +103,10 @@ define(function(require) {
 		}
 	};
 
-	Tray.prototype.getTiles = function( ) {
+	Room.prototype.getTiles = function( ) {
 		return this.matrixOfTiles;
 	};
 
-	return Tray;
+	return Room;
 });
 
