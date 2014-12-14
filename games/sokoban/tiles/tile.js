@@ -38,6 +38,9 @@ define(function(require) {
 		clonning.initialPositions.row = row;
 		clonning.initialPositions.column = column;
 		clonning.positionAt(row, column);
+		if (this.isPlayer()) {
+			clonning.name = "player";
+		}
 		return clonning;
 	};
 

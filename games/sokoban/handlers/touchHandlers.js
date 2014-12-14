@@ -84,8 +84,10 @@ define(function(require) {
 		"refresh": function() {
 			if ( !this.stage.children ) {
 				return;
+			} else if (!this.interior){
+				this.interior = this.stage.getChildByName("interior");
 			}
-			var player = this.stage.getChildByName("player");
+			var player = this.interior.getChildByName("player");
 			this.allowTouches(player);
 			// this.stage.children.forEach(function(child){
 			// 	if (!!child.isPlayer && child.isPlayer()){
