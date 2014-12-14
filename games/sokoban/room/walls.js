@@ -1,3 +1,5 @@
+// recalculate the walls after initial parsing
+
 define(function(require) {
 	var Tiles  = require("games/sokoban/tiles");
 	var roomConfig  = require("games/sokoban/room/config");
@@ -16,10 +18,9 @@ define(function(require) {
 		this.stage.addChild( joinInterior.call(this, this.interiorTiles) );
 		this.stage.canvas.width  = this.columns * Tiles.dimensions.width;
 		this.stage.canvas.height = (this.rows+1) * Tiles.dimensions.height;
-		// this.stage.update();
 	};
 
-	// Room.prototype.getTiles = function( ) {
+	// Room.prototype.getWallTiles = function( ) {
 	// 	return this.matrixOfTiles;
 	// };
 

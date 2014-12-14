@@ -30,7 +30,7 @@ define(function(require) {
 
 	Sokoban.prototype.start = function(data) {
 		var demoRoom = new Room( this.stage, Sokoban.simpleLevel, "iso" );
-		// tiles.recalculateWalls( demoRoom.getTiles() );
+		// room.recalculateWalls( demoRoom.getTiles() );
 		// demoRoom.presentToStage(this.stage);
  		this.handlers.refresh();
 	};

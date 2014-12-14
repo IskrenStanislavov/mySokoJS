@@ -50,7 +50,7 @@ define(function(require) {
 		this.column = column;
 		this.sprite.x = this.dimensions.width * this.column;
 		this.sprite.y = this.dimensions.height * this.row;
-		console.warn(this.kind, "positioned@", this.sprite.x, this.sprite.y);
+		// console.warn(this.kind, "positioned@", this.sprite.x, this.sprite.y);
 	};
 
 	Tile.prototype.getKind = function(){

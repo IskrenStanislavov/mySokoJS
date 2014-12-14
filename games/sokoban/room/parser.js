@@ -6,9 +6,6 @@
 define(function(require) {
 	var Tiles  = require("games/sokoban/tiles");
 	var parse = function(stringLevel, iso) {
-		this.rows = 0;
-		this.columns = 0;
-		this.player = null;
 		var cCol = 0;
 		var kind;
 		var tile;
