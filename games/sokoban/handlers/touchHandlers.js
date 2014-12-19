@@ -12,6 +12,20 @@ define(function(require) {
 	var Handlers = function(commandList, stage) {
 		this.stage = stage;
 		this.commandList = commandList;
+		var canvas = document.getElementById('game');
+		var h1 = document.getElementsByTagName('h1')[0];
+		document.onresize = function(e) {
+			window.scrollTo(0,1);
+		};
+		document.addEventListener("orientationchange", function() {
+			window.scrollTo(0,1);
+		});
+		document.onmousemove = document.ontouchmove = function(e) {
+			e.preventDefault();
+			if (e.target.nodeName !== "CANVAS") {
+				e.preventDefault();
+			}
+		};
 	};
 
 	$.extend(Handlers.prototype, {
