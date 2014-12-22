@@ -23,7 +23,7 @@ define(function(require) {
 				this.interiorTiles.push([]);
 				cCol = 0;
 			} else {
-				kind = iso[symbol][0];
+				kind = iso[symbol].floor;
 				if (kind !== null) {
 					this.floorTiles[this.rows].push(Tiles.newTile({
 						"row": this.rows,
@@ -31,7 +31,7 @@ define(function(require) {
 						"kind": kind,
 					}));
 				}
-				kind = iso[symbol][1];
+				kind = iso[symbol].interior;
 				if (kind !== null) {
 					this.interiorTiles[this.rows].push(Tiles.newTile({
 						"row": this.rows,
