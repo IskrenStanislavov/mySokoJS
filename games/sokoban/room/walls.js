@@ -11,10 +11,10 @@ define(function(require) {
 			tileRow.forEach(function(tile, colIndex) {
 
 				if ( tile && tile.isWall() ) {
-					console.log("col:"+colIndex+"+X");
+					// console.log("col:"+colIndex+"+X");
 					walls[rowIndex][colIndex] ="X";
 				} else {
-					console.log("col:"+colIndex+"+_");
+					// console.log("col:"+colIndex+"+_");
 					walls[rowIndex][colIndex] = "_";
 				}
 

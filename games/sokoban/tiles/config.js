@@ -25,6 +25,7 @@ define(function(require) {
 	};
 
 	Config.kinds = {//tileKind n tileAnimations
+			"transparent":-1,
 			"empty":0,
 			'player':1,
 			'box':2,
@@ -62,7 +63,7 @@ define(function(require) {
 
 	Config.groundFloorTiles = ["target", "empty", "author"];
 
-	Config.firstFloorTiles = ["player", "wall", "box"];
+	Config.firstFloorTiles = ["player", "wall", "box", "transparent"];
 
 	Config.getSpriteData = function(kind) {
 		var data = {

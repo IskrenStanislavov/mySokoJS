@@ -23,26 +23,17 @@ define(function(require) {
 				this.interiorTiles.push([]);
 				cCol = 0;
 			} else {
-				kind = iso[symbol].floor;
-				if (kind !== null) {
-					this.floorTiles[this.rows].push(Tiles.newTile({
-						"row": this.rows,
-						"column": cCol,
-						"kind": kind,
-					}));
-				} else {
-					this.floorTiles[this.rows].push(null);
-				}
-				kind = iso[symbol].interior;
-				if (kind !== null) {
-					this.interiorTiles[this.rows].push(Tiles.newTile({
-						"row": this.rows,
-						"column": cCol,
-						"kind": kind,
-					}));
-				} else {
-					this.interiorTiles[this.rows].push(null);
-				}
+				this.floorTiles[this.rows].push(Tiles.newTile({
+					"row": this.rows,
+					"column": cCol,
+					"kind": iso[symbol].floor,
+				}));
+				this.interiorTiles[this.rows].push(Tiles.newTile({
+					"row": this.rows,
+					"column": cCol,
+					//use transparent Tile instead of null:
+					"kind": iso[symbol].interior || "transparent",
+				}));
 				cCol += 1;
 			}
 		}
