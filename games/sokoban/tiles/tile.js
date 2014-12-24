@@ -57,6 +57,10 @@ define(function(require) {
 		return this.kind;
 	};
 
+	Tile.prototype.isWall = function(){
+		return this.kind === "wall";
+	};
+
 	Tile.prototype.isPlayer = function(){
 		return this.kind === "player";
 	};

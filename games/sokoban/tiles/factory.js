@@ -1,8 +1,8 @@
 //Tile factory pattern used - ??? to be used ???
 
 
-//XXX: GROUND layer with unmovable tiles ("target", "wall" & "empty" place): "ground" or "base"
-//XXX: "1st-FLOOR" layer with movable (crates & player) & unmovable tiles (walls): 
+// GROUND layer with static tiles ("target", "wall"-no & "empty" place): "ground" or "base"
+// "1st-FLOOR" layer with movable (crates & player) & unmovable tiles (walls): 
 
 
 // playerTile can move, handlers controlled
@@ -26,12 +26,12 @@ define(function(require) {
 
 		Config.groundFloorTiles.forEach(function( kind, idx ) {
 			that.bases[kind] = new Tile( kind, Floor.ground );
-			console.warn(kind);
+			// console.warn(kind);
 		});
 
 		Config.firstFloorTiles.forEach(function( kind, idx ) {
 			that.bases[kind] = new Tile( kind, Floor.first );
-			console.warn(kind);
+			// console.warn(kind);
 		});
 
 		this.player =  this.bases["player"];

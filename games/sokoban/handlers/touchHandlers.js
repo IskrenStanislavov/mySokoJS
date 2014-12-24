@@ -45,12 +45,12 @@ define(function(require) {
 			console.log('down', event, 'down at:('+event.stageX+','+event.stageY+')');
 		},
 
-		"logDown": function( event ) {
-			var x = event.target.column;
-			var y = event.target.row;
-			var kind = event.target.getKind();
-			console.log('tile:', kind, 'down at:('+x+','+y+')');
-		},
+		// "logDown": function( event ) {
+		// 	var x = event.target.column;
+		// 	var y = event.target.row;
+		// 	var kind = event.target.getKind();
+		// 	console.log('tile:', kind, 'down at:('+x+','+y+')');
+		// },
 
 		"handleMove": function( event ) {
 			// XXX: check if stopBubbling disables the sliding of the page on the top and the bottom

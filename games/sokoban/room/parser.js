@@ -30,6 +30,8 @@ define(function(require) {
 						"column": cCol,
 						"kind": kind,
 					}));
+				} else {
+					this.floorTiles[this.rows].push(null);
 				}
 				kind = iso[symbol].interior;
 				if (kind !== null) {
@@ -38,6 +40,8 @@ define(function(require) {
 						"column": cCol,
 						"kind": kind,
 					}));
+				} else {
+					this.interiorTiles[this.rows].push(null);
 				}
 				cCol += 1;
 			}
