@@ -17,7 +17,7 @@ define(function(require) {
 
 	var Config = new Object();
 
-	Config.imageSrc = "img/NightShift3 - Gerry Wiseman7f.png";
+	Config.imageSrc = "img/skin.png";
 
 	Config.dimensions = {
 		'width' : 50,
@@ -41,10 +41,6 @@ define(function(require) {
 			'target+player+right':38,
 			'target+box':9,
 
-			'wall+cross':14,
-			'wall+horizontal':15,
-			'wall+core':16,
-			'wall+vertical':21,
 			'wall':22,
 
 			'player+up':28,
@@ -61,6 +57,29 @@ define(function(require) {
 		"first": 1
 	};
 
+	Config.WallKinds = {
+		"Ttop": 		 3,
+		"Tright": 		 4,
+		"Tbottom": 		 5,
+		"Tleft": 		 6,
+
+		"topLeftL": 	10,
+		"topRightL": 	11,
+		"bottomRightL": 12,
+		"bottomLeftL": 	13,
+
+		"rightEdge": 	17,
+		"leftEdge": 	18,
+		"bottomEdge": 	19,
+		"topEdge": 		20,
+
+		"vertical": 	21,
+		"horizontal": 	15,
+		"cross": 		14,
+		"core": 		16,
+		// "wall"
+	};
+
 	Config.groundFloorTiles = ["target", "empty", "author"];
 
 	Config.firstFloorTiles = ["player", "wall", "box", "transparent"];
@@ -72,6 +91,13 @@ define(function(require) {
 			'frames'	: Config.dimensions,
 		};
 		data.animations[kind] = Config.kinds[kind];
+		if ( kind === "wall" ) {
+			$.extend(data.animations, Config.WallKinds);
+			// Object.keys(Config.WallKinds).forEach(function(key){
+			// 	var wallAnim = [key];
+			// 	[key] = wallAnim;
+			// });
+		}
         return data;
 	};
 

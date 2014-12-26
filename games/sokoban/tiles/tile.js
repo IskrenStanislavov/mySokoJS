@@ -61,6 +61,13 @@ define(function(require) {
 		return this.kind === "wall";
 	};
 
+	Tile.prototype.redrawWall = function(newWall) {
+		console.log(newWall);
+		var spriteImage = tileConfig.WallKinds[newWall];
+		this.sprite.gotoAndStop(spriteImage);
+		// this.kind = spriteImage;
+	};
+
 	Tile.prototype.isPlayer = function(){
 		return this.kind === "player";
 	};

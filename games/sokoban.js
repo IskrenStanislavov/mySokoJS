@@ -16,7 +16,32 @@ define(function(require) {
 		this.handlers = new Handlers(this.stage, this.commandList);
 	};
 
+	//corners
 	Sokoban.simpleLevel = "WWWWWA;WPB-WA;WWWWWA";
+	//cross & single edges
+	Sokoban.simpleLevel +=";     ";
+	Sokoban.simpleLevel +="; W   ";
+	Sokoban.simpleLevel +=";WWW  ";
+	Sokoban.simpleLevel +="; W   ";
+	//T junction: right
+	Sokoban.simpleLevel +=";     ";
+	Sokoban.simpleLevel +="; W   ";
+	Sokoban.simpleLevel +=";WW   ";
+	Sokoban.simpleLevel +="; W   ";
+	//T junction: left
+	Sokoban.simpleLevel +=";     ";
+	Sokoban.simpleLevel +="; W   ";
+	Sokoban.simpleLevel +="; WW  ";
+	Sokoban.simpleLevel +="; W   ";
+	//T junction: bottom
+	Sokoban.simpleLevel +=";     ";
+	Sokoban.simpleLevel +="; W   ";
+	Sokoban.simpleLevel +=";WWW  ";
+	//T junction: top
+	Sokoban.simpleLevel +=";     ";
+	Sokoban.simpleLevel +=";WWW  ";
+	Sokoban.simpleLevel +="; W   ";
+
 	Sokoban.levelsCollections = {
 		"./games/sokoban/levels/levels_iskren.json": 'iso',
 		"./games/sokoban/levels/niveles_homs.json": 'xsb',

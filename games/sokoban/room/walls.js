@@ -12,6 +12,7 @@ define(function(require) {
 			walls.push([]);
 			tileRow.forEach(function(tile, colIndex) {
 				if (tile.isWall() ) {
+					var longerings = 0;
 
 					var above = false;
 					var below = false;
@@ -25,6 +26,8 @@ define(function(require) {
 						above = bunchOfTiles[rowIndex-1][colIndex].isWall();
 						below = bunchOfTiles[rowIndex+1][colIndex].isWall();
 					}
+					longerings += above;
+					longerings += below;
 
 					var left = false;
 					var right = false;
@@ -38,6 +41,48 @@ define(function(require) {
 						left = tileRow[colIndex-1].isWall();
 						right = tileRow[colIndex+1].isWall();
 					}
+					longerings += left;
+					longerings += right;
+
+
+					if ( longerings === 4 ) {//4
+						tile.redrawWall( 'cross' );
+					} else if ( longerings === 3 ) {
+						if ( !above ){
+							tile.redrawWall( 'Ttop' );
+						} else if ( !right ){
+							tile.redrawWall( 'Tright' );
+						} else if ( !left ) {
+							tile.redrawWall( 'Tleft' );
+						} else {
+							tile.redrawWall( 'Tbottom' );
+						}
+					} else if ( longerings === 2 ) {
+						if ( left && right ){//2
+							tile.redrawWall( 'horizontal' );
+						} else if ( below && above ){//2
+							tile.redrawWall( 'vertical' );
+						} else if ( below && right ){ //2
+							tile.redrawWall( 'topLeftL' );
+						} else if ( below && left ){ //2
+							tile.redrawWall( 'topRightL' );
+						} else if ( above && right ){ //2
+							tile.redrawWall( 'bottomLeftL' );
+						} else if ( above && left ){ //2
+							tile.redrawWall( 'bottomRightL' );
+						}
+					} else if ( longerings === 1 ) {
+						if ( left ){//2
+							tile.redrawWall( 'leftEdge' );
+						} else if ( right ) {
+							tile.redrawWall( 'rightEdge' );
+						} else if ( above ) {
+							tile.redrawWall( 'topEdge' );
+						} else if ( below ) {
+							tile.redrawWall( 'bottomEdge' );
+						}
+					}
+
 
 				}
 			});
@@ -47,4 +92,3 @@ define(function(require) {
 
 	return Walls;
 });
-
