@@ -37,6 +37,8 @@ define(function(require) {
 						this.commandList.goBack();
 					} else if (evt.keyCode === 89) {
 						this.commandList.goForward();
+					} else {
+						stopBubble = false;
 					}
 					//XXX: can be thought about ctrl+left.. as а go to the most left posible
 				} else if ( !evt.altKey ) { // actually not really needed
@@ -48,6 +50,8 @@ define(function(require) {
 						this.commandList.addMove("Right");
 					} else if (evt.keyCode === 40) {
 						this.commandList.addMove("Down");
+					} else {
+						stopBubble = false;
 					}
 				} else {
 					stopBubble = false;
