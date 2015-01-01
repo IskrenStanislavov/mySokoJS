@@ -27,21 +27,22 @@ define(function(require) {
 			// XXX: following if can be rewritten - ctrl state && object for keyIds
 
 			if (evt) {
-				if (evt.keyCode === 37) {
-					this.commandList.addMove("Left");
-				} else if (evt.keyCode === 38) {
-					this.commandList.addMove("Up");
-				} else if (evt.keyCode === 39) {
-					this.commandList.addMove("Right");
-				} else if (evt.keyCode === 40) {
-					this.commandList.addMove("Down");
-				} else if (evt.keyCode === 90) {
-					if (evt.ctrlKey) {
-							this.commandList.goBack();
+				if (evt.ctrlKey) {
+					if (evt.keyCode === 90) {
+						this.commandList.goBack();
+					} else if (evt.keyCode === 89) {
+						this.commandList.goForward();
 					}
-				} else if (evt.keyCode === 89) {
-					if (evt.ctrlKey) {
-							this.commandList.goForward();
+					//XXX: can be thought about ctrl+left.. as а go to the most left posible
+				} else if ( !evt.altKey ) { // actually not really needed
+					if (evt.keyCode === 37) {
+						this.commandList.addMove("Left");
+					} else if (evt.keyCode === 38) {
+						this.commandList.addMove("Up");
+					} else if (evt.keyCode === 39) {
+						this.commandList.addMove("Right");
+					} else if (evt.keyCode === 40) {
+						this.commandList.addMove("Down");
 					}
 				} else {
 					stopBubble = false;
