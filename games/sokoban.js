@@ -18,6 +18,7 @@ define(function(require) {
 
 	//corners
 	Sokoban.simpleLevel = "WWWWWA;WPB-WA;WWWWWA";
+	if (false){
 	//cross & single edges
 	Sokoban.simpleLevel +=";     ";
 	Sokoban.simpleLevel +="; W   ";
@@ -41,6 +42,7 @@ define(function(require) {
 	Sokoban.simpleLevel +=";     ";
 	Sokoban.simpleLevel +=";WWW  ";
 	Sokoban.simpleLevel +="; W   ";
+	}
 
 	Sokoban.levelsCollections = {
 		"./games/sokoban/levels/levels_iskren.json": 'iso',
