@@ -1,10 +1,21 @@
 
 define(function(require) {
-	
+	var Command = require("games/sokoban/command");
+
 	var Handlers = function( commandList ) {
 		this.commandList = commandList;
 		this.currentKeyDown = null;
 		this.room = null;
+		this.config = {'moves':{
+			// keyCode | action
+			37: "Left",
+			38: "Up",
+			39: "Right",
+			40: "Down",
+		}, "history":{
+			90: "undo",
+			89: "redo"
+		}}
 	};
 
 	$.extend(Handlers.prototype, {
@@ -27,41 +38,36 @@ define(function(require) {
 			if (this.currentKeyDown !== null){
 				return;
 			}
-			var stopBubble = true;
 			evt = this.getEvent(evt);
-			// XXX: following if can be rewritten - ctrl state && object for keyIds
-
 			if (evt) {
-				if (evt.ctrlKey) {
-					if (evt.keyCode === 90) {
-						this.commandList.goBack();
-					} else if (evt.keyCode === 89) {
-						this.commandList.goForward();
-					} else {
-						stopBubble = false;
-					}
-					//XXX: can be thought about ctrl+left.. as а go to the most left posible
-				} else if ( !evt.altKey ) { // actually not really needed
-					if (evt.keyCode === 37) {
-						this.commandList.addMove("Left");
-					} else if (evt.keyCode === 38) {
-						this.commandList.addMove("Up");
-					} else if (evt.keyCode === 39) {
-						this.commandList.addMove("Right");
-					} else if (evt.keyCode === 40) {
-						this.commandList.addMove("Down");
-					} else {
-						stopBubble = false;
-					}
+				var stopBubble;
+				if ( evt.ctrlKey ) {
+					stopBubble = this.handleCtrlCombination(evt.keyCode);
 				} else {
-					stopBubble = false;
+					stopBubble = this.handleSingleKey(evt.keyCode);
 				}
-
 				if (stopBubble) {
 					this.currentKeyDown = evt.keyCode;
 					this.stopBubbleEvent(evt);
 				}
 			}
+		},
+
+		'handleCtrlCombination': function( keyId ) {
+			//XXX: think of ctrl+left.. as а go to the most left.. posible
+			var change = this.config.history[keyId];
+			if (change === "undo") {
+				this.commandList.goBack();
+			} else if (change === "redo") {
+				this.commandList.goForward();
+			}
+			return !!change;
+		},
+
+		'handleSingleKey': function(keyId) {
+			var move = this.config.moves[keyId];
+			this.commandList.addMove(move);
+			return !!move;
 		},
 
 		"keyUp": function(evt) {
