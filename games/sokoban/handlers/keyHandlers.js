@@ -4,6 +4,7 @@ define(function(require) {
 	var Handlers = function( commandList ) {
 		this.commandList = commandList;
 		this.currentKeyDown = null;
+		this.room = null;
 	};
 
 	$.extend(Handlers.prototype, {
@@ -19,6 +20,10 @@ define(function(require) {
 		},
 
 		'keyDown': function(evt) {
+			if ( this.room === null || this.room.checkForSolved() ){
+				//wait for a new puzzle
+				return;
+			}
 			if (this.currentKeyDown !== null){
 				return;
 			}
@@ -79,7 +84,8 @@ define(function(require) {
 			return false;
 		},
 
-		"refresh": function() {
+		"refresh": function(room) {
+			this.room = room;
 			return null;
 		}
 

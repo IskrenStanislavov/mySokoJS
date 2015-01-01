@@ -59,7 +59,7 @@ define(function(require) {
 		var demoRoom = new Room( this.stage, Sokoban.simpleLevel, "iso" );
 		// room.recalculateWalls( demoRoom.getTiles() );
 		// demoRoom.presentToStage(this.stage);
- 		this.handlers.refresh();
+ 		this.handlers.refresh(demoRoom);
 	};
 
 	return Sokoban;

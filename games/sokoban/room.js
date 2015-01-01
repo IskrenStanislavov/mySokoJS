@@ -23,6 +23,10 @@ define(function(require) {
 		// this.stage.update();
 	};
 
+	Room.prototype.checkForSolved = function(){
+		return false;
+	};
+
 	return Room;
 });
 

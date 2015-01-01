@@ -12,6 +12,7 @@ define(function(require) {
 	var Handlers = function(commandList, stage) {
 		this.stage = stage;
 		this.commandList = commandList;
+		this.room = null;
 		var canvas = document.getElementById('game');
 		var h1 = document.getElementsByTagName('h1')[0];
 		document.onresize = function(e) {
@@ -31,14 +32,15 @@ define(function(require) {
 	$.extend(Handlers.prototype, {
 		"init": function() {
 			console.warn("touch");
-			document.ondrag = function(event){
-				alert();
-			}.bind(this);
 			// enable touch interactions if supported on the current device:
 			createjs.Touch.enable( this.stage, true, true ); //single touch, prevent default
 		},
 
 		"handleDown": function( event ) {
+			if ( this.room === null || this.room.checkForSolved() ){
+				//wait for a new puzzle
+				return;
+			}
 			this.downFlag = true;
 			this.startX = event.stageX;
 			this.startY = event.stageY;

@@ -23,10 +23,10 @@ define(function(require) {
 			// this.mouseHandlers && this.mouseHandlers.init();
 		},
 
-		"refresh": function() {
-			this.keyHandlers && this.keyHandlers.refresh();
-			this.touchHandlers && this.touchHandlers.refresh();
-			// this.mouseHandlers && this.mouseHandlers.refresh();
+		"refresh": function(room) {
+			this.keyHandlers && this.keyHandlers.refresh(room);
+			this.touchHandlers && this.touchHandlers.refresh(room);
+			// this.mouseHandlers && this.mouseHandlers.refresh(room);
 		}
 
 	});
