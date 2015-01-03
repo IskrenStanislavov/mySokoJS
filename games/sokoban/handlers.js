@@ -24,9 +24,9 @@ define(function(require) {
 		},
 
 		"refresh": function(room) {
-			this.keyHandlers && this.keyHandlers.refresh(room);
-			this.touchHandlers && this.touchHandlers.refresh(room);
-			// this.mouseHandlers && this.mouseHandlers.refresh(room);
+			this.keyHandlers && this.keyHandlers.refresh(room.logic);
+			this.touchHandlers && this.touchHandlers.refresh(room.logic);
+			// this.mouseHandlers && this.mouseHandlers.refresh(room.logic);
 		}
 
 	});

@@ -1,40 +1,70 @@
+// holds player's actions with undo & redo functionallity
 
 define(function(require) {
 
 	var CommandList = function(  ) {
-		this.position = null;
+		this.position = -1;
 		this.list = [];
-		this.autoIter = true;
+		this.pushes = 0;
+		this.moves = 0;
+		// this.movesDOM = $("section#moves p#turns>span");
 	};
 
-	CommandList.prototype.addMove = function( command ) {
-		if (this.position === null){
-			this.position = -1;
-			this.list = [];
-		}
-		if ( this.position !== this.list.length-1 ) {
-			this.list = this.list.slice(0, this.position+1);
+	CommandList.prototype.reset = function(){
+		this.position = -1;
+		this.clearFrom(0);
+		this.pushes = 0;
+		this.moves = 0;
+	};
+
+	CommandList.prototype.addCommand = function( command ) {
+		if ( this.shouldReplace() ) {
+			this.clearFrom( this.position + 1 );
 		}
 		this.list.push(command);
-		if (this.autoIter){
-			this.position += 1;
-		}
-		console.log( "added move:" + command ); console.error( this.list );
+
+		this.moves += command.countMoves();
+		this.pushes += command.countPushes();
+		command.execute();
+		this.position += 1;
 	};
 
-	CommandList.prototype.goBack = function( command ) {
-		if ( this.list.length > 0 && this.position >= 1 ){
-			console.log("undo", "from:",this.position, "to:",this.position-1);
+	CommandList.prototype.goBack = function(  ) {
+		if ( this.canMakeUndo() ){
+			var command = this.list[this.position];
+			this.moves -= command.countMoves();
+			this.pushes -= command.countPushes();
+			command.undo();
 			this.position -= 1;
 		}
 	};
 
-	CommandList.prototype.goForward = function( command ) {
-		if ( this.list.length-1 > this.position ){
-			console.log("redo", "from:",this.position, "to:",this.position+1, "(max:"+(this.list.length-1)+")");
+	CommandList.prototype.goForward = function( ) {
+		if ( this.canMakeRedo() ) {
+			var command = this.list[this.position];
+			this.moves += command.countMoves();
+			this.pushes += command.countPushes();
+			command.redo();
 			this.position += 1;
 		}
 	};
+
+	CommandList.prototype.shouldReplace = function( ) {
+		return this.position !== this.list.length-1;
+	};
+
+	CommandList.prototype.clearFrom = function( forgetFromIndex ) {
+		return this.list.splice(forgetFromIndex, this.length - forgetFromIndex);
+	};
+
+	CommandList.prototype.canMakeUndo = function( ) {
+		return this.list.length > 0 && this.position >= 1;
+	};
+
+	CommandList.prototype.canMakeRedo = function( ) {
+		return this.list.length-1 > this.position;
+	};
+
 
 	return CommandList;
 });

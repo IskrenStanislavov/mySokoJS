@@ -5,6 +5,9 @@ define(function(require) {
 	var joinInterior = function(tiles){
 		this.interiorContainer = new createjs.Container();
 		_.flatten(tiles, true).forEach(function(tile){
+			if (!this.player && tile.kind === "player"){
+				this.player = tile;
+			}
 			this.interiorContainer.addChild(tile.sprite);
 		}.bind(this));
 		this.interiorContainer.name = "interior";

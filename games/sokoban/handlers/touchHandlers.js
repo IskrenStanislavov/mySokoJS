@@ -97,7 +97,7 @@ define(function(require) {
 			// this.startY = event.y;
 		},
 
-		"refresh": function() {
+		"refresh": function(logic) {
 			if ( !this.stage.children ) {
 				return;
 			} else if (!this.interior){
@@ -105,6 +105,7 @@ define(function(require) {
 			}
 			var player = this.interior.getChildByName("player");
 			this.allowTouches(player);
+			this.logic = logic;
 			// this.stage.children.forEach(function(child){
 			// 	if (!!child.isPlayer && child.isPlayer()){
 			// 		this.allowTouches(child);

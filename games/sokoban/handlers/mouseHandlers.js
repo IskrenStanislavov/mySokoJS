@@ -16,7 +16,7 @@ define(function(require) {
 			// createjs.Touch.enable(this.stage, {singleTouch:true});// doesnt work here
 		},
 
-		"refresh": function() {
+		"refresh": function(logic) {
 			if ( !this.stage.children ) {
 				return;
 			} else if (!this.interior){
@@ -24,7 +24,7 @@ define(function(require) {
 			}
 			var player = this.interior.getChildByName("player");
 			player && this.allowTouches(player);
-
+			this.logic = logic;
 		},
 
 		"allowTouches": function(target) {

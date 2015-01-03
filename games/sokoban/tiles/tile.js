@@ -61,6 +61,18 @@ define(function(require) {
 		return this.kind === "wall";
 	};
 
+	Tile.prototype.isBox = function(){
+		return this.kind === "box";
+	};
+
+	Tile.prototype.isEmpty = function(){
+		return this.kind === "empty";
+	};
+
+	Tile.prototype.isFree = function(){
+		return this.kind === "transparent";
+	};
+
 	Tile.prototype.redrawWall = function(newWall) {
 		console.log(newWall);
 		var spriteImage = tileConfig.WallKinds[newWall];
@@ -77,6 +89,12 @@ define(function(require) {
 	//XXX: Tile.move - plays animation when the player moves the main caracter
 	//XXX: Tile.undo - plays animation when the player moves back in the history
 	//XXX: TIle.still - static image
+
+	Tile.prototype.setFree = function(){
+		return this.kind = "transparent";
+	};
+
+
 
 	return Tile;
 

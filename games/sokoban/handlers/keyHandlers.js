@@ -1,17 +1,16 @@
 
 define(function(require) {
-	var Command = require("games/sokoban/command");
+	var Logic   = require("games/sokoban/room/logic");
 
 	var Handlers = function( commandList ) {
 		this.commandList = commandList;
 		this.currentKeyDown = null;
-		this.room = null;
 		this.config = {'moves':{
 			// keyCode | action
-			37: "Left",
-			38: "Up",
-			39: "Right",
-			40: "Down",
+			37: Logic.directions.Left,
+			38: Logic.directions.Up,
+			39: Logic.directions.Right,
+			40: Logic.directions.Down,
 		}, "history":{
 			90: "undo",
 			89: "redo"
@@ -31,7 +30,7 @@ define(function(require) {
 		},
 
 		'keyDown': function(evt) {
-			if ( this.room === null || this.room.checkForSolved() ){
+			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
 				//wait for a new puzzle
 				return;
 			}
@@ -66,7 +65,10 @@ define(function(require) {
 
 		'handleSingleKey': function(keyId) {
 			var move = this.config.moves[keyId];
-			this.commandList.addMove(move);
+			var action = this.logic.getActionData(move);
+			if ( action ){
+				this.commandList.addCommand( action );
+			}
 			return !!move;
 		},
 
@@ -94,8 +96,8 @@ define(function(require) {
 			return false;
 		},
 
-		"refresh": function(room) {
-			this.room = room;
+		"refresh": function(logic) {
+			this.logic = logic;
 			return null;
 		}
 
