@@ -5,6 +5,7 @@ define(function(require) {
 	var Command = function( kind, dir, player, tiles ) {
 		this.kind = kind;
 		this.direction = dir;
+		this.player = player;
 		this.tiles = tiles;
 		this.list = []; // touch moves or a single keyboard move
 		// this.movesDOM = $("section#moves p#turns>span");
@@ -23,6 +24,7 @@ define(function(require) {
 	// };
 
 	Command.prototype.isPush = function() {
+		// this.tiles[this.tiles.length-1] && this.tiles[this.tiles.length-1].isEmpty();
 		return this.kind === "push";
 	};
 
@@ -36,18 +38,39 @@ define(function(require) {
 		return 1;
 	};
 
+	Command.prototype.do = function(ni) {
+		var p = this.player
+		var f = this.tiles[0];
+		var l = this.tiles[1];
+		// var ni = this.direction.neighboursIdexes;
+		if ( this.isPush() ) {
+			// p ++
+			// f ++
+			// l-- --
+			p.positionAt(p.row + ni.row[0], p.column + ni.column[0]);
+			f.positionAt(f.row + ni.row[0], f.column + ni.column[0]);
+			l.positionAt(l.row - ni.row[1], l.column - ni.column[1]);
+		} else {
+			// p ++;
+			// f --;
+			p.positionAt(p.row + ni.row[0], p.column + ni.column[0]);
+			f.positionAt(f.row - ni.row[0], f.column - ni.column[0]);
+		}
+	};
+
 	Command.prototype.execute = function() {
-		// if ( this.isPush() ) {
-		// 	this.tiles[]
-		// }
+		this.do(this.direction.neighboursIdexes);
 		console.log("execute", this.toString() );
 	};
 
 	Command.prototype.undo = function() {
+		var ni = this.direction.getRevertNeighbours();
+		this.do(ni);
 		console.log("undo", this.toString() );
 	};
 
 	Command.prototype.redo = function() {
+		this.do(this.direction.neighboursIdexes);
 		console.log("redo", this.toString() );
 	};
 

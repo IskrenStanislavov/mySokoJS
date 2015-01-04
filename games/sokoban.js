@@ -17,31 +17,31 @@ define(function(require) {
 	};
 
 	//corners
-	Sokoban.simpleLevel = "WWWWWA;WPB-WA;WWWWWA";
+	Sokoban.simpleLevel = "WWWWWWA;WP B-WA;WWWWWWA";
 	if (false){
 	//cross & single edges
-	Sokoban.simpleLevel +=";     ";
-	Sokoban.simpleLevel +="; W   ";
-	Sokoban.simpleLevel +=";WWW  ";
-	Sokoban.simpleLevel +="; W   ";
+	Sokoban.simpleLevel +=";      ";
+	Sokoban.simpleLevel +="; W    ";
+	Sokoban.simpleLevel +=";WWW   ";
+	Sokoban.simpleLevel +="; W    ";
 	//T junction: right
-	Sokoban.simpleLevel +=";     ";
-	Sokoban.simpleLevel +="; W   ";
-	Sokoban.simpleLevel +=";WW   ";
-	Sokoban.simpleLevel +="; W   ";
+	Sokoban.simpleLevel +=";      ";
+	Sokoban.simpleLevel +="; W    ";
+	Sokoban.simpleLevel +=";WW    ";
+	Sokoban.simpleLevel +="; W    ";
 	//T junction: left
-	Sokoban.simpleLevel +=";     ";
-	Sokoban.simpleLevel +="; W   ";
-	Sokoban.simpleLevel +="; WW  ";
-	Sokoban.simpleLevel +="; W   ";
+	Sokoban.simpleLevel +=";      ";
+	Sokoban.simpleLevel +="; W    ";
+	Sokoban.simpleLevel +="; WW   ";
+	Sokoban.simpleLevel +="; W    ";
 	//T junction: bottom
-	Sokoban.simpleLevel +=";     ";
-	Sokoban.simpleLevel +="; W   ";
-	Sokoban.simpleLevel +=";WWW  ";
+	Sokoban.simpleLevel +=";      ";
+	Sokoban.simpleLevel +="; W    ";
+	Sokoban.simpleLevel +=";WWW   ";
 	//T junction: top
-	Sokoban.simpleLevel +=";     ";
-	Sokoban.simpleLevel +=";WWW  ";
-	Sokoban.simpleLevel +="; W   ";
+	Sokoban.simpleLevel +=";      ";
+	Sokoban.simpleLevel +=";WWW   ";
+	Sokoban.simpleLevel +="; W    ";
 	}
 
 	Sokoban.levelsCollections = {

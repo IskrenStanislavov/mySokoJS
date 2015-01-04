@@ -10,7 +10,7 @@ define(function(require) {
 		this.commandList = commandList;
 		this.touchHandlers = new TouchHandlers( commandList, stage );
 		// this.mouseHandlers = new MouseHandlers( commandList, stage );
-		this.keyHandlers = new KeyHandlers( commandList );
+		this.keyHandlers = new KeyHandlers( commandList, stage );
 		this.init();
 	};
 

@@ -16,6 +16,15 @@ define(function(require) {
 		pN[worksOn==="row"?"column":"row"] = [0,0];
 		pN.worksOn = worksOn;
 		pN.sign = sign;
+		var pNr = this.revertNeighboursIdexes = new Object();
+		pNr[worksOn] = [-1*sign, -2*sign];
+		pNr[worksOn==="row"?"column":"row"] = [0,0];
+		pNr.worksOn = worksOn;
+		pNr.sign = -sign;
+	};
+
+	Direction.prototype.getRevertNeighbours = function() {
+		return this.revertNeighboursIdexes;
 	};
 
 	Direction.prototype.getTiles = function( tiles, player ) {
