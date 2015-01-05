@@ -9,6 +9,7 @@ define(function(require) {
 		this.list = [];
 		this.pushes = 0;
 		this.moves = 0;
+		this.domRecord = new DomRecord();
 	};
 
 	CommandList.prototype.reset = function(){
@@ -16,6 +17,10 @@ define(function(require) {
 		this.clearFrom(0);
 		this.pushes = 0;
 		this.moves = 0;
+	};
+
+	CommandList.prototype.updateMovesInfo = function( command ) {
+		this.domRecord.update(this.moves, this.pushes);
 	};
 
 	CommandList.prototype.addCommand = function( command ) {
@@ -28,6 +33,7 @@ define(function(require) {
 		this.pushes += command.countPushes();
 		command.execute();
 		this.position += 1;
+		this.updateMovesInfo();
 	};
 
 	CommandList.prototype.goBack = function() {
@@ -36,6 +42,7 @@ define(function(require) {
 		this.pushes -= command.countPushes();
 		command.undo();
 		this.position -= 1;
+		this.updateMovesInfo();
 	};
 
 	CommandList.prototype.goForward = function() {
@@ -44,6 +51,7 @@ define(function(require) {
 		this.moves += command.countMoves();
 		this.pushes += command.countPushes();
 		command.redo();
+		this.updateMovesInfo();
 	};
 
 	CommandList.prototype.shouldReplace = function( ) {
