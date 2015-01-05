@@ -2,12 +2,13 @@
 
 define(function(require) {
 
+	var DomRecord = require("games/sokoban/DOM/records");
+
 	var CommandList = function(  ) {
 		this.position = -1;
 		this.list = [];
 		this.pushes = 0;
 		this.moves = 0;
-		// this.movesDOM = $("section#moves p#turns>span");
 	};
 
 	CommandList.prototype.reset = function(){
@@ -29,24 +30,20 @@ define(function(require) {
 		this.position += 1;
 	};
 
-	CommandList.prototype.goBack = function(  ) {
-		if ( this.canMakeUndo() ){
-			var command = this.list[this.position];
-			this.moves -= command.countMoves();
-			this.pushes -= command.countPushes();
-			command.undo();
-			this.position -= 1;
-		}
+	CommandList.prototype.goBack = function() {
+		var command = this.list[this.position];
+		this.moves -= command.countMoves();
+		this.pushes -= command.countPushes();
+		command.undo();
+		this.position -= 1;
 	};
 
-	CommandList.prototype.goForward = function( ) {
-		if ( this.canMakeRedo() ) {
-			this.position += 1;
-			var command = this.list[this.position];
-			this.moves += command.countMoves();
-			this.pushes += command.countPushes();
-			command.redo();
-		}
+	CommandList.prototype.goForward = function() {
+		this.position += 1;
+		var command = this.list[this.position];
+		this.moves += command.countMoves();
+		this.pushes += command.countPushes();
+		command.redo();
 	};
 
 	CommandList.prototype.shouldReplace = function( ) {
@@ -54,7 +51,7 @@ define(function(require) {
 	};
 
 	CommandList.prototype.clearFrom = function( forgetFromIndex ) {
-		// idea taken from http://www.untitleddesigns.com/2011/javascript-replace-array-contents/
+		// inspired by http://www.untitleddesigns.com/2011/javascript-replace-array-contents/
 		// var newListState = this.list.splice(forgetFromIndex, this.length - forgetFromIndex);
 		// this.list.length = 0;
 		// Array.prototype.push.apply(this.list, newListState);
@@ -67,7 +64,6 @@ define(function(require) {
 	};
 
 	CommandList.prototype.canMakeRedo = function( ) {
-
 		return this.list.length-1 > this.position;
 	};
 

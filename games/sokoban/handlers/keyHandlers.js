@@ -56,9 +56,9 @@ define(function(require) {
 		'handleCtrlCombination': function( keyId ) {
 			//XXX: think of ctrl+left.. as а go to the most left.. posible
 			var change = this.config.history[keyId];
-			if (change === "undo") {
+			if (change === "undo" && this.commandList.canMakeUndo() ) {
 				this.commandList.goBack();
-			} else if (change === "redo") {
+			} else if (change === "redo" && this.commandList.canMakeRedo() ) {
 				this.commandList.goForward();
 			}
 			return !!change;
