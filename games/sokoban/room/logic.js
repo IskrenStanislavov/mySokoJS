@@ -63,9 +63,9 @@ define(function(require) {
 	Logic.prototype.getActionData = function( direction ) {
 		var tiles = this.getCloseTiles( direction );
 		if ( tiles[0].isFree() ) {
-			return new Command("move", direction, this.player, tiles);
+			return new Command("move", direction, this.player, tiles, this.interior);
 		} else if ( tiles[0].isBox() && tiles[1].isFree() ) {
-			return new Command("push", direction, this.player, tiles);
+			return new Command("push", direction, this.player, tiles, this.interior);
 		}
 
 		return false;
