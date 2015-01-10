@@ -7,9 +7,8 @@ define(function(require) {
 	var tileConfig  = require('games/sokoban/tiles/config');
 	var Floor = tileConfig.Floors;
 
-	var Sprite = function(kind, floor){
+	var Sprite = function(kind){
 		this.kind = kind;
-		this.floor = floor;
 		this.initialize(
 			new createjs.SpriteSheet(tileConfig.getSpriteData(this.kind)),
 			this.kind
@@ -30,7 +29,6 @@ define(function(require) {
 		this.Sprite_cloneProps( obj );
 		// copy additional data
 		obj.kind = this.kind;
-		obj.floor = this.floor;
 		if (this.name === "player") {
 			obj.name = this.name
 		};

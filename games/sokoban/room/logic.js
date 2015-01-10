@@ -1,10 +1,9 @@
 define(function(require) {
 	var Command = require("games/sokoban/command");
 
-	var Logic = function(player, interior, floor){
+	var Logic = function(player, interior){
 		this.player = player;
 		this.interior = interior;
-		this.floor = floor;
 		this.directions = Logic.directions;
 	};
 

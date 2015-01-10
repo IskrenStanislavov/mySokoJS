@@ -86,9 +86,9 @@ define(function(require) {
 		// "wall"
 	};
 
-	Config.groundFloorTiles = ["target", "empty", "author"];
+	// Config.groundFloorTiles = ["target"];
 
-	Config.firstFloorTiles = ["player", "wall", "box", "transparent"];
+	Config.firstFloorTiles = ["player", "wall", "box", "transparent", "empty", "author"];
 
 	Config.getSpriteData = function(kind) {
 		var data = {

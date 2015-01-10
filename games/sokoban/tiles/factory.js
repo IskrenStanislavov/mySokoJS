@@ -24,13 +24,8 @@ define(function(require) {
 		this.bases = {};
 		var that = this;
 
-		Config.groundFloorTiles.forEach(function( kind, idx ) {
-			that.bases[kind] = new Tile( kind, Floor.ground );
-			// console.warn(kind);
-		});
-
 		Config.firstFloorTiles.forEach(function( kind, idx ) {
-			that.bases[kind] = new Tile( kind, Floor.first );
+			that.bases[kind] = new Tile( kind );
 			// console.warn(kind);
 		});
 

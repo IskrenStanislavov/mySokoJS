@@ -4,7 +4,6 @@ define(function(require) {
 	var Logic  = require("games/sokoban/room/logic");
 	var parse  = require("games/sokoban/room/parser");
 	var parseWalls  = require("games/sokoban/room/walls");
-	var joinFloor  = require("games/sokoban/room/floor");
 	var joinInterior  = require("games/sokoban/room/interior");
 
 	var Room = function(stage, level, iso){
@@ -17,13 +16,12 @@ define(function(require) {
 		if (this.propertyIsEnumerable(roomConfig.wallsLayer)){
 			parseWalls(this[roomConfig.wallsLayer]);
 		}
-		this.stage.addChild( joinFloor.call(this, this.floorTiles) );
 		this.stage.addChild( joinInterior.call(this, this.interiorTiles) );
 		this.stage.canvas.width  = this.columns * Tiles.dimensions.width;
 		this.stage.canvas.height = (this.rows+1) * Tiles.dimensions.height;
 		// this.stage.update();
 
-		this.logic = new Logic(this.player, this.interiorTiles, this.floorTiles);
+		this.logic = new Logic(this.player, this.interiorTiles);
 	};
 
 	Room.prototype.parse = parse;

@@ -15,12 +15,11 @@ define(function(require) {
 	var SpriteBase  = require('games/sokoban/tiles/spriteBase');
 	var Floor = tileConfig.Floors;
 
-	var Tile = function(kind, floor, sprite){
+	var Tile = function(kind, sprite){
 		this.kind = kind;
-		this.floor = floor;
 
 		if ( sprite === undefined ) {
-			sprite = new SpriteBase(kind, floor);
+			sprite = new SpriteBase(kind);
 		}
 		this.sprite = sprite.clone();
 	};
@@ -34,7 +33,7 @@ define(function(require) {
 
 	Tile.prototype.cloneAt = function(row, column, onTarget) {
 		// var clonning = this.clone(); //doesnt work - returns Sprite instance
-		var clonning = new Tile(this.kind, this.floor, this.sprite);
+		var clonning = new Tile(this.kind, this.sprite);
 		clonning.initialPositions.row = row;
 		clonning.initialPositions.column = column;
 		clonning.positionAt(row, column);
@@ -79,7 +78,7 @@ define(function(require) {
 		return this.kind === "box";
 	};
 
-	Tile.prototype.isTarget = function(){
+	Tile.prototype.isTarget = function(kind){
 		return this.kind === "target";
 	};
 
@@ -88,7 +87,7 @@ define(function(require) {
 	};
 
 	Tile.prototype.isFree = function(){
-		return this.kind === "transparent";
+		return this.kind === "empty";
 	};
 
 	Tile.prototype.redrawWall = function(newWall) {

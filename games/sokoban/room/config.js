@@ -4,76 +4,76 @@ define(function(require) {
 		"roomKinds": {
 			"iso": {
 				"P": {
-					"floor":"empty",
+					"onTarget": false,
 					"interior":	"player"
 				},
 				"*": {
-					"floor":"target",
+					"onTarget": true,
 					"interior":"player"
 				},
 				"W": {
-					"floor":"empty",
+					"onTarget": false,
 					"interior":	"wall"
 				},
 				" ": {
-					"floor":"empty",
-					"interior":	null
+					"onTarget": false,
+					"interior":	"empty"
 				},
 				"B": {
-					"floor":"empty",
+					"onTarget": false,
 					"interior":	"box"
 				},
 				"+": {
-					"floor":"target",
+					"onTarget": true,
 					"interior":"box"
 				},
 				"-": {
-					"floor":"target",
-					"interior":null
+					"onTarget": true,
+					"interior":"empty"
 				},
 				";": {
 					"newLine": true,
 				},
 				"A": {
-					"floor":"author",
-					"interior":null
+					"onTarget": false,
+					"interior":"author"
 				},
 			},
 			"xsb": {
 				"@": {
-					"floor":"empty",
+					"onTarget": false,
 					"interior":	"player"
 				},
 				"+": {
-					"floor":"target",
+					"onTarget": true,
 					"interior":"player"
 				},
 				"#": {
-					"floor":"empty",
+					"onTarget": false,
 					"interior":	"wall"
 				},
 				" ": {
-					"floor":"empty",
-					"interior":	null
+					"onTarget": false,
+					"interior":	"empty"
 				},
 				"$": {
-					"floor":"empty",
+					"onTarget": false,
 					"interior":	"box"
 				},
 				"*": {
-					"floor":"target",
+					"onTarget": true,
 					"interior":"box"
 				},
 				".": {
-					"floor":"target",
-					"interior":null
+					"onTarget": true,
+					"interior":"empty"
 				},
 				"|": {
 					"newLine": true,
 				},
 				"A": {
-					"floor":"author",
-					"interior":null
+					"onTarget": false,
+					"interior":"author",
 				},
 			}
 		}
