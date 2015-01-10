@@ -38,8 +38,8 @@ define(function(require) {
 	};
 
 	$.extend(Factory.prototype, {
-		"newTile": function(kind, row, col) {
-			return this.bases[kind].cloneAt(row, col);
+		"newTile": function(data) {
+			return this.bases[data.kind].cloneAt(data.row, data.column, data.onTarget );
 		},
 	});
 

@@ -17,7 +17,10 @@ define(function(require) {
 	};
 
 	//corners
-	Sokoban.simpleLevel = "WWWWWWA;WP B-WA;WWWWWWA";
+	Sokoban.simpleLevel = "WWWWWWA;WP B-WA;WWWWWWA";//solvable
+	if (true){
+		Sokoban.simpleLevel = "WWWWWWA;WP-B-WA;WWWWWWA";//test box on a target; n player on a target
+	}
 	if (false){
 	//cross & single edges
 	Sokoban.simpleLevel +=";      ";

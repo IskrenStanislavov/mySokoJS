@@ -44,6 +44,7 @@ define(function(require) {
 		var f = this.tiles[0];
 		var l = this.tiles[1];
 		// var ni = this.direction.neighboursIdexes;
+		var onTargetsBeforeAction = [ p.isOnTarget(), f.isOnTarget(), l.isOnTarget() ];
 		if ( this.isPush() ) {
 			// p ++
 			// f ++
@@ -51,6 +52,9 @@ define(function(require) {
 			p.positionAt(p.row + ni.row[0], p.column + ni.column[0]);
 			f.positionAt(f.row + ni.row[0], f.column + ni.column[0]);
 			l.positionAt(l.row - ni.row[1], l.column - ni.column[1]);
+			l.setOnTarget(onTargetsBeforeAction[0]);
+			p.setOnTarget(onTargetsBeforeAction[1]);
+			f.setOnTarget(onTargetsBeforeAction[2]);
 			this.interiorTiles[p.row][p.column] = p;
 			this.interiorTiles[f.row][f.column] = f;
 			this.interiorTiles[l.row][l.column] = l;
@@ -58,8 +62,11 @@ define(function(require) {
 			// p ++;
 			// f --;
 			//XXX: probably not the best choice
+			// var onTargetsBeforeAction = [ p.isOnTarget(), f.isOnTarget() ];
 			p.positionAt(p.row + ni.row[0], p.column + ni.column[0]);
 			f.positionAt(f.row - ni.row[0], f.column - ni.column[0]);
+			f.setOnTarget(onTargetsBeforeAction[0]);
+			p.setOnTarget(onTargetsBeforeAction[1]);
 			this.interiorTiles[p.row][p.column] = p;
 			this.interiorTiles[f.row][f.column] = f;
 		}

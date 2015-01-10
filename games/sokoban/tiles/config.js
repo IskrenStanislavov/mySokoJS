@@ -52,6 +52,11 @@ define(function(require) {
 			'author':23,
 	};
 
+	Config.onTarget = {
+		"player": 8,
+		"box": 9
+	};
+
 	Config.Floors = {
 		"ground": 0,
 		"first": 1

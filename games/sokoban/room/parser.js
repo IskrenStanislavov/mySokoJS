@@ -33,6 +33,7 @@ define(function(require) {
 					"column": cCol,
 					//use transparent Tile instead of null:
 					"kind": iso[symbol].interior || "transparent",
+					"onTarget": this.floorTiles[this.rows][cCol].isTarget(),
 				}));
 				cCol += 1;
 			}

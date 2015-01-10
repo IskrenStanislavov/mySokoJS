@@ -37,9 +37,7 @@ define(function(require) {
 
 	return {
 		// 'Tile':Tile,
-		'newTile': function(data) {
-			return factory.newTile(data.kind, data.row, data.column)
-		},
+		'newTile': factory.newTile.bind(factory),
 		"player": factory.player,
 		"dimensions": TileConfig.dimensions,
 		'recalculateWalls': recalculateWalls,

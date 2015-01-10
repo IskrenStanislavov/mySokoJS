@@ -32,7 +32,7 @@ define(function(require) {
 	Tile.prototype.row = 0;
 	Tile.prototype.column = 0;
 
-	Tile.prototype.cloneAt = function(row, column) {
+	Tile.prototype.cloneAt = function(row, column, onTarget) {
 		// var clonning = this.clone(); //doesnt work - returns Sprite instance
 		var clonning = new Tile(this.kind, this.floor, this.sprite);
 		clonning.initialPositions.row = row;
@@ -41,6 +41,7 @@ define(function(require) {
 		if (this.isPlayer()) {
 			clonning.name = "player";
 		}
+		clonning.setOnTarget(onTarget);
 		return clonning;
 	};
 
@@ -53,6 +54,19 @@ define(function(require) {
 		// console.warn(this.kind, "positioned@", this.sprite.x, this.sprite.y);
 	};
 
+	Tile.prototype.setOnTarget = function( value ){
+		this.onTarget = value;
+		if (value && (this.isPlayer() || this.isBox())){
+			this.sprite.gotoAndStop( tileConfig.onTarget[this.kind] );
+		} else {
+			this.sprite.gotoAndStop( this.kind );
+		}
+	};
+
+	Tile.prototype.isOnTarget = function(){
+		return this.onTarget;
+	};
+
 	Tile.prototype.getKind = function(){
 		return this.kind;
 	};
@@ -63,6 +77,10 @@ define(function(require) {
 
 	Tile.prototype.isBox = function(){
 		return this.kind === "box";
+	};
+
+	Tile.prototype.isTarget = function(){
+		return this.kind === "target";
 	};
 
 	Tile.prototype.isEmpty = function(){
