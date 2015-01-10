@@ -47,7 +47,13 @@ define(function(require) {
 	};
 
 	Logic.prototype.checkForSolved = function(){
-		return false;
+		var checkedTiles = _.flatten(this.interior).filter(function(tile){
+			if (tile.isBox() && !tile.onTarget){
+				return tile;
+			}
+		});
+
+		return !checkedTiles.length;
 	};
 
 	Logic.prototype.performAction = function(){
