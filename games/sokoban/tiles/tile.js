@@ -56,7 +56,7 @@ define(function(require) {
 
 	Tile.prototype.setOnTarget = function( value ){
 		this.onTarget = value;
-		if (value && (this.isPlayer() || this.isBox())){
+		if (value){
 			this.sprite.gotoAndStop( tileConfig.onTarget[this.kind] );
 		} else {
 			this.sprite.gotoAndStop( this.kind );

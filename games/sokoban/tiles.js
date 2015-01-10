@@ -14,7 +14,6 @@
 //друг вариант е просто да се сменят позициите на които се намират кутийките и играча ни
 
 define(function(require) {
-	var createjs	= require('libs/easeljs-0.7.1.min');
 	var TileFactory = require('games/sokoban/tiles/factory');
 	var TileConfig = require('games/sokoban/tiles/config');
 	var factory = new TileFactory();
@@ -25,22 +24,11 @@ define(function(require) {
 	//XXX: Tile.undo - plays animation when the player moves back in the history
 	//XXX: TIle.still - static image
 
-	recalculateWalls = function(sortedTiles) {
-		console.error("Walls not ready yet");
-		// var that = this;
-		// sortedTiles.forEach(function(tile, i) {
-		// 	if (tile.kind === Tile.kinds.wall){
-		// 		console.log('');
-		// 	}
-		// });
-	};
-
 	return {
 		// 'Tile':Tile,
 		'newTile': factory.newTile.bind(factory),
 		"player": factory.player,
 		"dimensions": TileConfig.dimensions,
-		'recalculateWalls': recalculateWalls,
 	};
 
 });

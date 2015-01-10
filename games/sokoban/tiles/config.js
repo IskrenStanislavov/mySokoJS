@@ -54,6 +54,7 @@ define(function(require) {
 
 	Config.onTarget = {
 		"player": 8,
+		"empty": 7,
 		"box": 9
 	};
 

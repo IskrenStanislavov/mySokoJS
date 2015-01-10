@@ -59,10 +59,8 @@ define(function(require) {
 	};
 
 	Sokoban.prototype.start = function(data) {
-		var demoRoom = new Room( this.stage, Sokoban.simpleLevel, "iso" );
-		// room.recalculateWalls( demoRoom.getTiles() );
-		// demoRoom.presentToStage(this.stage);
- 		this.handlers.refresh(demoRoom);
+		this.currentRoom = new Room( this.stage, Sokoban.simpleLevel, "iso" );
+ 		this.handlers.refresh(this.currentRoom);
 	};
 
 	return Sokoban;
