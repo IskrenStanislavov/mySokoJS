@@ -17,9 +17,9 @@ define(function(require) {
 	};
 
 	//corners
-	Sokoban.simpleLevel = "WWWWWWA;WP B-WA;WWWWWWA";//solvable
+	Sokoban.simpleLevel = "WWWWWW;WP B-W;WWWWWW";//solvable
 	if (true){
-		Sokoban.simpleLevel = "WWWWWWA;WP-B-WA;WWWWWWA";//test box on a target; n player on a target
+		Sokoban.simpleLevel = "WWWWWW;WP-B-W;WWWWWW";//test box on a target; n player on a target
 	}
 	if (false){
 	//cross & single edges
@@ -60,7 +60,14 @@ define(function(require) {
 
 	Sokoban.prototype.start = function(data) {
 		this.currentRoom = new Room( this.stage, Sokoban.simpleLevel, "iso" );
+		this.commandList.reset(this.currentRoom.records);
  		this.handlers.refresh(this.currentRoom);
+ 		var that = this;
+ 		// this.currentRoom.events.completed.addOnce(function(){
+ 		// 	that.handlers.stop();
+ 		// 	that.currentRoom.
+ 		// 	that.nextLevel();
+ 		// });
 	};
 
 	return Sokoban;

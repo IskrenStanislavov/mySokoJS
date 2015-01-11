@@ -14,7 +14,6 @@ define(function(require) {
 		this.commandList = commandList;
 		this.room = null;
 		var canvas = document.getElementById('game');
-		var h1 = document.getElementsByTagName('h1')[0];
 		document.onresize = function(e) {
 			window.scrollTo(0,1);
 		};

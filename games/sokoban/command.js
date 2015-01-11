@@ -9,7 +9,6 @@ define(function(require) {
 		this.tiles = tiles;
 		this.interiorTiles = interiorTiles;
 		this.list = []; // touch moves or a single keyboard move
-		// this.movesDOM = $("section#moves p#turns>span");
 	};
 
 	// Command.prototype.addMove = function( move ) {

@@ -2,25 +2,24 @@
 
 define(function(require) {
 
-	var DomRecord = require("games/sokoban/DOM/records");
-
-	var CommandList = function(  ) {
+	var CommandList = function() {
 		this.position = -1;
 		this.list = [];
 		this.pushes = 0;
 		this.moves = 0;
-		this.domRecord = new DomRecord();
 	};
 
-	CommandList.prototype.reset = function(){
+	CommandList.prototype.reset = function( records ){
+		this.actionsRecords = records;
 		this.position = -1;
 		this.clearFrom(0);
 		this.pushes = 0;
 		this.moves = 0;
+		this.updateActionsInfo();
 	};
 
-	CommandList.prototype.updateMovesInfo = function( command ) {
-		this.domRecord.update(this.moves, this.pushes);
+	CommandList.prototype.updateActionsInfo = function() {
+		this.actionsRecords.update(this.moves, this.pushes);
 	};
 
 	CommandList.prototype.addCommand = function( command ) {
@@ -33,7 +32,7 @@ define(function(require) {
 		this.pushes += command.countPushes();
 		command.execute();
 		this.position += 1;
-		this.updateMovesInfo();
+		this.updateActionsInfo();
 	};
 
 	CommandList.prototype.goBack = function() {
@@ -42,7 +41,7 @@ define(function(require) {
 		this.pushes -= command.countPushes();
 		command.undo();
 		this.position -= 1;
-		this.updateMovesInfo();
+		this.updateActionsInfo();
 	};
 
 	CommandList.prototype.goForward = function() {
@@ -51,7 +50,7 @@ define(function(require) {
 		this.moves += command.countMoves();
 		this.pushes += command.countPushes();
 		command.redo();
-		this.updateMovesInfo();
+		this.updateActionsInfo();
 	};
 
 	CommandList.prototype.shouldReplace = function( ) {
