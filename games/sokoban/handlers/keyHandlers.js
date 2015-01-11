@@ -13,8 +13,9 @@ define(function(require) {
 			39: Logic.directions.Right,
 			40: Logic.directions.Down,
 		}, "history":{
-			90: "undo",
-			89: "redo"
+			90: "undo",//ctrl+Z
+			89: "redo",//ctrl+Y
+			// 82: "reStart"//ctrl+R
 		}}
 	};
 
@@ -33,6 +34,9 @@ define(function(require) {
 		'keyDown': function(evt) {
 			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
 				//wait for a new puzzle
+				return;
+			}
+			if ( this.logic.inDrag() ){
 				return;
 			}
 			if (this.currentKeyDown !== null){
@@ -60,6 +64,8 @@ define(function(require) {
 				this.commandList.goBack();
 			} else if (change === "redo" && this.commandList.canMakeRedo() ) {
 				this.commandList.goForward();
+			// } else if ( change === "reStart" && this.commandList.canMakeUndo() ){
+			// 	this.commandList.reStart();
 			}
 			return !!change;
 		},
@@ -69,6 +75,7 @@ define(function(require) {
 			if (!move){
 				return !!move;
 			}
+console.warn(move);
 			var action = this.logic.getActionData(move);
 			if ( action ){
 				this.commandList.addCommand( action );

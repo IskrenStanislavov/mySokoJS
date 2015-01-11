@@ -1,16 +1,11 @@
-//Tile factory pattern used - ??? to be used ???
-
-
-//XXX: GROUND layer with unmovable tiles ("target", "wall" & "empty" place): "ground" or "base"
-//XXX: "1st-FLOOR" layer with movable (crates & player) & unmovable tiles (walls): 
-
 
 // playerTile can move, handlers controlled
-// wall - never moves, always in state: "full"
-// target - never moves, but can have states: empty, box, player
+// wall - never moves, always in state: "full" - different
+// target - never moves, but can have states: empty, box, player - changed
 // empty - doesn move, but can exchange with player only!
 // box Tile can move - player can move it towards the direction
 
+//реализирано по този начин:
 //друг вариант е просто да се сменят позициите на които се намират кутийките и играча ни
 
 define(function(require) {
@@ -23,6 +18,8 @@ define(function(require) {
 		'width' : 50,
 		'height': 50,
 	};
+
+	Config.delta = Config.deltaX = Config.deltaY = Config.dimensions.width; 
 
 	Config.kinds = {//tileKind n tileAnimations
 			"transparent":-1,
@@ -86,8 +83,6 @@ define(function(require) {
 		// "wall"
 	};
 
-	// Config.groundFloorTiles = ["target"];
-
 	Config.firstFloorTiles = ["player", "wall", "box", "transparent", "empty", "author"];
 
 	Config.getSpriteData = function(kind) {
@@ -99,10 +94,6 @@ define(function(require) {
 		data.animations[kind] = Config.kinds[kind];
 		if ( kind === "wall" ) {
 			$.extend(data.animations, Config.WallKinds);
-			// Object.keys(Config.WallKinds).forEach(function(key){
-			// 	var wallAnim = [key];
-			// 	[key] = wallAnim;
-			// });
 		}
         return data;
 	};

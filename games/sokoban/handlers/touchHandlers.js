@@ -1,19 +1,18 @@
-// XXX:
-//  delta X
-//  delta Y
-// detect S
-// detect V
-// detect acc
-
+// XXX: can undo redo functionality in context menu
+// see: http://www.javascripttoolbox.com/lib/contextmenu/
 
 define(function(require) {
 	var createjs	= require('libs/easeljs-0.7.1.min');
+	var Logic       = require("games/sokoban/room/logic");
 
 	var Handlers = function(commandList, stage) {
 		this.stage = stage;
 		this.commandList = commandList;
 		this.room = null;
 		var canvas = document.getElementById('game');
+		canvas.oncontextmenu = function (e) {
+		    e.preventDefault();
+		};
 		document.onresize = function(e) {
 			window.scrollTo(0,1);
 		};
@@ -22,9 +21,6 @@ define(function(require) {
 		});
 		document.onmousemove = document.ontouchmove = function(e) {
 			e.preventDefault();
-			if (e.target.nodeName !== "CANVAS") {
-				e.preventDefault();
-			}
 		};
 	};
 
@@ -36,64 +32,60 @@ define(function(require) {
 		},
 
 		"handleDown": function( event ) {
-			if ( this.room === null || this.room.checkForSolved() ){
+			if ( this.logic.inDrag() ){
+				return event.preventDefault();
+			}
+			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
 				//wait for a new puzzle
 				return;
 			}
-			this.downFlag = true;
-			this.startX = event.stageX;
-			this.startY = event.stageY;
-			console.log('down', event, 'down at:('+event.stageX+','+event.stageY+')');
+
+			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
+				//wait for a new puzzle
+				return;
+			}
+			this.logic.startDrag(event);
+			console.log('down', event, 'down at:('+this.startX+','+this.startY+')');
 		},
 
-		// "logDown": function( event ) {
-		// 	var x = event.target.column;
-		// 	var y = event.target.row;
-		// 	var kind = event.target.getKind();
-		// 	console.log('tile:', kind, 'down at:('+x+','+y+')');
-		// },
-
 		"handleMove": function( event ) {
-			// XXX: check if stopBubbling disables the sliding of the page on the top and the bottom
-			this.stopBubbleEvent(event);
+			if ( !this.logic.inDrag() ){
+				return;
+			}
+			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
+				//wait for a new puzzle
+				return;
+			}
 
-			// console.log('move', event);
-			var deltaX = this.startX - event.stageX;
-			var deltaY = this.startY - event.stageY;
-			var xCondition = (Math.abs(deltaX) > event.target.width);
-			var yCondition = (Math.abs(deltaY) > event.target.height);
-			if ( xCondition || yCondition ) {
-				event.remove();
-				this.stage.removeChild(event.target);
-				this.stage.addChild(event.target);
-				if (Math.abs(deltaX) > Math.abs(deltaY)){
-					if (deltaX > 0){
-						// this.startX += event.target.width;
-						this.commandList.addMove("Right");
-					} else {
-						// this.startX -= event.target.width;
-						this.commandList.addMove("Left");
-					}
-				} else {
-					if (deltaY > 0){
-						// this.startY += event.target.height;
-						this.commandList.addMove("Up");
-					} else {
-						// this.startY -= event.target.height;
-						this.commandList.addMove("Down");
-					}
-				}
-				// event.target.x = this.startX;
-				// event.target.y = this.startY;
+			this.stopBubbleEvent(event);
+			var direction = this.logic.addDrag(event);
+			if (!direction){
+				return;
+			}
+			if (direction.id === Logic.directions.Revert.id){
+				return this.commandList.goBack();
+			}
+			this.stage.removeChild(event.target);
+			this.stage.addChild(event.target);
+			console.log('move', direction);
+			var action = this.logic.getActionData(direction);
+			if ( action ){
+				this.commandList.addCommand( action );
+				this.stage.update();
 			}
 		},
 
 		"handleUp": function( event ) {
-			console.log('up', event);
-			event.remove();
-			this.allowTouches(event.target);
-			// this.startX = event.x;
-			// this.startY = event.y;
+			if ( !this.logic.inDrag() ){
+				return;
+			}
+			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
+				//wait for a new puzzle
+				return;
+			}
+			// this.logic.endDrag( event );
+			this.commandList.addDrags(this.logic.endDrag( event ));
+			console.log('  up', event);
 		},
 
 		"refresh": function(logic) {
@@ -103,30 +95,11 @@ define(function(require) {
 				this.interior = this.stage.getChildByName("interior");
 			}
 			var player = this.interior.getChildByName("player");
-			this.allowTouches(player);
+			player.on('mousedown', this.handleDown, this);
+			player.on('pressmove', this.handleMove, this);
+			player.on('pressup', this.handleUp, this);
 			this.logic = logic;
-			// this.stage.children.forEach(function(child){
-			// 	if (!!child.isPlayer && child.isPlayer()){
-			// 		this.allowTouches(child);
-			// 	// } else {
-			// 	// 	this.justLog(child);
-			// 	}
-			// }.bind(this));
 		},
-
-		"allowTouches": function(target) {
-
-			var ctx = this;
-			target.removeAllEventListeners('mousedown');
-			target.removeAllEventListeners('pressmove');
-			target.removeAllEventListeners('pressup');
-			target.on('mousedown', this.handleDown, ctx);
-			target.on('pressmove', this.handleMove, ctx);
-			target.on('pressup', this.handleUp, ctx);
-			// target.on('mouseup', function(){
-			// 	alert('mouseup');
-			// }, ctx);
-		}, 
 
 		'stopBubbleEvent': function(e) {
 			//e.cancelBubble is supported by IE - this will kill the bubbling process.
