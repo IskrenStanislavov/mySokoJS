@@ -91,10 +91,9 @@ define(function(require) {
 		"refresh": function(logic) {
 			if ( !this.stage.children ) {
 				return;
-			} else if (!this.interior){
-				this.interior = this.stage.getChildByName("interior");
 			}
-			var player = this.interior.getChildByName("player");
+			var interior = this.stage.getChildByName("interior");
+			var player = interior.getChildByName("player");
 			player.on('mousedown', this.handleDown, this);
 			player.on('pressmove', this.handleMove, this);
 			player.on('pressup', this.handleUp, this);

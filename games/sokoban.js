@@ -10,64 +10,34 @@ define(function(require) {
 	var CommandList = require("games/sokoban/commandList");
 
 	var Sokoban = function(){
-		this.stage = null;
 		this.init();
-		this.commandList = new CommandList();
-		this.handlers = new Handlers(this.stage, this.commandList);
-	};
-
-	//corners
-	Sokoban.simpleLevel = "WWWWWW;WP B-W;WWWWWW";//solvable
-	if (true){
-		Sokoban.simpleLevel = "WWWWWW;WP-B-W;WWWWWW";//test box on a target; n player on a target
-	}
-	if (false){
-	//cross & single edges
-	Sokoban.simpleLevel +=";      ";
-	Sokoban.simpleLevel +="; W    ";
-	Sokoban.simpleLevel +=";WWW   ";
-	Sokoban.simpleLevel +="; W    ";
-	//T junction: right
-	Sokoban.simpleLevel +=";      ";
-	Sokoban.simpleLevel +="; W    ";
-	Sokoban.simpleLevel +=";WW    ";
-	Sokoban.simpleLevel +="; W    ";
-	//T junction: left
-	Sokoban.simpleLevel +=";      ";
-	Sokoban.simpleLevel +="; W    ";
-	Sokoban.simpleLevel +="; WW   ";
-	Sokoban.simpleLevel +="; W    ";
-	//T junction: bottom
-	Sokoban.simpleLevel +=";      ";
-	Sokoban.simpleLevel +="; W    ";
-	Sokoban.simpleLevel +=";WWW   ";
-	//T junction: top
-	Sokoban.simpleLevel +=";      ";
-	Sokoban.simpleLevel +=";WWW   ";
-	Sokoban.simpleLevel +="; W    ";
-	}
-
-	Sokoban.levelsCollections = {
-		"./games/sokoban/levels/levels_iskren.json": 'iso',
-		"./games/sokoban/levels/niveles_homs.json": 'xsb',
-		"./games/sokoban/levels/levels_erim_sever.json": 'xsb',
 	};
 
 	Sokoban.prototype.init = function() {
 		this.stage = new Stage();
-		this.levels = new Levels(Sokoban.levelsCollections);
+		this.levels = new Levels();
+		this.commandList = new CommandList();
+		this.handlers = new Handlers(this.stage, this.commandList);
+		this.start();
 	};
 
-	Sokoban.prototype.start = function(data) {
-		this.currentRoom = new Room( this.stage, Sokoban.simpleLevel, "iso" );
+	Sokoban.prototype.start = function(levelIndex) {
+		if (levelIndex === undefined){
+			levelIndex = -1;
+		}
+		var level = this.levels.getLevel(levelIndex);
+		// this.currentRoom = new Room( this.stage, level.levelData, level.format );
+		this.currentRoom = new Room( this.stage, level );
 		this.commandList.reset(this.currentRoom.records);
  		this.handlers.refresh(this.currentRoom);
  		var that = this;
- 		// this.currentRoom.events.completed.addOnce(function(){
- 		// 	that.handlers.stop();
- 		// 	that.currentRoom.
- 		// 	that.nextLevel();
- 		// });
+ 		var solveCheck = setInterval(function(){
+ 			if ( that.currentRoom.logic.checkForSolved() ){
+ 				clearInterval(solveCheck);
+ 				that.stage.children.length=0;
+	 			that.start(levelIndex+1);
+ 			};
+ 		}, 100);
 	};
 
 	return Sokoban;

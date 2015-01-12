@@ -7,13 +7,13 @@ define(function(require) {
 	var parseWalls  = require("games/sokoban/room/walls");
 	var joinInterior  = require("games/sokoban/room/interior");
 
-	var Room = function(stage, level, iso){
+	var Room = function(stage, level){
 		this.stage = stage;
 		this.level = level;
 		this.rows = 0; 		//set in the parse() call
 		this.columns = 0; 	//set in the parse() call
 		this.player = null; //set in the parse() call
-		this.parse( level, roomConfig.roomKinds[iso] );
+		this.parse( level.levelData, roomConfig.roomKinds[level.format] );
 		if (this.propertyIsEnumerable(roomConfig.wallsLayer)){
 			parseWalls(this[roomConfig.wallsLayer]);
 		}
