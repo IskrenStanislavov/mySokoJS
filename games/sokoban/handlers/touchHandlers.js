@@ -44,6 +44,8 @@ define(function(require) {
 				//wait for a new puzzle
 				return;
 			}
+			this.stage.removeChild(event.target);
+			this.stage.addChild(event.target);
 			this.logic.startDrag(event);
 			console.log('down', event, 'down at:('+this.startX+','+this.startY+')');
 		},
@@ -58,21 +60,8 @@ define(function(require) {
 			}
 
 			this.stopBubbleEvent(event);
-			var direction = this.logic.addDrag(event);
-			if (!direction){
-				return;
-			}
-			if (direction.id === Logic.directions.Revert.id){
-				return this.commandList.goBack();
-			}
-			this.stage.removeChild(event.target);
-			this.stage.addChild(event.target);
-			console.log('move', direction);
-			var action = this.logic.getActionData(direction);
-			if ( action ){
-				this.commandList.addCommand( action );
-				this.stage.update();
-			}
+			this.logic.updateDragPosition(event);
+			this.stage.update();
 		},
 
 		"handleUp": function( event ) {
@@ -84,7 +73,7 @@ define(function(require) {
 				return;
 			}
 			// this.logic.endDrag( event );
-			this.commandList.addDrags(this.logic.endDrag( event ));
+			this.commandList.addCommand(this.logic.endDrag( event ));
 			console.log('  up', event);
 		},
 

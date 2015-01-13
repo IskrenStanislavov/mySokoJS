@@ -34,8 +34,12 @@ define(function(require) {
  		var solveCheck = setInterval(function(){
  			if ( that.currentRoom.logic.checkForSolved() ){
  				clearInterval(solveCheck);
- 				that.stage.children.length=0;
-	 			that.start(levelIndex+1);
+ 				that.stage.on("pressup",function(){
+ 					setTimeout(function(){
+		 				that.stage.children.length=0;
+			 			that.start(levelIndex+1);
+ 					},5000);
+ 				},that, true);
  			};
  		}, 100);
 	};

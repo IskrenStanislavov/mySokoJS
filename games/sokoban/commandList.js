@@ -35,19 +35,6 @@ define(function(require) {
 		this.updateActionsInfo();
 	};
 
-	CommandList.prototype.addDrags = function( dragCommands ) {
-		if ( this.shouldReplace() ) {
-			this.clearFrom( this.position + 1 );
-		}
-		this.list.push(dragCommands);
-
-		this.moves += dragCommands.countMoves();
-		this.pushes += dragCommands.countPushes();
-		dragCommands.execute();
-		this.position += 1;
-		this.updateActionsInfo();
-	};
-
 	CommandList.prototype.goBack = function() {
 		var command = this.list[this.position];
 		this.moves -= command.countMoves();

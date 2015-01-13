@@ -1,5 +1,6 @@
 define(function(require) {
 	var Command = require("games/sokoban/command");
+	var CommandList = require("games/sokoban/commandList");
 	var tileConfig  = require('games/sokoban/tiles/config');
 
 	var Logic = function(player, interior){
@@ -82,12 +83,28 @@ define(function(require) {
 	Logic.prototype.getAllowedMoves = function( direction ) {};//solver connected
 
 //Touch related
+	var DragCommandList = function(){
+		CommandList.apply(this);
+		this.done = true;
+	}
+	DragCommandList.prototype = new CommandList();
+	DragCommandList.prototype.updateActionsInfo = function(){
+		return;// no move update needed
+	};
+	DragCommandList.prototype.CommandList_execute = DragCommandList.prototype.execute
+	DragCommandList.prototype.execute = function(){
+		if (this.done) return;
+		else {
+			this.CommandList_execute.apply(this, arguments);
+		}
+	};
 
 	var Dragging = function( startEvent ) {
 		this.player = startEvent.target;
 		this.startEvent = startEvent;
 		this.dragEvents = [];
-		this.dragDirections = [];		
+		this.dragDirections = [];
+		this.dragCommands = new DragCommandList();
 	};
 
 	Dragging.prototype.getDirection = function( nextDrag ){
@@ -126,24 +143,45 @@ define(function(require) {
 		}
 	};
 
-	Dragging.prototype.pushPosition = function( nextDrag ){
+	Dragging.prototype.updatePosition = function( nextDrag ){
 		var direction = this.getDirection(nextDrag);
 		if (!direction) {
 			return;
 		} else if ( this.isReverting(direction) ) {
 			this.dragEvents.length -= 1;
 			this.dragDirections.length -= 1;
-			return Logic.directions.Revert;
+			this.dragCommands.goBack();
+			return;
 		} else {
 			this.dragEvents.push(nextDrag);
 			this.dragDirections.push(direction);
+			console.log('move', direction);
+			var action = this.getActionData(direction);
+			if ( action ){
+				this.addCommand( action );
+			}
 		}
-		return direction;
 	};
 
-	Dragging.prototype.collectDragDirections = function( startEvent ) {
+	Dragging.prototype.end = function() {
 		this.finnished = true;
-		return this.dragDirections;
+		return this;
+	};
+
+	Dragging.prototype.execute = function(){
+		this.dragCommands.execute();
+	};
+
+	Dragging.prototype.countMoves = function() {
+		return this.dragCommands.moves;
+	};
+
+	Dragging.prototype.countPushes = function() {
+		return this.dragCommands.pushes;
+	};
+
+	Dragging.prototype.addCommand = function( action ) {
+		this.dragCommands.addCommand( action )
 	};
 
 	Logic.prototype.inDrag = function(){
@@ -152,16 +190,18 @@ define(function(require) {
 
 	Logic.prototype.startDrag = function( startEvent ) {
 		this.drag = new Dragging( startEvent );
+		console.log(this.drag);
+		this.drag.getActionData = this.getActionData.bind(this);
 	};
 
-	Logic.prototype.addDrag = function( dragEvent ) {
+	Logic.prototype.updateDragPosition = function( dragEvent ) {
 		// dragEvent is touchmove/mousemove event, but not the original w3c one
-		return this.drag.pushPosition( dragEvent );
+		this.drag.updatePosition( dragEvent );
 	};
 
 	Logic.prototype.endDrag = function( dragEvent ) {
 		// dragEvent is touchmove/mousemove event, but not the original w3c one
-		var drags = this.drag.collectDragDirections( dragEvent );
+		var drags = this.drag.end( dragEvent );
 		this.drag = null;
 		return drags;
 	};
