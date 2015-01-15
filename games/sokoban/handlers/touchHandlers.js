@@ -35,12 +35,7 @@ define(function(require) {
 			if ( this.logic.inDrag() ){
 				return event.preventDefault();
 			}
-			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
-				//wait for a new puzzle
-				return;
-			}
-
-			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
+			if ( this.logic.checkForSolved() ){
 				//wait for a new puzzle
 				return;
 			}
@@ -54,7 +49,7 @@ define(function(require) {
 			if ( !this.logic.inDrag() ){
 				return;
 			}
-			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
+			if ( this.logic.checkForSolved() ){
 				//wait for a new puzzle
 				return;
 			}
@@ -68,7 +63,7 @@ define(function(require) {
 			if ( !this.logic.inDrag() ){
 				return;
 			}
-			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
+			if ( this.logic.checkForSolved() ){
 				//wait for a new puzzle
 				return;
 			}

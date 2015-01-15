@@ -47,10 +47,6 @@ define(function(require) {
 		"Revert": new Direction( 4,-1, "Revert"	, "column"	, +1 ),
 	};
 
-	Logic.prototype.gameInProgress = function(){
-		return true;
-	};
-
 	Logic.prototype.checkForSolved = function(){
 		var checkedTiles = _.flatten(this.interior).filter(function(tile){
 			if (tile.isBox() && !tile.onTarget){

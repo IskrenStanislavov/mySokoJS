@@ -32,7 +32,7 @@ define(function(require) {
 		},
 
 		'keyDown': function(evt) {
-			if ( !this.logic.gameInProgress() || this.logic.checkForSolved() ){
+			if ( this.logic.checkForSolved() ){
 				//wait for a new puzzle
 				return;
 			}
