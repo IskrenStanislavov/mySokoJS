@@ -67,7 +67,7 @@ define(function(require) {
 	};
 
 	CommandList.prototype.canMakeUndo = function( ) {
-		return this.list.length > 0 && this.position >= 0;
+		return this.list.length > 0 && this.position >= 0 && !this.list[this.position].inProgress;
 	};
 
 	CommandList.prototype.canMakeRedo = function( ) {
