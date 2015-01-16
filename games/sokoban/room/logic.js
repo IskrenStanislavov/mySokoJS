@@ -80,7 +80,7 @@ define(function(require) {
 
 //Touch related
 	var DragCommandList = function(){
-		CommandList.apply(this);
+		CommandList.apply(this); //	this.list = [];
 		this.done = true;
 	}
 	DragCommandList.prototype = new CommandList();
@@ -94,6 +94,23 @@ define(function(require) {
 			this.CommandList_execute.apply(this, arguments);
 		}
 	};
+	DragCommandList.prototype.undo = function(){
+		if (!this.done) return;
+		else {
+			this.list.forEach(function( subCommand ){
+				subCommand.undo();
+			});
+		}
+	};
+
+	DragCommandList.prototype.redo = function(){
+		if (!this.done) return;
+		else {
+			this.list.forEach(function( subCommand ){
+				subCommand.redo();
+			});
+		}
+	};
 
 	var Dragging = function( startEvent ) {
 		this.player = startEvent.target;
@@ -101,6 +118,7 @@ define(function(require) {
 		this.dragEvents = [];
 		this.dragDirections = [];
 		this.dragCommands = new DragCommandList();
+		this.inProgress = true;
 	};
 
 	Dragging.prototype.getDirection = function( nextDrag ){
@@ -144,9 +162,10 @@ define(function(require) {
 		if (!direction) {
 			return;
 		} else if ( this.isReverting(direction) ) {
+			this.dragCommands.goBack();
+			this.dragCommands.cleanUp();
 			this.dragEvents.length -= 1;
 			this.dragDirections.length -= 1;
-			this.dragCommands.goBack();
 			return;
 		} else {
 			this.dragEvents.push(nextDrag);
@@ -160,12 +179,20 @@ define(function(require) {
 	};
 
 	Dragging.prototype.end = function() {
-		this.finnished = true;
+		this.inProgress = false;
 		return this;
 	};
 
 	Dragging.prototype.execute = function(){
 		this.dragCommands.execute();
+	};
+
+	Dragging.prototype.undo = function(){
+		this.dragCommands.undo();
+	};
+
+	Dragging.prototype.redo = function(){
+		this.dragCommands.redo();
 	};
 
 	Dragging.prototype.countMoves = function() {
@@ -181,13 +208,14 @@ define(function(require) {
 	};
 
 	Logic.prototype.inDrag = function(){
-		return this.drag && !this.drag.finnished;
+		return this.drag && this.drag.inProgress;
 	};
 
 	Logic.prototype.startDrag = function( startEvent ) {
 		this.drag = new Dragging( startEvent );
 		console.log(this.drag);
 		this.drag.getActionData = this.getActionData.bind(this);
+		return this.drag;
 	};
 
 	Logic.prototype.updateDragPosition = function( dragEvent ) {
