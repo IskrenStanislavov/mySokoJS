@@ -47,6 +47,9 @@ define(function(require) {
 			'player+right':31,
 
 			'author':23,
+			'info': 24,
+			'undo': 25,
+			'redo': 26,
 	};
 
 	Config.onTarget = {
