@@ -24,7 +24,7 @@ define(function(require) {
 
 	CommandList.prototype.addCommand = function( command ) {
 		if ( this.shouldReplace() ) {
-			this.clearFrom( this.position + 1 );
+			this.cleanUp();
 		}
 		this.list.push(command);
 
@@ -42,6 +42,10 @@ define(function(require) {
 		command.undo();
 		this.position -= 1;
 		this.updateActionsInfo();
+	};
+
+	CommandList.prototype.cleanUp = function() {
+		this.clearFrom( this.position + 1 );
 	};
 
 	CommandList.prototype.goForward = function() {
