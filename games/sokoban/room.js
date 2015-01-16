@@ -20,6 +20,14 @@ define(function(require) {
 		this.stage.addChild( joinInterior.call(this, this.interiorTiles) );
 		this.stage.canvas.width  = this.columns * Tiles.dimensions.width + roomConfig.additionalWidth;
 		this.stage.canvas.height = (this.rows+1) * Tiles.dimensions.height;
+
+		if (this.columns > this.rows+1) {
+			$(this.stage.canvas).css("width", "100%");
+			$(this.stage.canvas).css("height", "");
+		} else {
+			$(this.stage.canvas).css("width", "");
+			$(this.stage.canvas).css("height", "100%");
+		}
 		// this.stage.update();
 		this.initInformations();
 		this.logic = new Logic(this.player, this.interiorTiles);
