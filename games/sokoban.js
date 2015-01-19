@@ -15,16 +15,26 @@ define(function(require) {
 
 	Sokoban.prototype.init = function() {
 		this.stage = new Stage();
-		this.levels = new Levels();
 		this.commandList = new CommandList();
 		this.handlers = new Handlers(this.stage, this.commandList);
-		this.start();
+		this.levels = new Levels(function(){
+			this.start();
+		}.bind(this));
+		this.levels.load();
 	};
 
 	Sokoban.prototype.start = function(levelIndex) {
 		if (levelIndex === undefined){
-			levelIndex = -1;
+			console.log(levelIndex);
+			levelIndex = localStorage.getItem("currentLevel");
+			if (levelIndex === null){
+				levelIndex = -1;
+			} else {
+				levelIndex = JSON.parse(levelIndex);
+			}
+			console.log(levelIndex);
 		}
+		localStorage.setItem("currentLevel", levelIndex);
 		var level = this.levels.getLevel(levelIndex);
 		// this.currentRoom = new Room( this.stage, level.levelData, level.format );
 		this.currentRoom = new Room( this.stage, level );

@@ -41,15 +41,14 @@ define(function(require) {
 		testLevelData +="; W    ";
 	}
 
-
-	var Levels = function( levels_data ) {
-		this.testLevel = new Level("Isko", "test", testLevelData, "iso");
-		this.levels = [];
-		this.collections = [
+	var config = {
+		'collectionsToLoad': 1,
+		'testLevel': new Level("Isko", "test", testLevelData, "iso"),
+		'collections': [
 			// {"path":   "games/sokoban/levels/levels_iskren.json", "format": "iso", "parseData": 
 			// function(data){
 			// 	return;
-			// }.bind(this)},
+			// }},
 			{"path":   "games/sokoban/levels/niveles_homs.json",
 			"parseData": function(data){
 				var author = data.autorDeNivel;
@@ -57,32 +56,46 @@ define(function(require) {
 				Object.keys(data.niveles).forEach(function( levelName, index ) {
 					this.levels.push( new Level(author, collectionName, data.niveles[levelName], "xsb", levelName) );
 				}.bind(this));
-				return;
-			}.bind(this)},
+
+
+				localStorage.setItem("gameLevels", JSON.stringify(this.levels));
+				this.collectionsToLoad -= 1;
+				this.collectionsToLoad === 0 && this.onLoadCallback && this.onLoadCallback();
+			}},
 			{"path":   "games/sokoban/levels/levels_erim_sever.json",
 			"format": "xsb",
 			"parseData": function(data){
 						// that.levels.push(new Level(data[key]));
 				return;
-			}.bind(this)}
-		];
-		this.init();
+			}}
+		],
+	};
+		
+
+
+	var Levels = function( callback ) {
+		this.onLoadCallback = callback;
 	};
 
-
-
-	Levels.prototype.init = function() {
-		var that = this;
-		this.collections.forEach(function(collection, ix) {
-			console.warn(collection.path);
-			$.getJSON(collection.path, collection.parseData );
-		});
+	Levels.prototype.load = function() {
+		this.collectionsToLoad = config.collectionsToLoad;
+		this.levels = JSON.parse(localStorage.getItem("gameLevels",null));
+		if ( typeof this.levels !== "Array") {
+			this.levels = [];
+			var that = this;
+			config.collections.forEach(function(collection, ix) {
+				console.warn(collection.path);
+				$.getJSON(collection.path, collection.parseData.bind(that) );
+			});
+		} else {
+			this.onLoadCallback && this.onLoadCallback();
+		}
 
 	};
 
 	Levels.prototype.getLevel = function(index){
 		if ( !~index ) { //-1
-			return this.testLevel;
+			return config.testLevel;
 		}
 		return this.levels[index];
 	};
