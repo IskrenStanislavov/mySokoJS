@@ -13,16 +13,19 @@ define(function(require) {
 		this.id = id;
 		this.oppositeId = oppositeId;
 		this.direction = name;
-		var pN = this.neighboursIdexes = new Object();
+		this.neighboursIndexes = {"Forward":{},"Revert":{}};
+		var pN = this.neighboursIndexes.Forward;
 		pN[worksOn] = [1*sign, 2*sign];
 		pN[worksOn==="row"?"column":"row"] = [0,0];
-		pN.worksOn = worksOn;
 		pN.history = "forward";
-		var pNr = this.revertNeighboursIdexes = new Object();
+		pN.onTargetIndexes = {"push":[1,2,0],"move":[1,0]};
+		// pN.worksOn = worksOn;
+		var pNr = this.neighboursIndexes.Revert;
 		pNr[worksOn] = [-1*sign, -2*sign];
 		pNr[worksOn==="row"?"column":"row"] = [0,0];
-		pNr.worksOn = worksOn;
 		pNr.history = "backward";
+		pNr.onTargetIndexes = {"push":[0,1,2],"move":[0,1]};
+		// pNr.worksOn = worksOn;
 	};
 
 	Direction.prototype.getRevertNeighbours = function() {
@@ -30,7 +33,7 @@ define(function(require) {
 	};
 
 	Direction.prototype.getTiles = function( tiles, player ) {
-		var ni = this.neighboursIdexes;
+		var ni = this.neighboursIndexes.Forward;
 		var t1 = tiles[player.row + ni.row[0]] &&
 				 tiles[player.row + ni.row[0]][player.column + ni.column[0]];
 		var t2 = tiles[player.row + ni.row[1]] &&

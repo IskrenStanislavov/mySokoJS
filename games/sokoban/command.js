@@ -41,7 +41,6 @@ define(function(require) {
 		var p = this.player
 		var f = this.tiles[0];
 		var l = this.tiles[1];
-		// var ni = this.direction.neighboursIdexes;
 		if ( this.isPush ) {
 			console.log(this.onTarget);
 			p.positionAt(p.row + ni.row[0], p.column + ni.column[0]);
@@ -75,23 +74,22 @@ define(function(require) {
 	};
 
 	Command.prototype.execute = function() {
-		this.do(this.direction.neighboursIdexes);
+		this.do(this.direction.neighboursIndexes.Forward);
 		console.log("execute", this.toString() );
 	};
 
 	Command.prototype.undo = function() {
-		var ni = this.direction.getRevertNeighbours();
-		this.do(ni);
+		this.do(this.direction.neighboursIndexes.Revert);
 		console.log("undo", this.toString() );
 	};
 
 	Command.prototype.redo = function() {
-		this.do(this.direction.neighboursIdexes);
+		this.do(this.direction.neighboursIndexes.Forward);
 		console.log("redo", this.toString() );
 	};
 
 	Command.prototype.toString = function() {
-		return ("Command:{kind:"+this.kind+", direction:"+this.direction+"}");
+		return ("Action:{kind:"+this.kind+", direction:"+this.direction+"}");
 	};
 
 	return Command;
