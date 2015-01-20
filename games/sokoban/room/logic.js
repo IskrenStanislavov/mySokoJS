@@ -17,12 +17,12 @@ define(function(require) {
 		pN[worksOn] = [1*sign, 2*sign];
 		pN[worksOn==="row"?"column":"row"] = [0,0];
 		pN.worksOn = worksOn;
-		pN.sign = sign;
+		pN.history = "forward";
 		var pNr = this.revertNeighboursIdexes = new Object();
 		pNr[worksOn] = [-1*sign, -2*sign];
 		pNr[worksOn==="row"?"column":"row"] = [0,0];
 		pNr.worksOn = worksOn;
-		pNr.sign = -sign;
+		pNr.history = "backward";
 	};
 
 	Direction.prototype.getRevertNeighbours = function() {
@@ -76,7 +76,7 @@ define(function(require) {
 		return false;
 	};
 
-	Logic.prototype.getAllowedMoves = function( direction ) {};//solver connected
+	Logic.prototype.getAllowedMoves = function( direction ) {};//solver related in future
 
 //Touch related
 	var DragCommandList = function(){
@@ -97,9 +97,11 @@ define(function(require) {
 	DragCommandList.prototype.undo = function(){
 		if (!this.done) return;
 		else {
-			this.list.forEach(function( subCommand ){
-				subCommand.undo();
-			});
+			var index = this.list.length - 1;
+			while ( index >= 0 ){
+				this.list[index].undo();
+				index -= 1;
+			}
 		}
 	};
 

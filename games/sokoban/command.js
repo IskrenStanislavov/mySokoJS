@@ -3,12 +3,15 @@
 define(function(require) {
 
 	var Command = function( kind, dir, player, tiles, interiorTiles ) {
+		this.isPush = (kind === "push");
 		this.kind = kind;
 		this.direction = dir;
 		this.player = player;
 		this.tiles = tiles;
 		this.interiorTiles = interiorTiles;
 		this.list = []; // touch moves or a single keyboard move
+		this.onTarget = [ player.isOnTarget(), this.tiles[0].isOnTarget(), this.tiles[1] && this.tiles[1].isOnTarget() ];
+		this.pushes = this.isPush * 1;
 	};
 
 	// Command.prototype.addMove = function( move ) {
@@ -23,14 +26,10 @@ define(function(require) {
 	// 	console.log( command.toString() );// console.error( this.list );
 	// };
 
-	Command.prototype.isPush = function() {
-		// this.tiles[this.tiles.length-1] && this.tiles[this.tiles.length-1].isEmpty();
-		return this.kind === "push";
-	};
 
 	Command.prototype.countPushes = function() {
 		//XXX: touches & longer move
-		return ( this.kind === "push" ) * 1;
+		return this.pushes;
 	};
 
 	Command.prototype.countMoves = function() {
@@ -43,29 +42,33 @@ define(function(require) {
 		var f = this.tiles[0];
 		var l = this.tiles[1];
 		// var ni = this.direction.neighboursIdexes;
-		var onTargetsBeforeAction = [ p.isOnTarget(), f.isOnTarget(), l.isOnTarget() ];
-		if ( this.isPush() ) {
-			// p ++
-			// f ++
-			// l-- --
+		if ( this.isPush ) {
+			console.log(this.onTarget);
 			p.positionAt(p.row + ni.row[0], p.column + ni.column[0]);
 			f.positionAt(f.row + ni.row[0], f.column + ni.column[0]);
 			l.positionAt(l.row - ni.row[1], l.column - ni.column[1]);
-			l.setOnTarget(onTargetsBeforeAction[0]);
-			p.setOnTarget(onTargetsBeforeAction[1]);
-			f.setOnTarget(onTargetsBeforeAction[2]);
+			if (ni.history === "forward"){
+				l.setOnTarget(this.onTarget[0]);
+				p.setOnTarget(this.onTarget[1]);
+				f.setOnTarget(this.onTarget[2]);
+			} else {
+				p.setOnTarget(this.onTarget[0]);
+				f.setOnTarget(this.onTarget[1]);
+				l.setOnTarget(this.onTarget[2]);
+			}
 			this.interiorTiles[p.row][p.column] = p;
 			this.interiorTiles[f.row][f.column] = f;
 			this.interiorTiles[l.row][l.column] = l;
 		} else {
-			// p ++;
-			// f --;
-			//XXX: probably not the best choice
-			// var onTargetsBeforeAction = [ p.isOnTarget(), f.isOnTarget() ];
 			p.positionAt(p.row + ni.row[0], p.column + ni.column[0]);
 			f.positionAt(f.row - ni.row[0], f.column - ni.column[0]);
-			f.setOnTarget(onTargetsBeforeAction[0]);
-			p.setOnTarget(onTargetsBeforeAction[1]);
+			if (ni.history === "forward"){
+				p.setOnTarget(this.onTarget[1]);
+				f.setOnTarget(this.onTarget[0]);
+			} else {
+				p.setOnTarget(this.onTarget[0]);
+				f.setOnTarget(this.onTarget[1]);
+			}
 			this.interiorTiles[p.row][p.column] = p;
 			this.interiorTiles[f.row][f.column] = f;
 		}
@@ -90,9 +93,6 @@ define(function(require) {
 	Command.prototype.toString = function() {
 		return ("Command:{kind:"+this.kind+", direction:"+this.direction+"}");
 	};
-
-
-
 
 	return Command;
 });
