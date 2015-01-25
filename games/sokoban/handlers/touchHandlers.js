@@ -8,20 +8,6 @@ define(function(require) {
 	var Handlers = function(commandList, stage) {
 		this.stage = stage;
 		this.commandList = commandList;
-		this.room = null;
-		var canvas = document.getElementById('game');
-		canvas.oncontextmenu = function (e) {
-		    e.preventDefault();
-		};
-		document.onresize = function(e) {
-			window.scrollTo(0,1);
-		};
-		document.addEventListener("orientationchange", function() {
-			window.scrollTo(0,1);
-		});
-		document.onmousemove = document.ontouchmove = function(e) {
-			e.preventDefault();
-		};
 	};
 
 	$.extend(Handlers.prototype, {

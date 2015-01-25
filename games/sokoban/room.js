@@ -7,6 +7,7 @@ define(function(require) {
 	var parseWalls  = require("games/sokoban/room/walls");
 	var joinInterior  = require("games/sokoban/room/interior");
 
+	
 	var Room = function(stage, level){
 		this.stage = stage;
 		this.level = level;
@@ -18,22 +19,62 @@ define(function(require) {
 			parseWalls(this[roomConfig.wallsLayer]);
 		}
 		this.stage.addChild( joinInterior.call(this, this.interiorTiles) );
-		this.stage.canvas.width  = this.columns * Tiles.dimensions.width + roomConfig.additionalWidth;
-		this.stage.canvas.height = (this.rows+1) * Tiles.dimensions.height;
+		this.W = this.columns * Tiles.dimensions.width;// + roomConfig.additionalWidth;
+		this.H = (this.rows+1) * Tiles.dimensions.height;
+		this.resize();
+		this.attachEvents();
 
-		if (this.columns > this.rows+1) {
-			$(this.stage.canvas).css("width", "100%");
-			$(this.stage.canvas).css("height", "");
-		} else {
-			$(this.stage.canvas).css("width", "");
-			$(this.stage.canvas).css("height", "100%");
-		}
-		// this.stage.update();
 		this.initInformations();
 		this.logic = new Logic(this.player, this.interiorTiles);
 	};
 
 	Room.prototype.parse = parse;
+
+	Room.prototype.attachEvents = function() {
+		var canvas = document.getElementById('game');
+		canvas.oncontextmenu = function (e) {
+		    e.preventDefault();
+		};
+		// document.onresize = function(e) {
+		// 	window.scrollTo(0,1);
+		// 	this.resize();
+		// }.bind(this);
+		var viewport = function() {
+			window.scrollTo(0,1);
+			this.resize();
+		}.bind(this)
+		document.onmousemove = document.ontouchmove = function(e) {
+			e.preventDefault();
+		};
+		document.removeEventListener("orientationchange");
+		document.addEventListener("orientationchange", viewport);
+		window.removeEventListener('resize');
+		window.addEventListener('resize', viewport, true);
+	};
+
+	Room.prototype.resize = function() {
+		//we neeed the current; XXX: may store it n update it on orientation changes
+		//XXX: can store the scale factors for both orientations
+		//XXX: and change the chosen one on each orientation change
+		var screenW = window.innerWidth
+			|| document.documentElement.clientWidth
+			|| document.body.clientWidth;
+
+		var screenH = window.innerHeight
+			|| document.documentElement.clientHeight
+			|| document.body.clientHeight;
+
+		var scaleH = screenH / this.H;
+
+		//choose proper scale factor
+		var scale = (screenW >= scaleH * this.W) ?
+			scaleH : 
+			(screenW / this.W);
+		this.stage.canvas.width  = this.W;
+		this.stage.canvas.height = this.H;
+		$(this.stage.canvas).css("width", Math.floor(this.W * scale).toString()+"px");
+		$(this.stage.canvas).css("height", Math.floor(this.H * scale).toString()+"px");
+	};
 
 	Room.prototype.initInformations = function() {
 		this.infoContainer = this.stage.addChild(new createjs.Container()).set({
