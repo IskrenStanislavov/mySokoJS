@@ -15,7 +15,7 @@ define(function(require) {
 		}, "history":{
 			90: "undo",//ctrl+Z
 			89: "redo",//ctrl+Y
-			// 82: "reStart"//ctrl+R
+			82: "revertAll"//ctrl+R
 		}}
 	};
 
@@ -60,12 +60,12 @@ define(function(require) {
 		'handleCtrlCombination': function( keyId ) {
 			//XXX: think of ctrl+left.. as а go to the most left.. posible
 			var change = this.config.history[keyId];
-			if (change === "undo" && this.commandList.canMakeUndo() ) {
+			if ( change === "undo" ) {
 				this.commandList.goBack();
-			} else if (change === "redo" && this.commandList.canMakeRedo() ) {
+			} else if ( change === "redo" ) {
 				this.commandList.goForward();
-			// } else if ( change === "reStart" && this.commandList.canMakeUndo() ){
-			// 	this.commandList.reStart();
+			} else if ( change === "revertAll" ){
+				this.commandList.revertAll();
 			}
 			return !!change;
 		},

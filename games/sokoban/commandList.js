@@ -36,6 +36,13 @@ define(function(require) {
 	};
 
 	CommandList.prototype.goBack = function() {
+		if ( !this.canMakeUndo() ){
+			return;
+		}
+		this.rawUndo();
+	};
+
+	CommandList.prototype.rawUndo = function() {
 		var command = this.list[this.position];
 		this.moves -= command.countMoves();
 		this.pushes -= command.countPushes();
@@ -49,6 +56,9 @@ define(function(require) {
 	};
 
 	CommandList.prototype.goForward = function() {
+		if ( !this.canMakeRedo() ){
+			return;
+		}
 		this.position += 1;
 		var command = this.list[this.position];
 		this.moves += command.countMoves();
@@ -76,6 +86,12 @@ define(function(require) {
 
 	CommandList.prototype.canMakeRedo = function( ) {
 		return this.list.length-1 > this.position;
+	};
+
+	CommandList.prototype.revertAll = function( ) {
+		while ( this.canMakeUndo() ){
+			this.rawUndo();
+		}
 	};
 
 
