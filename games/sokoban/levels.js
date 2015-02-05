@@ -80,7 +80,7 @@ define(function(require) {
 	Levels.prototype.load = function() {
 		this.collectionsToLoad = config.collectionsToLoad;
 		this.levels = JSON.parse(localStorage.getItem("gameLevels",null));
-		if ( typeof this.levels !== "Array") {
+		if ( !this.levels || !this.levels.length ) {
 			this.levels = [];
 			var that = this;
 			config.collections.forEach(function(collection, ix) {
