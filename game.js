@@ -1,6 +1,5 @@
-define(function(require) {
-	require("libs/zepto.min");
-	var Sokoban = require("games/sokoban");
-	new Sokoban();
+define(["libs/zepto.min", "games/sokoban",
+], function(zepto, Sokoban) {
+	return new Sokoban();
 });
 
