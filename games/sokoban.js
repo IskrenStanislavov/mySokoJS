@@ -1,5 +1,3 @@
-//XXX: http://html5hub.com/screen-size-management-in-mobile-html5-games/
-
 //xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
 define(function(require) {
 	var Levels = require("games/sokoban/levels");
@@ -33,19 +31,19 @@ define(function(require) {
 		this.resize();
 
 		this.commandList.reset(this.currentRoom.records);
- 		this.handlers.refresh(this.currentRoom);
- 		var that = this;
- 		var solveCheck = setInterval(function(){
- 			if ( that.currentRoom.logic.checkForSolved() ){
- 				clearInterval(solveCheck);
- 					setTimeout(function(){
-		 				// that.children.length=0;
-						that.removeChild(that.currentRoom);
-						that.levels.markAsSolved();
-			 			that.start();
- 					},1000);
- 			};
- 		}, 100);
+		this.handlers.refresh(this.currentRoom);
+		var that = this;
+		var solveCheck = setInterval(function(){
+			if ( that.currentRoom.logic.checkForSolved() ){
+				clearInterval(solveCheck);
+				setTimeout(function(){
+					// that.children.length=0;
+					that.removeChild(that.currentRoom);
+					that.levels.markAsSolved();
+					that.start();
+				},1000);
+			};
+		}, 100);
 	};
 
 	return Sokoban;

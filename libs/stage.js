@@ -30,6 +30,8 @@ define(function(require) {
 		this.fittable = fittable;
 	};
 
+	//XXX: http://html5hub.com/screen-size-management-in-mobile-html5-games/
+
 	Stage.prototype.autoFitListeners = function() {
 		this.canvas.oncontextmenu = function (e) {
 		    e.preventDefault();
@@ -41,9 +43,7 @@ define(function(require) {
 		document.onmousemove = document.ontouchmove = function(e) {
 			e.preventDefault();
 		};
-		document.removeEventListener("orientationchange");
 		document.addEventListener("orientationchange", viewport);
-		window.removeEventListener('resize');
 		window.addEventListener('resize', viewport, true);
 	};
 
