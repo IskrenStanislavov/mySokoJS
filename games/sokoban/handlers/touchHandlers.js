@@ -18,6 +18,10 @@ define(function(require) {
 		},
 
 		"handleDown": function( event ) {
+		    if ( event.nativeEvent.button == 2 ) { 
+		        alert('rightclick');
+		        return; 
+		    } 
 			if ( this.logic.inDrag() ){
 				return event.preventDefault();
 			}
@@ -25,8 +29,6 @@ define(function(require) {
 				//wait for a new puzzle
 				return;
 			}
-			this.stage.removeChild(event.target);
-			this.stage.addChild(event.target);
 			this.logic.startDrag(event);
 			console.log('down', event, 'down at:('+this.startX+','+this.startY+')');
 		},
@@ -62,11 +64,9 @@ define(function(require) {
 			if ( !this.stage.children ) {
 				return;
 			}
-			var interior = this.stage.getChildByName("interior");
-			var player = interior.getChildByName("player");
-			player.on('mousedown', this.handleDown, this);
-			player.on('pressmove', this.handleMove, this);
-			player.on('pressup', this.handleUp, this);
+			this.stage.on('mousedown', this.handleDown, this);
+			this.stage.on('pressmove', this.handleMove, this);
+			this.stage.on('pressup', this.handleUp, this);
 			this.logic = logic;
 		},
 
