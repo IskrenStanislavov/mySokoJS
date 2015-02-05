@@ -51,6 +51,9 @@ define(function(require) {
 	};
 
 	Logic.prototype.checkForSolved = function(){
+		if ( this.inDrag() ) {
+			return false;
+		}
 		var checkedTiles = _.flatten(this.interior).filter(function(tile){
 			if (tile.isBox() && !tile.onTarget){
 				return tile;

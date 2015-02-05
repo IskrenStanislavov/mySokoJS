@@ -24,18 +24,8 @@ define(function(require) {
 		this.levels.load();
 	};
 
-	Sokoban.prototype.start = function(levelIndex) {
-		if (levelIndex === undefined){
-			console.log(levelIndex);
-			levelIndex = localStorage.getItem("currentLevel");
-			if (levelIndex === null){
-				levelIndex = -1;
-			} else {
-				levelIndex = JSON.parse(levelIndex);
-			}
-		}
-		localStorage.setItem("currentLevel", levelIndex);
-		var level = this.levels.getLevel(levelIndex);
+	Sokoban.prototype.start = function() {
+		var level = this.levels.getLevel();
 		this.currentRoom = new Room( level );
 		this.addChild(this.currentRoom);
 
@@ -48,13 +38,12 @@ define(function(require) {
  		var solveCheck = setInterval(function(){
  			if ( that.currentRoom.logic.checkForSolved() ){
  				clearInterval(solveCheck);
- 				that.on("pressup",function(){
  					setTimeout(function(){
 		 				// that.children.length=0;
-						that.removeChild(this.currentRoom);
-			 			that.start(levelIndex+1);
- 					},5000);
- 				},that, true);
+						that.removeChild(that.currentRoom);
+						that.levels.markAsSolved();
+			 			that.start();
+ 					},1000);
  			};
  		}, 100);
 	};

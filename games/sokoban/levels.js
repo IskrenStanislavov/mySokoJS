@@ -84,7 +84,6 @@ define(function(require) {
 			this.levels = [];
 			var that = this;
 			config.collections.forEach(function(collection, ix) {
-				console.warn(collection.path);
 				$.getJSON(collection.path, collection.parseData.bind(that) );
 			});
 		} else {
@@ -93,11 +92,17 @@ define(function(require) {
 
 	};
 
-	Levels.prototype.getLevel = function(index){
-		if ( !~index ) { //-1
+	Levels.prototype.markAsSolved = function() {
+		localStorage.setItem("currentLevel", (this.currentLevel+1)%this.levels.length);
+	};
+
+	Levels.prototype.getLevel = function(){
+		this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || -1);
+		console.log("level:", this.currentLevel);
+		if ( !~this.currentLevel ) { //-1
 			return config.testLevel;
 		}
-		return this.levels[index];
+		return this.levels[this.currentLevel];
 	};
 
 	return Levels;
