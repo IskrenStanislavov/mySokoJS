@@ -92,9 +92,7 @@ define(function(require) {
 
 	Tile.prototype.redrawWall = function(newWall) {
 		console.log(newWall);
-		var spriteImage = tileConfig.WallKinds[newWall];
-		this.sprite.gotoAndStop(spriteImage);
-		// this.kind = spriteImage;
+		this.sprite.gotoAndStop(newWall);
 	};
 
 	Tile.prototype.isPlayer = function(){
@@ -106,6 +104,7 @@ define(function(require) {
 	//XXX: Tile.move - plays animation when the player moves the main caracter
 	//XXX: Tile.undo - plays animation when the player moves back in the history
 	//XXX: TIle.still - static image
+	//XXX: TIle.onTarget - static image
 
 	Tile.prototype.setFree = function(){
 		return this.kind = "transparent";

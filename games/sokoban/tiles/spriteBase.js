@@ -8,19 +8,14 @@ define(function(require) {
 	var Floor = tileConfig.Floors;
 
 	var Sprite = function(kind){
-		this.kind = kind;
-		this.initialize(
-			new createjs.SpriteSheet(tileConfig.getSpriteData(this.kind)),
-			this.kind
-		);
-		if ( this.kind === "player" ){
-			this.name = this.kind;
-		}
+		this.name = this.kind = kind;
+		createjs.Sprite.call(this, new createjs.SpriteSheet(tileConfig[this.kind]));
+		this.gotoAndStop(kind);
 
 	};
 
 	$.extend(Sprite, tileConfig);
-	Sprite.prototype = new createjs.Sprite();
+	Sprite.prototype = Object.create( createjs.Sprite.prototype );
 	Sprite.prototype.Sprite_cloneProps = Sprite.prototype.cloneProps;// Sprite.
 
 	// createjs.Sprite.clone() calls createjs.Sprite.cloneProps()
