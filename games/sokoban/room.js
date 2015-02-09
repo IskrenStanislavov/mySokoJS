@@ -3,23 +3,17 @@ define(function(require) {
 	var roomConfig  = require("games/sokoban/room/config");
 	var Logic  = require("games/sokoban/room/logic");
 	var Records  = require("games/sokoban/room/records");
-	var parse  = require("games/sokoban/room/parser");
 	var parseWalls  = require("games/sokoban/room/walls");
-	var joinInterior  = require("games/sokoban/room/interior");
+	require('libs/underscore');
 
 	
 	var Room = function( level ){
 		createjs.Container.call(this);
 		this.level = level;
-		this.rows = 0; 		//set in the parse() call
-		this.columns = 0; 	//set in the parse() call
-		this.player = null; //set in the parse() call
-		this.parse( level.levelData, roomConfig.roomKinds[level.format] );
-		if (this.propertyIsEnumerable(roomConfig.wallsLayer)){
-			parseWalls(this[roomConfig.wallsLayer]);
-		}
-		this.addChild( joinInterior.call(this, this.interiorTiles) );
-		this.W = this.columns * Tiles.dimensions.width;// + roomConfig.additionalWidth;
+		this.parseTiles();
+		this.parseWalls(this.interiorTiles);
+		this.joinInterior()
+		this.W = this.columns * Tiles.dimensions.width + roomConfig.additionalWidth;
 		this.H = (this.rows+1) * Tiles.dimensions.height;
 
 		this.initInformations();
@@ -28,7 +22,47 @@ define(function(require) {
 	Room.prototype = Object.create(createjs.Container.prototype);
 
 
-	Room.prototype.parse = parse;
+	Room.prototype.parseTiles = function() {
+		var cCol = 0;
+		var stringLevel = this.level.levelData;
+		var iso = roomConfig.roomKinds[this.level.format];
+
+		this.rows = 0;
+		this.columns = 0;
+		this.player = null;
+
+		this.interiorTiles = [[]];
+		for ( var i=0; i<stringLevel.length; i+=1 ) {
+			symbol = stringLevel[i];
+			if ( iso[symbol] === undefined ) {
+				throw "Tile misconfig:" + symbol;
+			} else if (iso[symbol].newLine) {
+				this.rows += 1;
+				this.columns = Math.max(this.columns, cCol);
+				this.interiorTiles.push([]);
+				cCol = 0;
+			} else {
+				this.interiorTiles[this.rows].push(Tiles.newTile({
+					"row": this.rows,
+					"column": cCol,
+					"kind": iso[symbol].interior || "empty",
+					"onTarget": iso[symbol].onTarget,
+				}));
+				cCol += 1;
+			}
+		}
+	};
+	Room.prototype.parseWalls = parseWalls;
+
+
+	Room.prototype.joinInterior = function(){
+		_.flatten(this.interiorTiles, true).forEach(function(tile){
+			if (!this.player && tile.kind === "player"){
+				this.player = tile;
+			}
+			this.addChild(tile.sprite);
+		}.bind(this));
+	};
 
 	Room.prototype.initInformations = function() {
 		this.infoContainer = this.addChild(new createjs.Container()).set({

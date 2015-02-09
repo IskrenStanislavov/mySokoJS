@@ -1,7 +1,6 @@
 define(function(require) {
 	var Config = {
 		"additionalWidth":200,
-		"wallsLayer":"interiorTiles",
 		"roomKinds": {
 			"iso": {
 				"P": {

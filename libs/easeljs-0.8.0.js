@@ -27013,3 +27013,8 @@ createjs.indexOf = function (array, searchElement){
 	s.buildDate = /*=date*/"Thu, 11 Dec 2014 23:32:09 GMT"; // injected by build process
 
 })();
+if (window.define){
+	define(function() {
+		return this.createjs;
+	});
+}

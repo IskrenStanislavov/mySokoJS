@@ -31,6 +31,11 @@ define(function(require) {
 
 	$.extend(Factory.prototype, {
 		"newTile": function(data) {
+			// tile = new Tile(data.kind);
+			// tile.row = data.row;
+			// tile.column = data.column;
+			// tile.onTarget = data.onTarget;
+			// return tile;
 			return this.bases[data.kind].cloneAt(data.row, data.column, data.onTarget );
 		},
 	});
