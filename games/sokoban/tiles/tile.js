@@ -13,7 +13,6 @@ define(function(require) {
 	var createjs	= require('libs/easeljs-0.7.1.min');
 	var tileConfig  = require('games/sokoban/tiles/config');
 	var SpriteBase  = require('games/sokoban/tiles/spriteBase');
-	var Floor = tileConfig.Floors;
 
 	var Tile = function(kind, sprite){
 		this.kind = kind;
@@ -56,7 +55,7 @@ define(function(require) {
 	Tile.prototype.setOnTarget = function( value ){
 		this.onTarget = value;
 		if (value){
-			this.sprite.gotoAndStop( tileConfig.onTarget[this.kind] );
+			this.sprite.gotoAndStop( "onTarget" );
 		} else {
 			this.sprite.gotoAndStop( this.kind );
 		}
@@ -104,7 +103,7 @@ define(function(require) {
 	//XXX: Tile.move - plays animation when the player moves the main caracter
 	//XXX: Tile.undo - plays animation when the player moves back in the history
 	//XXX: TIle.still - static image
-	//XXX: TIle.onTarget - static image
+	//XXX: TIle.onTarget - changes tile to be on a target place - can be a setter/getter
 
 	Tile.prototype.setFree = function(){
 		return this.kind = "transparent";

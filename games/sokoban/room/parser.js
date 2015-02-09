@@ -23,7 +23,7 @@ define(function(require) {
 					"row": this.rows,
 					"column": cCol,
 					//use transparent Tile instead of null:
-					"kind": iso[symbol].interior || "transparent",
+					"kind": iso[symbol].interior || "empty",
 					"onTarget": iso[symbol].onTarget,
 				}));
 				cCol += 1;

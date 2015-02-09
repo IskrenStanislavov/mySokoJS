@@ -22,7 +22,6 @@ define(function(require) {
 	Config.delta = Config.deltaX = Config.deltaY = Config.dimensions.width; 
 
 	Config.kinds = {//tileKind n tileAnimations
-			"transparent":-1,
 			"empty":0,
 			'player':1,
 			'box':2,
@@ -50,17 +49,6 @@ define(function(require) {
 			'info': 24,
 			'undo': 25,
 			'redo': 26,
-	};
-
-	Config.onTarget = {
-		"player": 8,
-		"empty": 7,
-		"box": 9
-	};
-
-	Config.Floors = {
-		"ground": 0,
-		"first": 1
 	};
 
 	var baseData = {
@@ -91,54 +79,37 @@ define(function(require) {
 		"horizontal": 	15,
 		"cross": 		14,
 		"core": 		16,
-		// "wall"
 	};
 
 	Config.player = Object.create(baseData);
 	Config.player.animations = {
 		'player': 1,
 		// 'normal': 1,
-		// "onTarget": 8,
+		"onTarget": 8,
 	};
 
 	Config.box = Object.create(baseData);
 	Config.box.animations = {
 		'box': 2,
 		// 'normal': 2,
-		// "onTarget": 9,
-	};
-
-	Config.transparent = Object.create(baseData);
-	Config.transparent.animations = {
-		"transparent":-1,
-		// 'normal': -1,
-		// "onTarget": -1,
+		"onTarget": 9,
 	};
 
 	Config.empty = Object.create(baseData);
 	Config.empty.animations = {
 		"empty": 0,
 		// "normal": 0,
-		// "onTarget": 7,
+		"onTarget": 7,
 	};
 	Config.author = Object.create(baseData);
 	Config.author.animations = {
 		"author": 23,
 		// "normal": 23,
-		// "onTarget": 23,
+		"onTarget": 23,
 	};
 
 
-	Config.firstFloorTiles = ["player", "wall", "box", "transparent", "empty", "author"];
-
-	Config.getSpriteData = function(kind) {
-		if ( kind === "wall" ) {
-			return baseWall;
-		}
-		data = Object.create(baseData);
-		data.animations[kind] = Config.kinds[kind];
-        return data;
-	};
+	Config.firstFloorTiles = ["player", "wall", "box", "empty", "author"];
 
 	return Config;
 
