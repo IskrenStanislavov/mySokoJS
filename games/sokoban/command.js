@@ -42,7 +42,6 @@ define(function(require) {
 		var f = this.tiles[0];
 		var l = this.tiles[1];
 		if ( this.isPush ) {
-			console.log(this.onTarget);
 			p.positionAt(p.row + ni.row[0], p.column + ni.column[0]);
 			f.positionAt(f.row + ni.row[0], f.column + ni.column[0]);
 			l.positionAt(l.row - ni.row[1], l.column - ni.column[1]);

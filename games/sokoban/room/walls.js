@@ -12,6 +12,7 @@ define(function(require) {
 			walls.push([]);
 			tileRow.forEach(function(tile, colIndex) {
 				if (tile.isWall() ) {
+					walls[rowIndex].push(tile);
 					var longerings = 0;
 
 					var above = false;
@@ -44,6 +45,7 @@ define(function(require) {
 					longerings += left;
 					longerings += right;
 
+					console.warn(left, right, above, below);
 
 					if ( longerings === 4 ) {//4
 						tile.redrawWall( 'cross' );

@@ -12,7 +12,6 @@ define(function(require) {
 		this.level = level;
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
-		this.joinInterior()
 		this.W = this.columns * Tiles.dimensions.width + roomConfig.additionalWidth;
 		this.H = (this.rows+1) * Tiles.dimensions.height;
 
@@ -42,27 +41,21 @@ define(function(require) {
 				this.interiorTiles.push([]);
 				cCol = 0;
 			} else {
-				this.interiorTiles[this.rows].push(Tiles.newTile({
+				var tile = this.addChild(Tiles.newTile({
 					"row": this.rows,
 					"column": cCol,
 					"kind": iso[symbol].interior || "empty",
 					"onTarget": iso[symbol].onTarget,
 				}));
+				this.interiorTiles[this.rows].push(tile);
+				if (!this.player && tile.kind === "player"){
+					this.player = tile;
+				}
 				cCol += 1;
 			}
 		}
 	};
 	Room.prototype.parseWalls = parseWalls;
-
-
-	Room.prototype.joinInterior = function(){
-		_.flatten(this.interiorTiles, true).forEach(function(tile){
-			if (!this.player && tile.kind === "player"){
-				this.player = tile;
-			}
-			this.addChild(tile.sprite);
-		}.bind(this));
-	};
 
 	Room.prototype.initInformations = function() {
 		this.infoContainer = this.addChild(new createjs.Container()).set({

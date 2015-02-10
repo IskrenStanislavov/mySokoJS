@@ -24,8 +24,7 @@ define(function(require) {
 
 	Sokoban.prototype.start = function() {
 		var level = this.levels.getLevel();
-		this.currentRoom = new Room( level );
-		this.addChild(this.currentRoom);
+		this.currentRoom = this.addChild(new Room( level ));
 
 		this.setAutoFit(this.currentRoom);
 		this.resize();
@@ -33,6 +32,7 @@ define(function(require) {
 		this.commandList.reset(this.currentRoom.records);
 		this.handlers.refresh(this.currentRoom);
 		var that = this;
+		// return;
 		var solveCheck = setInterval(function(){
 			if ( that.currentRoom.logic.checkForSolved() ){
 				clearInterval(solveCheck);
@@ -43,7 +43,7 @@ define(function(require) {
 					that.start();
 				},1000);
 			};
-		}, 100);
+		}, 500);
 	};
 
 	return Sokoban;

@@ -1,27 +1,18 @@
 // in this file is the sprite related logic of the tiles
 
-//XXX: separate sprite from move and maths logics
-if (typeof Object.beget !== 'function') {
-	Object.beget = function(o) {
-    	var F = function() {};
-        F.prototype = o;
-        return new F();
-    };
-}
-
 define(function(require) {
 	var createjs	= require('libs/easeljs-0.7.1.min');
 	var tileConfig  = require('games/sokoban/tiles/config');
-	var SpriteBase  = require('games/sokoban/tiles/spriteBase');
 
-	var Tile = function(kind, sprite){
-		this.kind = kind;
-
-		if ( sprite === undefined ) {
-			sprite = new SpriteBase(kind);
+	var Tile = function(kind, spriteSheet){
+		this.name = this.kind = kind;
+		if ( spriteSheet === undefined ) {
+			spriteSheet = new createjs.SpriteSheet(tileConfig[kind]);
 		}
-		this.sprite = sprite.clone();
+		createjs.Sprite.call(this, spriteSheet);
 	};
+
+	Tile.prototype = Object.create( createjs.Sprite.prototype );
 
 	Tile.dimensions = tileConfig.dimensions;
 
@@ -32,7 +23,7 @@ define(function(require) {
 
 	Tile.prototype.cloneAt = function(row, column, onTarget) {
 		// var clonning = this.clone(); //doesnt work - returns Sprite instance
-		var clonning = new Tile(this.kind, this.sprite);
+		var clonning = new Tile(this.kind, this.spriteSheet.clone());
 		clonning.initialPositions.row = row;
 		clonning.initialPositions.column = column;
 		clonning.positionAt(row, column);
@@ -47,17 +38,17 @@ define(function(require) {
 		// used to reposition the tile
 		this.row = row;
 		this.column = column;
-		this.sprite.x = this.dimensions.width * this.column;
-		this.sprite.y = this.dimensions.height * this.row;
-		// console.warn(this.kind, "positioned@", this.sprite.x, this.sprite.y);
+		this.x = this.dimensions.width * this.column;
+		this.y = this.dimensions.height * this.row;
+		// console.warn(this.kind, "positioned@", this.x, this.y);
 	};
 
 	Tile.prototype.setOnTarget = function( value ){
 		this.onTarget = value;
 		if (value){
-			this.sprite.gotoAndStop( "onTarget" );
+			this.gotoAndStop( "onTarget" );
 		} else {
-			this.sprite.gotoAndStop( this.kind );
+			this.gotoAndStop( this.kind );
 		}
 	};
 
@@ -77,21 +68,13 @@ define(function(require) {
 		return this.kind === "box";
 	};
 
-	Tile.prototype.isTarget = function(kind){
-		return this.kind === "target";
-	};
-
-	Tile.prototype.isEmpty = function(){
-		return this.kind === "empty";
-	};
-
 	Tile.prototype.isFree = function(){
 		return this.kind === "empty";
 	};
 
 	Tile.prototype.redrawWall = function(newWall) {
 		console.log(newWall);
-		this.sprite.gotoAndStop(newWall);
+		this.gotoAndStop(newWall);
 	};
 
 	Tile.prototype.isPlayer = function(){

@@ -57,7 +57,7 @@ define(function(require) {
 		'frames'	: Config.dimensions,
 	};
 
-	Config.wall = Object.create(baseData);
+	Config.wall = $.extend({}, baseData);
 	Config.wall.animations = {
 		"wall": 		22,
 		"Ttop": 		 3,
@@ -81,33 +81,32 @@ define(function(require) {
 		"core": 		16,
 	};
 
-	Config.player = Object.create(baseData);
+	Config.player = $.extend({}, baseData);
 	Config.player.animations = {
 		'player': 1,
 		// 'normal': 1,
 		"onTarget": 8,
 	};
 
-	Config.box = Object.create(baseData);
+	Config.box = $.extend({}, baseData);
 	Config.box.animations = {
 		'box': 2,
 		// 'normal': 2,
 		"onTarget": 9,
 	};
 
-	Config.empty = Object.create(baseData);
+	Config.empty = $.extend({}, baseData);
 	Config.empty.animations = {
 		"empty": 0,
 		// "normal": 0,
 		"onTarget": 7,
 	};
-	Config.author = Object.create(baseData);
+	Config.author = $.extend({}, baseData);
 	Config.author.animations = {
 		"author": 23,
 		// "normal": 23,
 		"onTarget": 23,
 	};
-
 
 	Config.firstFloorTiles = ["player", "wall", "box", "empty", "author"];
 
