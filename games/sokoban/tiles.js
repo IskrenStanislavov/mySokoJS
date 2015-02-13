@@ -1,13 +1,39 @@
+//Tile factory pattern used - ??? to be used ???
+
+// each tile has a onTarget propery that modifies the image
+
+
+
+// playerTile can move, handlers controlled
+// box Tile can move - player can move it towards the direction
+
+// wall - never moves, always in state: "full"
+// target - never moves, but can have states: empty, box, player
+// empty - doesn move, but can exchange with player only!
 
 define(function(require) {
-	var TileFactory = require('games/sokoban/tiles/factory');
-	var TileConfig = require('games/sokoban/tiles/config');
-	var factory = new TileFactory();
+	var Tile 		= require('games/sokoban/tiles/tile');
+	var Config 		= require('games/sokoban/tiles/config');
 
-	return {
-		'newTile': factory.newTile.bind(factory),
-		"player": factory.player,
-		"dimensions": TileConfig.dimensions,
+	var Factory = function(){
+		// ground level tiles: target, box-initial positions & player initial positions, initial walls
+		this.bases = {};
+		var that = this;
+
+		Config.firstFloorTiles.forEach(function( kind, idx ) {
+			that.bases[kind] = new Tile( kind );
+			// console.warn(kind);
+		});
+
+		this.player =  this.bases["player"];
+		this.dimensions = Config.dimensions;
 	};
 
+	$.extend(Factory.prototype, {
+		"newTile": function(data) {
+			return this.bases[data.kind].cloneAt(data.row, data.column, data.onTarget );
+		},
+	});
+
+	return Factory;
 });

@@ -1,5 +1,13 @@
 // in this file is the sprite related logic of the tiles
 
+//XXX: Tile.success - animate "win" for the current tile when solved or moved to the correct place
+//XXX: Tile.begin - plays animation when the game starts
+//XXX: Tile.move - plays animation when the player moves the main caracter
+//XXX: Tile.undo - plays animation when the player moves back in the history
+//XXX: TIle.still - static image
+//XXX: TIle.onTarget - changes tile to be on a target place - can be a setter/getter
+
+
 define(function(require) {
 	var createjs	= require('libs/easeljs-0.7.1.min');
 	var tileConfig  = require('games/sokoban/tiles/config');
@@ -23,7 +31,8 @@ define(function(require) {
 
 	Tile.prototype.cloneAt = function(row, column, onTarget) {
 		// var clonning = this.clone(); //doesnt work - returns Sprite instance
-		var clonning = new Tile(this.kind, this.spriteSheet.clone());
+		//spriteSheet.clone() cannot be cloned!!
+		var clonning = new Tile(this.kind, this.spriteSheet);
 		clonning.initialPositions.row = row;
 		clonning.initialPositions.column = column;
 		clonning.positionAt(row, column);
@@ -80,13 +89,6 @@ define(function(require) {
 	Tile.prototype.isPlayer = function(){
 		return this.kind === "player";
 	};
-
-	//XXX: Tile.success - animate "win" for the current tile when solved or moved to the correct place
-	//XXX: Tile.begin - plays animation when the game starts
-	//XXX: Tile.move - plays animation when the player moves the main caracter
-	//XXX: Tile.undo - plays animation when the player moves back in the history
-	//XXX: TIle.still - static image
-	//XXX: TIle.onTarget - changes tile to be on a target place - can be a setter/getter
 
 	Tile.prototype.setFree = function(){
 		return this.kind = "transparent";

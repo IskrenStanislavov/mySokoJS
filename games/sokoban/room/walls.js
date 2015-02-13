@@ -1,7 +1,6 @@
 // recalculate the walls after initial parsing
 
 define(function(require) {
-	var Tiles  = require("games/sokoban/tiles");
 
 	var Walls = function(bunchOfTiles) {
 		var walls = [];

@@ -1,3 +1,4 @@
+//xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
 
 define(function(require) {
 	var Level = function(author, collectionName, levelData, format, levelName) {
@@ -43,7 +44,7 @@ define(function(require) {
 
 	var config = {
 		'collectionsToLoad': 1,
-		'testLevel': new Level("Isko", "test", testLevelData, "iso"),
+		'testLevel': new Level("Isko", "intro", testLevelData, "iso"),
 		'collections': [
 			// {"path":   "games/sokoban/levels/levels_iskren.json", "format": "iso", "parseData": 
 			// function(data){

@@ -1,5 +1,4 @@
 define(function(require) {
-	var Tiles  = require("games/sokoban/tiles");
 	var roomConfig  = require("games/sokoban/room/config");
 	var Logic  = require("games/sokoban/room/logic");
 	var Records  = require("games/sokoban/room/records");
@@ -7,13 +6,14 @@ define(function(require) {
 	require('libs/underscore');
 
 	
-	var Room = function( level ){
+	var Room = function( level, tileFactory ){
 		createjs.Container.call(this);
+		this.tileFactory = tileFactory;
 		this.level = level;
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
-		this.W = this.columns * Tiles.dimensions.width + roomConfig.additionalWidth;
-		this.H = (this.rows+1) * Tiles.dimensions.height;
+		this.W = this.columns * this.tileFactory.dimensions.width + roomConfig.additionalWidth;
+		this.H = (this.rows+1) * this.tileFactory.dimensions.height;
 
 		this.initInformations();
 		this.logic = new Logic(this.player, this.interiorTiles);
@@ -41,7 +41,7 @@ define(function(require) {
 				this.interiorTiles.push([]);
 				cCol = 0;
 			} else {
-				var tile = this.addChild(Tiles.newTile({
+				var tile = this.addChild(this.tileFactory.newTile({
 					"row": this.rows,
 					"column": cCol,
 					"kind": iso[symbol].interior || "empty",
@@ -59,7 +59,7 @@ define(function(require) {
 
 	Room.prototype.initInformations = function() {
 		this.infoContainer = this.addChild(new createjs.Container()).set({
-			"x": (0.5 + this.columns) * Tiles.dimensions.width,
+			"x": (0.5 + this.columns) * this.tileFactory.dimensions.width,
 			"name": "info",
 		});
 
