@@ -75,7 +75,7 @@ define(function(require) {
 			if (!move){
 				return !!move;
 			}
-console.warn(move);
+
 			var action = this.logic.getActionData(move);
 			if ( action ){
 				this.commandList.addCommand( action );

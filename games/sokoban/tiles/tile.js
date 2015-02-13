@@ -82,7 +82,6 @@ define(function(require) {
 	};
 
 	Tile.prototype.redrawWall = function(newWall) {
-		console.log(newWall);
 		this.gotoAndStop(newWall);
 	};
 

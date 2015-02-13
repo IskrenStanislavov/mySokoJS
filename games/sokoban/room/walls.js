@@ -44,8 +44,6 @@ define(function(require) {
 					longerings += left;
 					longerings += right;
 
-					console.warn(left, right, above, below);
-
 					if ( longerings === 4 ) {//4
 						tile.redrawWall( 'cross' );
 					} else if ( longerings === 3 ) {
@@ -83,12 +81,10 @@ define(function(require) {
 							tile.redrawWall( 'bottomEdge' );
 						}
 					}
-
-
 				}
 			});
 		});
-		console.warn(walls);
+		// console.warn(walls);
 	};
 
 	return Walls;

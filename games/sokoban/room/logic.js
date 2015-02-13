@@ -26,6 +26,7 @@ define(function(require) {
 		pNr.history = "backward";
 		pNr.onTargetIndexes = {"push":[0,1,2],"move":[0,1]};
 		// pNr.worksOn = worksOn;
+		this.toString = function(){return this.direction;}
 	};
 
 	Direction.prototype.getRevertNeighbours = function() {
@@ -178,7 +179,7 @@ define(function(require) {
 		} else {
 			this.dragEvents.push(nextDrag);
 			this.dragDirections.push(direction);
-			console.log('move', direction);
+
 			var action = this.getActionData(direction);
 			if ( action ){
 				this.addCommand( action );

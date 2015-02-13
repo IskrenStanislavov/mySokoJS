@@ -14,19 +14,6 @@ define(function(require) {
 		this.pushes = this.isPush * 1;
 	};
 
-	// Command.prototype.addMove = function( move ) {
-	// 	if ( this.shouldReplace() ) {
-	// 		this.clearFrom( this.position + 1 );
-	// 	}
-	// 	this.list.push(command);
-	// 	this.position += 1;
-
-	// 	command.execute();
-
-	// 	console.log( command.toString() );// console.error( this.list );
-	// };
-
-
 	Command.prototype.countPushes = function() {
 		//XXX: touches & longer move
 		return this.pushes;
