@@ -25,7 +25,6 @@ define(function(require) {
 			// console.warn(kind);
 		});
 
-		this.player =  this.bases["player"];
 		this.dimensions = Config.dimensions;
 	};
 

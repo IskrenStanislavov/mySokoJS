@@ -1,6 +1,7 @@
 
 define(function(require) {
 	var Logic   = require("games/sokoban/room/logic");
+	var Direction  = require('games/sokoban/room/direction');
 
 	var Handlers = function( commandList, stage ) {
 		this.commandList = commandList;
@@ -8,10 +9,10 @@ define(function(require) {
 		this.currentKeyDown = null;
 		this.config = {'moves':{
 			// keyCode | action
-			37: Logic.directions.Left,
-			38: Logic.directions.Up,
-			39: Logic.directions.Right,
-			40: Logic.directions.Down,
+			37: Direction.instances.Left,
+			38: Direction.instances.Up,
+			39: Direction.instances.Right,
+			40: Direction.instances.Down,
 		}, "history":{
 			90: "undo",//ctrl+Z
 			89: "redo",//ctrl+Y
