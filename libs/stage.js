@@ -63,6 +63,7 @@ define(function(require) {
 			|| document.body.clientHeight;
 
 		var scaleH = screenH / this.fittable.H;
+		scaleH = Math.min(scaleH,1);
 
 		//choose proper scale factor
 		var scale = (screenW >= scaleH * this.fittable.W) ?
