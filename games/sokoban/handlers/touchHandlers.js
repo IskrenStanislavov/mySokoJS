@@ -2,7 +2,6 @@
 // see: http://www.javascripttoolbox.com/lib/contextmenu/
 
 define(function(require) {
-	var createjs	= require('libs/easeljs-0.7.1.min');
 	var Logic       = require("games/sokoban/room/logic");
 
 	var Handlers = function(commandList, stage) {

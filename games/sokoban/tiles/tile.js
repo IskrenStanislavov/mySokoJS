@@ -9,7 +9,6 @@
 
 
 define(function(require) {
-	var createjs	= require('libs/easeljs-0.7.1.min');
 	var tileConfig  = require('games/sokoban/tiles/config');
 
 	var Tile = function(kind, spriteSheet){

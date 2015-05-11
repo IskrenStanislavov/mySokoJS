@@ -1,6 +1,5 @@
 define(function(require) {
 
-	var createjs	= require('libs/easeljs-0.7.1.min');
 	var Stage = function( canvasId, settings ){
 		createjs.Stage.call(this, canvasId);
 
