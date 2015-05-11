@@ -5,6 +5,9 @@ define(function(require) {
 	var Stage = function( canvas, settings ){
 		this.renderer = PIXI.autoDetectRenderer(100, 100, {
 		    "view":document.getElementById("game"),
+		    "clearBeforeRender":true,
+		    "transparent": false,
+		    "resolution":2,
 		    "roundPixels": true,
 		    "antialias": true
 		});
