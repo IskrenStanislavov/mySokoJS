@@ -55,7 +55,11 @@ define(function(require) {
 			"top": nextDrag.stageY - this.player.y,
 			"bottom": this.player.y + tileConfig.deltaY - nextDrag.stageY,
 		};
-		var potentialDistance = _(distances).min();
+		var potentialDistance = Object.keys(distances).map(function(a,i){
+			return distances[a];
+		}).reduce(function(a,b){
+			return a<b? a:b;
+		});
 		// console.warn(distances); 
 		if ( potentialDistance > 0 ){
 			return null;

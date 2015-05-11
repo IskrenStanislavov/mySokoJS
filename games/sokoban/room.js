@@ -3,7 +3,6 @@ define(function(require) {
 	var Logic  = require("games/sokoban/room/logic");
 	var Records  = require("games/sokoban/room/records");
 	var parseWalls  = require("games/sokoban/room/walls");
-	require('libs/underscore');
 
 	
 	var Room = function( level, tileFactory ){

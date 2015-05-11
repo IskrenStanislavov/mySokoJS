@@ -13,7 +13,9 @@ define(function(require) {
 		if ( this.inDrag() ) {
 			return false;
 		}
-		var checkedTiles = _.flatten(this.interior).filter(function(tile){
+		var checkedTiles = this.interior.reduce(function(a, b){
+			return a.concat(b);
+		}).filter(function(tile){
 			if (tile.isBox() && !tile.onTarget){
 				return tile;
 			}
