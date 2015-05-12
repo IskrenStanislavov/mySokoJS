@@ -1,4 +1,6 @@
 define(function(require){
+    require("libs/zepto.min");
+
     var CustomLoader = require("libs/loader");
     var Sokoban        = require("games/pixi_sokoban");
 

@@ -97,7 +97,7 @@ define(function(require) {
 		localStorage.setItem("currentLevel", (this.currentLevel+1)%this.levels.length);
 	};
 
-	Levels.prototype.getLevel = function(){
+	Levels.prototype.getLevelData = function(){
 		this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || -1);
 		console.log("level:", this.currentLevel);
 		if ( !~this.currentLevel ) { //-1

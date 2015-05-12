@@ -24,7 +24,7 @@ define(function(require) {
 	};
 
 	Sokoban.prototype.start = function() {
-		var level = this.levels.getLevel();
+		var level = this.levels.getLevelData();
 		this.currentRoom = this.addChild(new Room( level, this.tileFactory ));
 
 		this.setAutoFit(this.currentRoom);

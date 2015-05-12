@@ -18,15 +18,11 @@ define(function(require) {
 			89: "redo",//ctrl+Y
 			82: "revertAll"//ctrl+R
 		}}
+		document.onkeydown = this.keyDown.bind(this);
+		document.onkeyup = this.keyUp.bind(this);
 	};
 
 	$.extend(Handlers.prototype, {
-
-		"init": function() {
-			document.onkeydown = this.keyDown.bind(this);
-			document.onkeyup = this.keyUp.bind(this);
-			console.warn("keys");
-		},
 
 		'getEvent': function(evt) {
 			return (evt) ? evt : ((window.event) ? window.event : null);

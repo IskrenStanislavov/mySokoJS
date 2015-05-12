@@ -7,9 +7,6 @@ define(function(require) {
 	var Handlers = function(commandList, stage) {
 		this.stage = stage;
 		this.commandList = commandList;
-		console.warn("touch");
-		// enable touch interactions if supported on the current device:
-		createjs.Touch.enable( this.stage, true, true ); //single touch, prevent default
 	};
 
 	$.extend(Handlers.prototype, {
@@ -61,9 +58,11 @@ define(function(require) {
 			if ( !this.stage.children ) {
 				return;
 			}
-			this.stage.on('mousedown', this.handleDown, this);
-			this.stage.on('pressmove', this.handleMove, this);
-			this.stage.on('pressup', this.handleUp, this);
+			// this.stage.interactive = true;
+			// this.stage.mousedown = this.stage.touchstart = this.handleDown.bind(this);
+			// this.stage.mousemove = this.stage.touchmove = this.handleMove.bind(this);
+			// this.stage.mouseup = this.stage.touchend = this.handleUp.bind(this);
+			// this.stage.on('pressup', this.handleUp, this);
 			this.logic = logic;
 		},
 

@@ -2,7 +2,7 @@
 
 define(function(require) {
 	var KeyHandlers = require("games/sokoban/handlers/keyHandlers");
-	var TouchHandlers = require("games/sokoban/handlers/touchHandlers");
+	var TouchHandlers = require("games/sokoban/handlers/pixi_touchHandlers");
 
 	var Handlers = function(stage, commandList) {
 		this.stage = stage;
@@ -12,6 +12,10 @@ define(function(require) {
 	};
 
 	$.extend(Handlers.prototype, {
+
+		"init": function() {
+			//XXX: consider if needed mouse & touch handling separation
+		},
 
 		"refresh": function(room) {
 			this.keyHandlers && this.keyHandlers.refresh(room.logic);

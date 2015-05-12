@@ -1,10 +1,9 @@
 define(function(require) {
 	var Levels = require("games/sokoban/levels");
-	var Room  = require("games/sokoban/room");
+	var Room  = require("games/sokoban/pixi_room");
 	var Stage  = require("libs/custom_stage");
-	var Handlers = require("games/sokoban/handlers");
+	var Handlers = require("games/sokoban/pixi_handlers");
 	var CommandList = require("games/sokoban/commandList");
-	var TileFactory = require('games/sokoban/tiles');
     var PIXI        = require("libs/pixi");
 
 	var Sokoban = function(){
@@ -19,7 +18,6 @@ define(function(require) {
 
 	Sokoban.prototype.init = function() {
 		this.commandList = new CommandList();
-		this.tileFactory = new TileFactory();
 		this.handlers = new Handlers(this, this.commandList);
 		this.levels = new Levels(function(){
 			this.start();
@@ -28,8 +26,7 @@ define(function(require) {
 	};
 
 	Sokoban.prototype.start = function() {
-		var level = this.levels.getLevel();
-		this.currentRoom = this.addChild(new Room( level, this.tileFactory ));
+		this.currentRoom = this.addChild(new Room(this.levels.getLevelData()));
 
 		this.setAutoFit(this.currentRoom);
 		this.resize();

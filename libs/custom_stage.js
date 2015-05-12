@@ -7,12 +7,17 @@ define(function(require) {
 		    "view":document.getElementById("game"),
 		    "clearBeforeRender":true,
 		    "transparent": false,
-		    "resolution":2,
+		    "resolution":1,
 		    "roundPixels": true,
 		    "antialias": true
 		});
+		this.canvas = this.renderer.view;
+		document.body.appendChild(this.canvas);
 
-		PIXI.Stage.call(this, 0x3065a2);
+
+		this.color = 0x3065a2;
+		this.color = "black";
+		PIXI.Stage.call(this, this.color);
 
 		this.update = function(){
 		    this.renderer.render(this);
@@ -22,9 +27,6 @@ define(function(require) {
 			this.update();
 		}.bind(this));
 
-
-		this.canvas = this.renderer.view;
-		document.body.appendChild(this.canvas);
 
 		this.initSettings(settings);
 		this.fittable = null;
