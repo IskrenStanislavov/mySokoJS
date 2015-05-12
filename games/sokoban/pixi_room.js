@@ -8,9 +8,8 @@ define(function(require) {
 	var tileConfig  = require('games/sokoban/tiles/pixi_config');
 
 	
-	var Room = function( level, tileFactory ){
+	var Room = function( level ){
 		PIXI.DisplayObjectContainer.call(this);
-		// tileConfig = new TileFactory();
 		this.level = level;
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
