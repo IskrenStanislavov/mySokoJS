@@ -17,21 +17,21 @@ define(function(require) {
 
 	Sokoban.prototype.start = function() {
 		var that = this;
-		// that.currentRoom = that.addChild(new Room(that.levels.getLevelData()));
+		// that.currentLevel = that.addChild(new Room(that.levels.getLevelData()));
 		// that.handlers = new Handlers(that, that.commandList);
-		// that.commandList.reset(that.currentRoom.records);
-		// that.handlers.refresh(that.currentRoom);
-		that.currentRoom = that.levels.next();
+		// that.commandList.reset(that.currentLevel.records);
+		// that.handlers.refresh(that.currentLevel);
+		that.currentLevel = that.levels.next();
 		that.setAutoFit({
-			W: that.currentRoom.width,
-			H: that.currentRoom.height
+			W: that.currentLevel.width,
+			H: that.currentLevel.height
 		});
 		that.resize();
 		var solveCheck = setInterval(function(){
-			if ( that.currentRoom.logic.checkForSolved() ){
+			if ( that.currentLevel.logic.checkForSolved() ){
 				clearInterval(solveCheck);
 				setTimeout(function(){
-					that.removeChild(that.currentRoom);
+					that.removeChild(that.currentLevel);
 					that.levels.markAsSolved();
 					that.start();
 				},1000);
