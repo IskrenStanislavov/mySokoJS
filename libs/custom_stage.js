@@ -22,29 +22,27 @@ define(function(require) {
 			this.addChild(PIXI.Sprite.fromFrame("player_normal"));
 		}
 
-		this.update = function(){
-			this.resize();
-		    this.renderer.render(this);
-		    requestAnimFrame(this.update);
-		}.bind(this);
-		requestAnimFrame(function(){
-			this.update();
-		}.bind(this));
-
-
 		this.fittable = null;
 		this.autoFitListeners()
+		this.update();
 	};
 
 
 	Stage.prototype = Object.create( PIXI.Stage.prototype );
 
 	Stage.prototype._getChildAt = Stage.prototype.getChildAt;
+
 	Stage.prototype.getChildAt = function(index){
 		if (index < 0){
 			index += this.children.length;
 		}
 		return this._getChildAt(index);
+	};
+
+	Stage.prototype.update = function(){
+		this.resize();
+	    this.renderer.render(this);
+	    requestAnimFrame(this.update.bind(this));
 	};
 
 	Stage.prototype.setAutoFit = function() {
@@ -55,6 +53,11 @@ define(function(require) {
 			W: this.getChildAt(-1).width,
 			H: this.getChildAt(-1).height,
 		};
+		if ( !this.fittable.W || !this.fittable.H ){
+			return;
+		}
+		this.renderer.resize(this.fittable.W, this.fittable.H)
+
 	};
 
 	//XXX: http://html5hub.com/screen-size-management-in-mobile-html5-games/
@@ -94,20 +97,16 @@ define(function(require) {
 			|| document.body.clientHeight;
 
 		var scaleH = screenH / this.fittable.H;
-		scaleH = Math.min(scaleH,1);
 
 		//choose proper scale factor
 		var scale = (screenW >= scaleH * this.fittable.W) ?
 			scaleH : 
 			(screenW / this.fittable.W);
-		this.canvas.width  = this.fittable.W;
-		this.canvas.height = this.fittable.H;
-		if ( !this.canvas.width || !this.canvas.height ){
-			throw "zero dimensions";
-		}
-		this.renderer.resize(this.fittable.W, this.fittable.H)
-		$(this.canvas).css("width", Math.floor(this.fittable.W * scale).toString()+"px");
-		$(this.canvas).css("height", Math.floor(this.fittable.H * scale).toString()+"px");
+
+		scale = Math.min(scale, 1);
+
+		$(this.canvas).css("width", Math.floor(this.fittable.W * scale));
+		$(this.canvas).css("height", Math.floor(this.fittable.H * scale));
 	};
 
 	return Stage; 
