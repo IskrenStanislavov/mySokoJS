@@ -10,13 +10,19 @@ define(function(require) {
 	
 	var Room = function( level ){
 		PIXI.DisplayObjectContainer.call(this);
+		// var Handlers = require("games/sokoban/pixi_handlers");
+		// var CommandList = require("games/sokoban/commandList");
+
+		// that.currentLevel = that.addChild(new Room(that.levels.getLevelData()));
+		// that.handlers = new Handlers(that, that.commandList);
+		// that.commandList.reset(that.currentLevel.records);
+		// that.handlers.refresh(that.currentLevel);
 		this.level = level;
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
 		this.W = this.columns * tileConfig.dimensions.width + roomConfig.additionalWidth;
 		this.H = (this.rows+1) * tileConfig.dimensions.height;
 
-		this.initInformations();
 		this.logic = new Logic(this.player, this.interiorTiles);
 	};
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);

@@ -2,9 +2,8 @@
 
 define(function(require) {
     var PIXI       	 = require("libs/pixi");
-	var Room  		 = require("games/sokoban/pixi_level");
-	var BaseLevel  	 = require("games/sokoban/pixi_base_level");
-	var TestLevel 	 = require("games/sokoban/pixi_test_level");
+	var Room  		 = require("games/sokoban/pixi_room");
+	var IntroRoom 	 = require("games/sokoban/pixi_intro_room");
 	var LevelsLoader = require("games/sokoban/levels/pixi_levelsLoader");
 
 	var LevelsContainer = function() {
@@ -48,14 +47,14 @@ define(function(require) {
 	};
 
 	LevelsContainer.prototype.start = function(){
-		var rawLevelData;
+		var levelRoom;
 		if ( !~this.currentLevel ) { //-1
-			rawLevelData = new TestLevel();
+			levelRoom = new IntroRoom();
 		} else {
 			this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || 0);
-			rawLevelData = this.levels[this.currentLevel];
+			levelRoom = new Room(this.levels[this.currentLevel]);
 		}
-		this.currentLevelObject = this.addChild(new Room(rawLevelData));
+		this.currentLevelObject = this.addChild(levelRoom);
 		return this.currentLevelObject;
 	};
 

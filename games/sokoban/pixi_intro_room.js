@@ -1,18 +1,25 @@
-//xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
-
 define(function(require) {
-    var PIXI        = require("libs/pixi");
+    var PIXI  		= require("libs/pixi");
+    var Room  		= require("games/sokoban/pixi_room");
 	var BaseLevel  	= require("games/sokoban/pixi_base_level");
 
+	var IntroRoom = function() {
+		this.initLevelData({
+			testCorners: false,
+		});
+		Room.call(this,  new BaseLevel("Isko", "intro", this.xData, "iso"));
+	};
 
-	var TestLevel = function(testCorners) {
+	IntroRoom.prototype = Object.create(Room.prototype);
+
+	IntroRoom.prototype.initLevelData = function(settings) {
 
 		this.xData = "WWWWWW;WP B-W;WWWWWW";//solvable
 		if (true){
 			this.xData = "WWWWWW;WP-B-W;WWWWWW";//test box on a target; n player on a target
 		}
 		//for corner testing
-		if (testCorners!==undefined){
+		if (settings.testCorners){
 			//cross & single edges
 			this.xData +=";      ";
 			this.xData +="; W    ";
@@ -37,10 +44,8 @@ define(function(require) {
 			this.xData +=";WWW   ";
 			this.xData +="; W    ";
 		}
-		BaseLevel.call(this,"Isko", "intro", this.xData, "iso");
+		BaseLevel.call;
 	};
-	TestLevel.prototype = Object.create(BaseLevel.prototype);
-
-	return TestLevel;
+	return IntroRoom;
 });
 
