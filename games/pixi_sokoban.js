@@ -1,15 +1,12 @@
 define(function(require) {
 	var Levels = require("games/sokoban/pixi_levels");
 	var Stage  = require("libs/custom_stage");
-	var Handlers = require("games/sokoban/pixi_handlers");
-	// var CommandList = require("games/sokoban/commandList");
     var PIXI        = require("libs/pixi");
 
 	var Sokoban = function(){
 		Stage.call(this);
 		this.addChild(PIXI.Sprite.fromFrame("player_normal"));
-		var that = this;
-		that.levels = that.addChild(new Levels(this.start.bind(this)));
+		this.levels = this.addChild(new Levels(this.start.bind(this)));
 
 	};
 
@@ -17,6 +14,9 @@ define(function(require) {
 
 	Sokoban.prototype.start = function() {
 		var that = this;
+		// var Handlers = require("games/sokoban/pixi_handlers");
+		// var CommandList = require("games/sokoban/commandList");
+
 		// that.currentLevel = that.addChild(new Room(that.levels.getLevelData()));
 		// that.handlers = new Handlers(that, that.commandList);
 		// that.commandList.reset(that.currentLevel.records);

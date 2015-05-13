@@ -3,9 +3,8 @@ define(function(require) {
 	var Logic   = require("games/sokoban/room/logic");
 	var Direction  = require('games/sokoban/room/direction');
 
-	var Handlers = function( commandList, stage ) {
+	var Handlers = function( commandList ) {
 		this.commandList = commandList;
-		this.stage = stage;
 		this.currentKeyDown = null;
 		this.config = {'moves':{
 			// keyCode | action
@@ -76,7 +75,6 @@ define(function(require) {
 			var action = this.logic.getActionData(move);
 			if ( action ){
 				this.commandList.addCommand( action );
-				this.stage.update();
 			}
 			return !!move;
 		},
