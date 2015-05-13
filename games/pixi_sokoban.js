@@ -31,7 +31,6 @@ define(function(require) {
 			if ( that.currentLevel.logic.checkForSolved() ){
 				clearInterval(solveCheck);
 				setTimeout(function(){
-					that.removeChild(that.currentLevel);
 					that.levels.markAsSolved();
 					that.start();
 				},1000);

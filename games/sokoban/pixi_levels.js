@@ -3,50 +3,8 @@
 define(function(require) {
     var PIXI        = require("libs/pixi");
 	var Room  		= require("games/sokoban/pixi_level");
+	var BaseLevel   = require("games/sokoban/pixi_base_level");
 	var TestLevel 	= require("games/sokoban/pixi_test_level");
-
-	var Level = function(author, collectionName, levelData, format, levelName) {
-		// PIXI.DisplayObjectContainer.call(this);
-		this.author = author;
-		this.collection = collectionName;
-		this.levelData = levelData;
-		this.format = format;
-		this.levelName = levelName;
-		// this.data = level.data;
-		// level.data = undefined;
-	};
-	// Level.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
-
-	var testLevelData = "WWWWWW;WP B-W;WWWWWW";//solvable
-	if (true){
-		testLevelData = "WWWWWW;WP-B-W;WWWWWW";//test box on a target; n player on a target
-	}
-	//for corner testing
-	if (false){
-		//cross & single edges
-		testLevelData +=";      ";
-		testLevelData +="; W    ";
-		testLevelData +=";WWW   ";
-		testLevelData +="; W    ";
-		//T junction: right
-		testLevelData +=";      ";
-		testLevelData +="; W    ";
-		testLevelData +=";WW    ";
-		testLevelData +="; W    ";
-		//T junction: left
-		testLevelData +=";      ";
-		testLevelData +="; W    ";
-		testLevelData +="; WW   ";
-		testLevelData +="; W    ";
-		//T junction: bottom
-		testLevelData +=";      ";
-		testLevelData +="; W    ";
-		testLevelData +=";WWW   ";
-		//T junction: top
-		testLevelData +=";      ";
-		testLevelData +=";WWW   ";
-		testLevelData +="; W    ";
-	}
 
 	var config = {
 		'collectionsToLoad': 1,
@@ -61,7 +19,7 @@ define(function(require) {
 				var author = data.autorDeNivel;
 				var collectionName = data.nombreDeNivel;
 				Object.keys(data.niveles).forEach(function( levelName, index ) {
-					this.levels.push( new Level(author, collectionName, data.niveles[levelName], "xsb", levelName) );
+					this.levels.push( new BaseLevel(author, collectionName, data.niveles[levelName], "xsb", levelName) );
 				}.bind(this));
 
 
@@ -103,6 +61,8 @@ define(function(require) {
 
 	Levels.prototype.markAsSolved = function() {
 		localStorage.setItem("currentLevel", (this.currentLevel+1)%this.levels.length);
+		this.removeChild(this.currentLevelObject);
+
 	};
 
 	Levels.prototype.next = function(){
@@ -113,7 +73,8 @@ define(function(require) {
 		}
 		this.children.length=0;
 
-		return this.addChild(new Room(this.levels[this.currentLevel]));
+		this.currentLevelObject = this.addChild(new Room(this.levels[this.currentLevel]));
+		return this.currentLevelObject;
 	};
 
 	return Levels;
