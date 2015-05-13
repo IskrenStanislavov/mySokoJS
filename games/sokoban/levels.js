@@ -76,6 +76,7 @@ define(function(require) {
 
 	var Levels = function( callback ) {
 		this.onLoadCallback = callback;
+		this.currentLevel = -1;
 	};
 
 	Levels.prototype.load = function() {
@@ -94,16 +95,24 @@ define(function(require) {
 	};
 
 	Levels.prototype.markAsSolved = function() {
-		localStorage.setItem("currentLevel", (this.currentLevel+1)%this.levels.length);
+		if (this.currentLevel === -1){
+			this.currentLevel = localStorage.getItem("currentLevel", 0) - 1;
+		}
+		this.currentLevel = (this.currentLevel + 1) % this.levels.length;
+		localStorage.setItem("currentLevel", (this.currentLevel));
 	};
 
 	Levels.prototype.getLevelData = function(){
-		this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || -1);
-		console.log("level:", this.currentLevel);
+		var rawLevelData;
 		if ( !~this.currentLevel ) { //-1
-			return config.testLevel;
+			rawLevelData = config.testLevel;
+		} else {
+			this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || 0);
+			console.log("level:", this.currentLevel);
+			rawLevelData = this.levels[this.currentLevel];
 		}
-		return this.levels[this.currentLevel];
+		console.log(this.currentLevel);
+		return rawLevelData;
 	};
 
 	return Levels;

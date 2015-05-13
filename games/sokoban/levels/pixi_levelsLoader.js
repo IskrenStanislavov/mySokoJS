@@ -2,18 +2,11 @@
 
 define(function(require) {
     var PIXI        = require("libs/pixi");
-	var Room  		= require("games/sokoban/pixi_level");
 	var BaseLevel   = require("games/sokoban/pixi_base_level");
-	var TestLevel 	= require("games/sokoban/pixi_test_level");
 
-	var LevelsLoaderConfig = {
+	var config = {
 		'collectionsToLoad': 1,
-		'testLevel': new TestLevel(),
 		'collections': [
-			// {"path":   "games/sokoban/levels/levels_iskren.json", "format": "iso", "parseData": 
-			// function(data){
-			// 	return;
-			// }},
 			{"path":   "games/sokoban/levels/niveles_homs.json",
 			"parseData": function(data){
 				var author = data.autorDeNivel;
@@ -25,7 +18,7 @@ define(function(require) {
 
 				localStorage.setItem("gameLevels", JSON.stringify(this.levels));
 				this.collectionsToLoad -= 1;
-				this.collectionsToLoad === 0 && this.onLoadCallback && this.onLoadCallback();
+				this.collectionsToLoad === 0 && this.onLoadCallback && this.onLoadCallback(this.levels);
 			}},
 			{"path":   "games/sokoban/levels/levels_erim_sever.json",
 			"format": "xsb",
@@ -35,5 +28,42 @@ define(function(require) {
 			}}
 		],
 	};
-	return LevelsLoaderConfig;
+
+		// this.loader = new LevelsLoader({
+		// 	accumulateIn: this.levels,
+		// 	onComplete: function(loadedLevels){
+		// 		console.log("loadedLevels", loadedLevels);
+		// 		this.levels = loadedLevels;
+		// 		this.initLevelSolvedCheck();
+		// 		this.start();
+		// 	}.bind(this)
+		// });
+
+	var LevelsLoader = function(settings){
+		this.accumulateIn = settings.accumulateIn;
+		this.onLoadCallback = settings.onComplete;
+		if ( !localStorage.getItem("levelsPackagesLoaded", 0) ){
+			this.load();
+		} else {
+			this.levels = JSON.parse(localStorage.getItem("gameLevels",null));
+			return this.levels
+		}
+	};
+
+	LevelsLoader.prototype.load = function(){
+		this.collectionsToLoad = config.collectionsToLoad;
+		if ( !this.levels || !this.levels.length ) {
+			this.levels = [];
+			var that = this;
+			config.collections.forEach(function(collection, ix) {
+				$.getJSON(collection.path, collection.parseData.bind(that) );
+			});
+		} else {
+			setTimeout(function(){
+				callback && callback();
+			},500);
+		}
+	}
+
+	return LevelsLoader;
 });
