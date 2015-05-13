@@ -20,7 +20,7 @@ define(function(require) {
 		this.level = level;
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
-		this.W = this.columns * tileConfig.dimensions.width + roomConfig.additionalWidth;
+		this.W = this.columns * tileConfig.dimensions.width;
 		this.H = (this.rows+1) * tileConfig.dimensions.height;
 
 		this.logic = new Logic(this.player, this.interiorTiles);
@@ -63,69 +63,6 @@ define(function(require) {
 		}
 	};
 	Room.prototype.parseWalls = parseWalls;
-
-	Room.prototype.initInformations = function() {
-		this.infoContainer = this.addChild(new PIXI.DisplayObjectContainer())
-		this.infoContainer.x = (0.5 + this.columns) * tileConfig.dimensions.width;
-		// this.infoContainer.name = info;
-
-		// this.texts = roomConfig.texts;
-		this.texts = [
-			{
-				text: "Authors:",
-				type:"label",
-				style: {
-					font: "22px Verdana",
-					fill: '#7f4746',
-					align: 'left',
-					lineHeight:22,
-				},
-				position: new PIXI.Point(19, 0)
-			},
-			{
-				text: "\n\nGerry Wiseman - skin\nIskren Stanislavov - logics",
-				type:"label",
-				style: {
-					font: "13px Arial",
-					fill: '#998892',
-					align: 'left',
-					lineHeight:16,
-				},
-				position: new PIXI.Point(0, 0)
-			},
-			{
-				text: "Moves:\nPushes:",
-				type:"label",
-				style: {
-					font: "13px Arial",
-					fill: '#998892',
-					align: 'left',
-					lineHeight:18,
-				},
-				position: new PIXI.Point(0, 100)
-			},
-			{
-				text: "108\n97",
-				type:"counts",
-				style: {
-					font: "bold 14px Arial",
-					fill: '#7f4746',
-					align: 'left',
-					lineHeight:18,
-					
-				},
-				position: new PIXI.Point(50, 100)
-			},
-		];
-		this.texts.forEach(function(textData,i){
-			var textObject;
-			textObject = this.infoContainer.addChild(new PIXI.Text(textData.text, textData.style));
-			textObject.position = textData.position;
-			if (textData.type === "counts"){
-					this.records = new Records(textObject);
-			}
-		}.bind(this));
-	};
 
 	return Room;
 });

@@ -1,13 +1,16 @@
 define(function(require) {
     var PIXI  		= require("libs/pixi");
     var Room  		= require("games/sokoban/pixi_room");
-	var BaseLevel  	= require("games/sokoban/pixi_base_level");
+	var BaseLevel  	= require("games/sokoban/pixi_baseLevel");
+	var InfoBox  	= require("games/sokoban/pixi_infoBox");
 
 	var IntroRoom = function() {
 		this.initLevelData({
 			testCorners: false,
 		});
 		Room.call(this,  new BaseLevel("Isko", "intro", this.xData, "iso"));
+		this.infoBox = this.addChild(new InfoBox());
+		this.infoBox.x = this.W + 4;
 	};
 
 	IntroRoom.prototype = Object.create(Room.prototype);
@@ -44,8 +47,8 @@ define(function(require) {
 			this.xData +=";WWW   ";
 			this.xData +="; W    ";
 		}
-		BaseLevel.call;
 	};
+
 	return IntroRoom;
 });
 
