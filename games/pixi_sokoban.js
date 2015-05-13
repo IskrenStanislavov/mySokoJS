@@ -21,18 +21,11 @@ define(function(require) {
 		// that.handlers = new Handlers(that, that.commandList);
 		// that.commandList.reset(that.currentLevel.records);
 		// that.handlers.refresh(that.currentLevel);
-		that.currentLevel = that.levels.next();
-		that.setAutoFit({
-			W: that.currentLevel.width,
-			H: that.currentLevel.height
-		});
-		that.resize();
+		that.currentLevel = that.levels.start();
 		var solveCheck = setInterval(function(){
 			if ( that.currentLevel.logic.checkForSolved() ){
-				clearInterval(solveCheck);
 				setTimeout(function(){
-					that.levels.markAsSolved();
-					that.start();
+					that.levels.next();
 				},1000);
 			};
 		}, 500);

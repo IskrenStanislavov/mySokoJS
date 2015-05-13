@@ -65,7 +65,7 @@ define(function(require) {
 
 	};
 
-	Levels.prototype.next = function(){
+	Levels.prototype.start = function(){
 		this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || -1);
 		console.log("level:", this.currentLevel);
 		if ( !~this.currentLevel ) { //-1
@@ -75,6 +75,11 @@ define(function(require) {
 
 		this.currentLevelObject = this.addChild(new Room(this.levels[this.currentLevel]));
 		return this.currentLevelObject;
+	};
+
+	Levels.prototype.next = function(){
+		this.markAsSolved();
+		this.start();
 	};
 
 	return Levels;

@@ -20,6 +20,7 @@ define(function(require) {
 		PIXI.Stage.call(this, this.color);
 
 		this.update = function(){
+			this.resize();
 		    this.renderer.render(this);
 		    requestAnimFrame(this.update);
 		}.bind(this);
@@ -36,6 +37,14 @@ define(function(require) {
 
 	Stage.prototype = Object.create( PIXI.Stage.prototype );
 
+	Stage.prototype._getChildAt = Stage.prototype.getChildAt;
+	Stage.prototype.getChildAt = function(index){
+		if (index < 0){
+			index += this.children.length;
+		}
+		return this._getChildAt(index);
+	};
+
 	Stage.prototype.initSettings = function(settings) {
 		// this.enableMouseOver(-1);
 		// this.enableDOMEvents(false);// mouse events
@@ -50,8 +59,14 @@ define(function(require) {
 		}
 	};
 
-	Stage.prototype.setAutoFit = function(fittable) {
-		this.fittable = fittable;
+	Stage.prototype.setAutoFit = function() {
+		if (this.children.length===0) {
+			return;
+		}
+		this.fittable = {
+			W: this.getChildAt(-1).width,
+			H: this.getChildAt(-1).height,
+		};
 	};
 
 	//XXX: http://html5hub.com/screen-size-management-in-mobile-html5-games/
@@ -72,7 +87,8 @@ define(function(require) {
 	};
 
 	Stage.prototype.resize = function() {
-		if ( !this.fittable ){
+		this.setAutoFit();
+		if ( !this.fittable || !this.fittable.H ||!this.fittable.W ){
 			return;
 		}
 
