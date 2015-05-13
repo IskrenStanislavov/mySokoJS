@@ -4,8 +4,8 @@
 define(function(require) {
 	var Logic       = require("games/sokoban/room/logic");
 
-	var Handlers = function(commandList, stage) {
-		this.stage = stage;
+	var Handlers = function(commandList, logic) {
+		this.logic = logic;
 		this.commandList = commandList;
 	};
 
@@ -38,7 +38,6 @@ define(function(require) {
 
 			this.stopBubbleEvent(event);
 			this.logic.updateDragPosition(event);
-			this.stage.update();
 		},
 
 		"handleUp": function( event ) {

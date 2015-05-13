@@ -1,29 +1,31 @@
 define(function(require) {
 	var roomConfig  = require("games/sokoban/room/config");
-	var Logic  = require("games/sokoban/room/logic");
+	var SokobanLogic  = require("games/sokoban/room/logic");
 	var Records  = require("games/sokoban/room/records");
 	var parseWalls  = require("games/sokoban/room/walls");
     var PIXI        = require("libs/pixi");
 	var Tile 		= require('games/sokoban/tiles/pixi_tiles');
 	var tileConfig  = require('games/sokoban/tiles/pixi_config');
+	var Handlers = require("games/sokoban/pixi_handlers");
 
 	
 	var Room = function( level ){
 		PIXI.DisplayObjectContainer.call(this);
-		// var Handlers = require("games/sokoban/pixi_handlers");
-		// var CommandList = require("games/sokoban/commandList");
 
-		// that.currentLevel = that.addChild(new Room(that.levels.getLevelData()));
-		// that.handlers = new Handlers(that, that.commandList);
-		// that.commandList.reset(that.currentLevel.records);
-		// that.handlers.refresh(that.currentLevel);
 		this.level = level;
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
 		this.W = this.columns * tileConfig.dimensions.width;
 		this.H = (this.rows+1) * tileConfig.dimensions.height;
 
-		this.logic = new Logic(this.player, this.interiorTiles);
+		this.logic = new SokobanLogic(this.player, this.interiorTiles);
+
+
+		// that.currentLevel = this;
+		// this.recordsBox = new Records();
+		// that.handlers = new Handlers(that, that.commandList);
+		// that.commandList.reset(this.recordsBox);
+		this.handlers = new Handlers(this);//includes the CommandList
 	};
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 

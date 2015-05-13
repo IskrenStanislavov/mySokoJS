@@ -10,15 +10,7 @@ define(function(require) {
 			stageColor: "black",
 			canvasId: "game"
 		});
-		// var Handlers = require("games/sokoban/pixi_handlers");
-		// var CommandList = require("games/sokoban/commandList");
-
-		// that.currentLevel = that.addChild(new Room(that.levels.getLevelData()));
-		// that.handlers = new Handlers(that, that.commandList);
-		// that.commandList.reset(that.currentLevel.records);
-		// that.handlers.refresh(that.currentLevel);
 		this.addChild(new LevelsContainer());
-
 	};
 
 	Sokoban.prototype = Object.create(Stage.prototype);
