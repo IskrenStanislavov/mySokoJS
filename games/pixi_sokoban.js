@@ -4,8 +4,12 @@ define(function(require) {
     var PIXI        = require("libs/pixi");
 
 	var Sokoban = function(){
-		Stage.call(this);
-		this.addChild(PIXI.Sprite.fromFrame("player_normal"));
+		Stage.call(this, {
+			debugBG: true,
+			contextMenu: false,
+			stageColor: "black",
+			canvasId: "game"
+		});
 		this.levels = this.addChild(new Levels(this.start.bind(this)));
 
 	};

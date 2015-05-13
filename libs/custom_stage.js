@@ -2,9 +2,9 @@ define(function(require) {
 	var PIXI        = require("libs/pixi");
 	require('libs/zepto.min')
 
-	var Stage = function( canvas, settings ){
+	var Stage = function( settings ){
 		this.renderer = PIXI.autoDetectRenderer(100, 100, {
-		    "view":document.getElementById("game"),
+		    "view":document.getElementById((settings && settings.canvasId) || "game"),
 		    "clearBeforeRender":true,
 		    "transparent": false,
 		    "resolution":1,
@@ -14,10 +14,13 @@ define(function(require) {
 		this.canvas = this.renderer.view;
 		document.body.appendChild(this.canvas);
 
-
-		this.color = 0x3065a2;
-		this.color = "black";
+		this.color = (settings && settings.stageColor) || "black";
 		PIXI.Stage.call(this, this.color);
+
+
+		if ( settings && settings.debugBG ) {
+			this.addChild(PIXI.Sprite.fromFrame("player_normal"));
+		}
 
 		this.update = function(){
 			this.resize();
@@ -29,7 +32,6 @@ define(function(require) {
 		}.bind(this));
 
 
-		this.initSettings(settings);
 		this.fittable = null;
 		this.autoFitListeners()
 	};
@@ -45,20 +47,6 @@ define(function(require) {
 		return this._getChildAt(index);
 	};
 
-	Stage.prototype.initSettings = function(settings) {
-		// this.enableMouseOver(-1);
-		// this.enableDOMEvents(false);// mouse events
-
-		// PIXI.Ticker.useRAF = true;
-		// PIXI.Ticker.setFPS(25);
-		// PIXI.Ticker.addEventListener("tick", this);//update the stage
-
-		if ( settings && settings.showBG ) {
-			this.bg = this.addChild(new PIXI.Graphics()).beginFill("black").drawRect(0, 0, 10000, 10000);
-			
-		}
-	};
-
 	Stage.prototype.setAutoFit = function() {
 		if (this.children.length===0) {
 			return;
@@ -71,10 +59,12 @@ define(function(require) {
 
 	//XXX: http://html5hub.com/screen-size-management-in-mobile-html5-games/
 
-	Stage.prototype.autoFitListeners = function() {
+	Stage.prototype.disableContextMenu = function() {
 		this.canvas.oncontextmenu = function (e) {
 		    e.preventDefault();
 		};
+	};
+	Stage.prototype.autoFitListeners = function() {
 		var viewport = function() {
 			window.scrollTo(0,1);
 			this.resize();
