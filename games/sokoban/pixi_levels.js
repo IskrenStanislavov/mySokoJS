@@ -3,6 +3,7 @@
 define(function(require) {
     var PIXI        = require("libs/pixi");
 	var Room  		= require("games/sokoban/pixi_level");
+	var TestLevel 	= require("games/sokoban/pixi_test_level");
 
 	var Level = function(author, collectionName, levelData, format, levelName) {
 		// PIXI.DisplayObjectContainer.call(this);
@@ -49,7 +50,7 @@ define(function(require) {
 
 	var config = {
 		'collectionsToLoad': 1,
-		'testLevel': new Level("Isko", "intro", testLevelData, "iso"),
+		'testLevel': new TestLevel(),
 		'collections': [
 			// {"path":   "games/sokoban/levels/levels_iskren.json", "format": "iso", "parseData": 
 			// function(data){
@@ -108,7 +109,7 @@ define(function(require) {
 		this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || -1);
 		console.log("level:", this.currentLevel);
 		if ( !~this.currentLevel ) { //-1
-			return config.testLevel;
+			return this.addChild(new Room(config.testLevel));
 		}
 		this.children.length=0;
 
