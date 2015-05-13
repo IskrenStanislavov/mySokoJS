@@ -108,10 +108,8 @@ define(function(require) {
 			rawLevelData = config.testLevel;
 		} else {
 			this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || 0);
-			console.log("level:", this.currentLevel);
 			rawLevelData = this.levels[this.currentLevel];
 		}
-		console.log(this.currentLevel);
 		return rawLevelData;
 	};
 

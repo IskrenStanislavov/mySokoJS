@@ -53,7 +53,6 @@ define(function(require) {
 			rawLevelData = new TestLevel();
 		} else {
 			this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || 0);
-			console.log("level:", this.currentLevel);
 			rawLevelData = this.levels[this.currentLevel];
 		}
 		this.currentLevelObject = this.addChild(new Room(rawLevelData));
