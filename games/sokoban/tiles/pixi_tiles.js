@@ -86,6 +86,10 @@ define(function(require) {
 	};
 
 	Tile.prototype.redrawWall = function(newWall) {
+		if (!this.tileTextures[newWall]){
+			console.log(newWall,this.tileTextures[newWall]);
+			debugger;
+		}
 		this.setTexture(this.tileTextures[newWall]);
 	};
 

@@ -11,9 +11,7 @@ define(function(require) {
 	var Room = function( level ){
 		PIXI.DisplayObjectContainer.call(this);
 		this.player = null;
-
-		this.level = level;
-		this.grid = this.level.grid;
+		this.grid = level.grid;
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
 		this.setDimentions();
@@ -25,7 +23,7 @@ define(function(require) {
 		// this.recordsBox = new Records();
 		// that.handlers = new Handlers(that, that.commandList);
 		// that.commandList.reset(this.recordsBox);
-		this.handlers = new Handlers(this);//includes the CommandList
+		this.handlers = new Handlers(this);//includes the CommandList, need the Record
 	};
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 

@@ -6,7 +6,7 @@ define(function(require) {
 
 	var IntroRoom = function() {
 		this.initLevelData({
-			testCorners: false,
+			testCorners: true,
 		});
 		Room.call(this,  new BaseLevel({
 			author: "Isko",
@@ -31,14 +31,14 @@ define(function(require) {
 		if (settings.testCorners){
 			//cross & single edges
 			this.xData +=";      ";
-			this.xData +="; W    ";
+			this.xData +="; W W  ";
 			this.xData +=";WWW   ";
 			this.xData +="; W    ";
 			//T junction: right
 			this.xData +=";      ";
 			this.xData +="; W    ";
-			this.xData +=";WW    ";
-			this.xData +="; W    ";
+			this.xData +=";WW WW ";
+			this.xData +="; W WW ";
 			//T junction: left
 			this.xData +=";      ";
 			this.xData +="; W    ";
