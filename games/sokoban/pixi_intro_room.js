@@ -8,7 +8,13 @@ define(function(require) {
 		this.initLevelData({
 			testCorners: false,
 		});
-		Room.call(this,  new BaseLevel("Isko", "intro", this.xData, "iso"));
+		Room.call(this,  new BaseLevel({
+			author: "Isko",
+			collectionName: "intro",
+			rawString: this.xData,
+			format: "iso",
+			levelName: "IntroScreen"
+		}));
 		this.infoBox = this.addChild(new InfoBox());
 		this.infoBox.x = this.W + 4;
 	};

@@ -12,7 +12,13 @@ define(function(require) {
 				var author = data.autorDeNivel;
 				var collectionName = data.nombreDeNivel;
 				Object.keys(data.niveles).forEach(function( levelName, index ) {
-					this.levels.push( new BaseLevel(author, collectionName, data.niveles[levelName], "xsb", levelName) );
+					this.levels.push( new BaseLevel({
+						author: data.autorDeNivel,
+						collectionName: data.nombreDeNivel,
+						rawString: data.niveles[levelName],
+						format: "xsb",
+						levelName: levelName
+					}));
 				}.bind(this));
 
 
@@ -29,16 +35,6 @@ define(function(require) {
 		],
 	};
 
-		// this.loader = new LevelsLoader({
-		// 	accumulateIn: this.levels,
-		// 	onComplete: function(loadedLevels){
-		// 		console.log("loadedLevels", loadedLevels);
-		// 		this.levels = loadedLevels;
-		// 		this.initLevelSolvedCheck();
-		// 		this.start();
-		// 	}.bind(this)
-		// });
-
 	var LevelsLoader = function(settings){
 		this.accumulateIn = settings.accumulateIn;
 		this.onLoadCallback = settings.onComplete;
@@ -46,6 +42,9 @@ define(function(require) {
 			this.load();
 		} else {
 			this.levels = JSON.parse(localStorage.getItem("gameLevels",null));
+			this.levels = this.levels.map(function(level){
+				return new BaseLevel(level);
+			});
 			return this.levels
 		}
 	};

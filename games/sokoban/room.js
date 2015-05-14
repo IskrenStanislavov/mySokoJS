@@ -22,8 +22,9 @@ define(function(require) {
 
 	Room.prototype.parseTiles = function() {
 		var cCol = 0;
-		var stringLevel = this.level.levelData;
+		var stringLevel = this.level.rawString;
 		var iso = this.level.iso;
+		this.level.parseGrid();
 
 		this.rows = 0;
 		this.columns = 0;

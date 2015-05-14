@@ -1,4 +1,11 @@
 //xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+}
+ 
+Storage.prototype.getObject = function(key, defaultValue) {
+    return JSON.parse(this.getItem(key), defaultValue);
+}
 
 define(function(require) {
 	var roomConfig  = require("games/sokoban/room/config");
@@ -37,22 +44,28 @@ define(function(require) {
 
 	var config = {
 		'collectionsToLoad': 1,
-		'testLevel': new BaseLevel("Isko", "intro", testLevelData, "iso"),
+		'testLevel': new BaseLevel({
+			author: "Isko",
+			collectionName: "intro",
+			rawString: testLevelData,
+			format: "iso",
+			levelName: "IntroScreen"
+		}),
 		'collections': [
-			// {"path":   "games/sokoban/levels/levels_iskren.json", "format": "iso", "parseData": 
-			// function(data){
-			// 	return;
-			// }},
 			{"path":   "games/sokoban/levels/niveles_homs.json",
 			"parseData": function(data){
-				var author = data.autorDeNivel;
-				var collectionName = data.nombreDeNivel;
 				Object.keys(data.niveles).forEach(function( levelName, index ) {
-					this.levels.push( new BaseLevel(author, collectionName, data.niveles[levelName], "xsb", levelName) );
+					this.levels.push( new BaseLevel({
+						author: data.autorDeNivel,
+						collectionName: data.nombreDeNivel,
+						rawString: data.niveles[levelName],
+						format: "xsb",
+						levelName: levelName
+					}));
 				}.bind(this));
 
 
-				localStorage.setItem("gameLevels", JSON.stringify(this.levels));
+				localStorage.setObject("gameLevels", this.levels)
 				this.collectionsToLoad -= 1;
 				this.collectionsToLoad === 0 && this.onLoadCallback && this.onLoadCallback();
 			}},
@@ -74,7 +87,7 @@ define(function(require) {
 
 	Levels.prototype.load = function() {
 		this.collectionsToLoad = config.collectionsToLoad;
-		this.levels = JSON.parse(localStorage.getItem("gameLevels",null));
+		this.levels = localStorage.getObject("gameLevels", null);
 		if ( !this.levels || !this.levels.length ) {
 			this.levels = [];
 			var that = this;
@@ -82,6 +95,9 @@ define(function(require) {
 				$.getJSON(collection.path, collection.parseData.bind(that) );
 			});
 		} else {
+			this.levels = this.levels.map(function(level){
+				return new BaseLevel(level);
+			});
 			this.onLoadCallback && this.onLoadCallback();
 		}
 

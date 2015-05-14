@@ -3,6 +3,8 @@ define(function(require) {
 		"additionalWidth":200,
 		"roomKinds": {
 			"iso": {
+				"newLineSymbol":";",
+				"emptyTile":" ",
 				"P": {
 					"onTarget": false,
 					"interior":	"player"
@@ -40,6 +42,8 @@ define(function(require) {
 				},
 			},
 			"xsb": {
+				"newLineSymbol":"|",
+				"emptyTile":" ",
 				"@": {
 					"onTarget": false,
 					"interior":	"player"

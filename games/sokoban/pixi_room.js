@@ -30,7 +30,7 @@ define(function(require) {
 
 	Room.prototype.parseGrid = function(stringLevel) {
 		stringLevel.split();
-		this.level.levelData
+		this.level.rawString
 		console.log(stringLevel);
 
 	};
@@ -38,9 +38,9 @@ define(function(require) {
 
 	Room.prototype.parseTiles = function() {
 		var cCol = 0;
-		var stringLevel = this.level.levelData;
+		var stringLevel = this.level.rawString;
 		var iso = this.level.iso;
-		this.parseGrid(stringLevel);
+		this.level.parseGrid();
 
 		this.rows = 0;
 		this.columns = 0;
