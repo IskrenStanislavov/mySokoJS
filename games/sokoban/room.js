@@ -8,8 +8,7 @@ define(function(require) {
 	var Room = function( level, tileFactory ){
 		createjs.Container.call(this);
 		this.tileFactory = tileFactory;
-		this.iso = level.iso;
-		this.grid = level.parseGrid();
+		this.grid = level.grid;
 		this.rows = this.grid.length;
 		this.columns = this.grid[0].length;
 		this.parseTiles();
@@ -23,17 +22,10 @@ define(function(require) {
 
 
 	Room.prototype.parseTiles = function() {
-		var iso = this.iso;
 		var that = this;
 		this.interiorTiles = this.grid.map(function(row, iRow){
-			return row.map(function(symbol, iColumn){
-				var tile = that.addChild(that.tileFactory.newTile({
-					"row"	: iRow,
-					"column": iColumn,
-					"kind"	: iso[symbol].interior || "empty",
-					"onTarget": iso[symbol].onTarget,
-
-				}));
+			return row.map(function(tileData, iColumn){
+				var tile = that.addChild(that.tileFactory.newTile(tileData));
 				if (!that.player && tile.isPlayer()){
 					that.player = tile;
 				}

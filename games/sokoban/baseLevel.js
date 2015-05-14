@@ -10,21 +10,32 @@ define(function(require) {
 		this.rawString 	= data.rawString;
 		this.format 	= data.format;
 		this.levelName 	= data.levelName;
-		this.iso = roomConfig.roomKinds[this.format];
-	};
+		if (data.grid){
+			//loaded from storage
+			this.grid = data.grid;
+			return;
+		}
 
-	BaseLevel.prototype.parseGrid = function() {
-		this.rows = this.rawString.split(this.iso.newLineSymbol).map(function(row, rowIndex){
-			console.log(row);
+		var iso = roomConfig.roomKinds[this.format];
+		var rows = this.rawString.split(iso.newLineSymbol).map(function(row, rowIndex){
 			return row;
 		});
-		this.countRows = this.rows.length;
-		this.countColumns = this.rows.reduce(function(a, b){ return (a.length>b.length)? a: b; }).length;
-		this.rows = this.rows.map(function(row){
-			return row.ljust(this.countColumns, this.iso.emptyTile).split('');
-		}.bind(this));
-		this.rows.forEach(function(r){console.log(r);});
-		return this.rows;
+		var countColumns = rows.reduce(function(a, b){ return (a.length>b.length)? a: b; }).length;
+		rows = rows.map(function(row){
+			return row.ljust(countColumns, iso.emptyTile).split('');
+		});
+
+		this.grid = rows.map(function(row, iRow){
+			return row.map(function(symbol, iColumn){
+				var tileData = {
+					"row"	: iRow,
+					"column": iColumn,
+					"kind"	: iso[symbol].interior || "empty",
+					"onTarget": iso[symbol].onTarget
+				};
+				return tileData;
+			});
+		});
 	};
 
 	return BaseLevel;

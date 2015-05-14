@@ -13,8 +13,7 @@ define(function(require) {
 		this.player = null;
 
 		this.level = level;
-		this.iso = this.level.iso;
-		this.grid = this.level.parseGrid();
+		this.grid = this.level.grid;
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
 		this.setDimentions();
@@ -31,17 +30,10 @@ define(function(require) {
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
 	Room.prototype.parseTiles = function() {
-		var iso = this.iso;
 		var that = this;
 		this.interiorTiles = this.grid.map(function(row, iRow){
-			return row.map(function(symbol, iColumn){
-				var tile = that.addChild(new Tile({
-					"row"	: iRow,
-					"column": iColumn,
-					"kind"	: iso[symbol].interior || "empty",
-					"onTarget": iso[symbol].onTarget,
-
-				}));
+			return row.map(function(tileData, iColumn){
+				var tile = that.addChild(new Tile(tileData));
 				if (!that.player && tile.isPlayer()){
 					that.player = tile;
 				}
