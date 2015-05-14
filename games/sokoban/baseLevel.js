@@ -24,6 +24,7 @@ define(function(require) {
 			return row.ljust(this.countColumns, this.iso.emptyTile).split('');
 		}.bind(this));
 		this.rows.forEach(function(r){console.log(r);});
+		return this.rows;
 	};
 
 	return BaseLevel;

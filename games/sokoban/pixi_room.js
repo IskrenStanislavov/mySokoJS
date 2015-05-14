@@ -10,12 +10,14 @@ define(function(require) {
 	
 	var Room = function( level ){
 		PIXI.DisplayObjectContainer.call(this);
+		this.player = null;
 
 		this.level = level;
+		this.iso = this.level.iso;
+		this.grid = this.level.parseGrid();
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
-		this.W = this.columns * tileConfig.dimensions.width;
-		this.H = (this.rows+1) * tileConfig.dimensions.height;
+		this.setDimentions();
 
 		this.logic = new SokobanLogic(this.player, this.interiorTiles);
 
@@ -28,50 +30,31 @@ define(function(require) {
 	};
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
-	Room.prototype.parseGrid = function(stringLevel) {
-		stringLevel.split();
-		this.level.rawString
-		console.log(stringLevel);
-
-	};
-
-
 	Room.prototype.parseTiles = function() {
-		var cCol = 0;
-		var stringLevel = this.level.rawString;
-		var iso = this.level.iso;
-		this.level.parseGrid();
-
-		this.rows = 0;
-		this.columns = 0;
-		this.player = null;
-
-		this.interiorTiles = [[]];
-		for ( var i=0; i<stringLevel.length; i+=1 ) {
-			symbol = stringLevel[i];
-			if ( iso[symbol] === undefined ) {
-				throw "Tile misconfig:" + symbol;
-			} else if (iso[symbol].newLine) {
-				this.rows += 1;
-				this.columns = Math.max(this.columns, cCol);
-				this.interiorTiles.push([]);
-				cCol = 0;
-			} else {
-				var tile = this.addChild(new Tile({
-					"row": this.rows,
-					"column": cCol,
-					"kind": iso[symbol].interior || "empty",
+		var iso = this.iso;
+		var that = this;
+		this.interiorTiles = this.grid.map(function(row, iRow){
+			return row.map(function(symbol, iColumn){
+				var tile = that.addChild(new Tile({
+					"row"	: iRow,
+					"column": iColumn,
+					"kind"	: iso[symbol].interior || "empty",
 					"onTarget": iso[symbol].onTarget,
+
 				}));
-				this.interiorTiles[this.rows].push(tile);
-				if (!this.player && tile.kind === "player"){
-					this.player = tile;
+				if (!that.player && tile.isPlayer()){
+					that.player = tile;
 				}
-				cCol += 1;
-			}
-		}
+				return tile;
+			});
+		});
 	};
+
 	Room.prototype.parseWalls = parseWalls;
+	Room.prototype.setDimentions = function(){
+		this.W = this.grid[0].length * tileConfig.dimensions.width;
+		this.H = (this.grid.length+1) * tileConfig.dimensions.height;
+	};
 
 	return Room;
 });

@@ -8,11 +8,13 @@ define(function(require) {
 	var Room = function( level, tileFactory ){
 		createjs.Container.call(this);
 		this.tileFactory = tileFactory;
-		this.level = level;
+		this.iso = level.iso;
+		this.grid = level.parseGrid();
+		this.rows = this.grid.length;
+		this.columns = this.grid[0].length;
 		this.parseTiles();
 		this.parseWalls(this.interiorTiles);
-		this.W = this.columns * this.tileFactory.dimensions.width + roomConfig.additionalWidth;
-		this.H = (this.rows+1) * this.tileFactory.dimensions.height;
+		this.setDimentions();
 
 		this.initInformations();
 		this.logic = new Logic(this.player, this.interiorTiles);
@@ -21,41 +23,30 @@ define(function(require) {
 
 
 	Room.prototype.parseTiles = function() {
-		var cCol = 0;
-		var stringLevel = this.level.rawString;
-		var iso = this.level.iso;
-		this.level.parseGrid();
-
-		this.rows = 0;
-		this.columns = 0;
-		this.player = null;
-
-		this.interiorTiles = [[]];
-		for ( var i=0; i<stringLevel.length; i+=1 ) {
-			symbol = stringLevel[i];
-			if ( iso[symbol] === undefined ) {
-				throw "Tile misconfig:" + symbol;
-			} else if (iso[symbol].newLine) {
-				this.rows += 1;
-				this.columns = Math.max(this.columns, cCol);
-				this.interiorTiles.push([]);
-				cCol = 0;
-			} else {
-				var tile = this.addChild(this.tileFactory.newTile({
-					"row": this.rows,
-					"column": cCol,
-					"kind": iso[symbol].interior || "empty",
+		var iso = this.iso;
+		var that = this;
+		this.interiorTiles = this.grid.map(function(row, iRow){
+			return row.map(function(symbol, iColumn){
+				var tile = that.addChild(that.tileFactory.newTile({
+					"row"	: iRow,
+					"column": iColumn,
+					"kind"	: iso[symbol].interior || "empty",
 					"onTarget": iso[symbol].onTarget,
+
 				}));
-				this.interiorTiles[this.rows].push(tile);
-				if (!this.player && tile.kind === "player"){
-					this.player = tile;
+				if (!that.player && tile.isPlayer()){
+					that.player = tile;
 				}
-				cCol += 1;
-			}
-		}
+				return tile;
+			});
+		});
 	};
 	Room.prototype.parseWalls = parseWalls;
+	Room.prototype.setDimentions = function(){
+		this.W = this.columns * this.tileFactory.dimensions.width;
+		this.W += roomConfig.additionalWidth;
+		this.H = this.rows * this.tileFactory.dimensions.height;
+	};
 
 	Room.prototype.initInformations = function() {
 		this.infoContainer = this.addChild(new createjs.Container()).set({
