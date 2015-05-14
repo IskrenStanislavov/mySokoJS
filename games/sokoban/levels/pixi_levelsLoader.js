@@ -2,7 +2,7 @@
 
 define(function(require) {
     var PIXI        = require("libs/pixi");
-	var BaseLevel   = require("games/sokoban/pixi_baseLevel");
+	var BaseLevel   = require("games/sokoban/baseLevel");
 
 	var config = {
 		'collectionsToLoad': 1,

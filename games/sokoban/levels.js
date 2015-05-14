@@ -1,16 +1,9 @@
 //xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
 
 define(function(require) {
-	var Level = function(author, collectionName, levelData, format, levelName) {
-		this.author = author;
-		this.collection = collectionName;
-		this.levelData = levelData;
-		this.format = format;
-		this.levelName = levelName;
-		// this.data = level.data;
-		// level.data = undefined;
-		
-	};
+	var roomConfig  = require("games/sokoban/room/config");
+	var BaseLevel  	= require("games/sokoban/baseLevel");
+
 	var testLevelData = "WWWWWW;WP B-W;WWWWWW";//solvable
 	if (true){
 		testLevelData = "WWWWWW;WP-B-W;WWWWWW";//test box on a target; n player on a target
@@ -44,7 +37,7 @@ define(function(require) {
 
 	var config = {
 		'collectionsToLoad': 1,
-		'testLevel': new Level("Isko", "intro", testLevelData, "iso"),
+		'testLevel': new BaseLevel("Isko", "intro", testLevelData, "iso"),
 		'collections': [
 			// {"path":   "games/sokoban/levels/levels_iskren.json", "format": "iso", "parseData": 
 			// function(data){
@@ -55,7 +48,7 @@ define(function(require) {
 				var author = data.autorDeNivel;
 				var collectionName = data.nombreDeNivel;
 				Object.keys(data.niveles).forEach(function( levelName, index ) {
-					this.levels.push( new Level(author, collectionName, data.niveles[levelName], "xsb", levelName) );
+					this.levels.push( new BaseLevel(author, collectionName, data.niveles[levelName], "xsb", levelName) );
 				}.bind(this));
 
 
@@ -66,7 +59,7 @@ define(function(require) {
 			{"path":   "games/sokoban/levels/levels_erim_sever.json",
 			"format": "xsb",
 			"parseData": function(data){
-						// that.levels.push(new Level(data[key]));
+						// that.levels.push(new BaseLevel(data[key]));
 				return;
 			}}
 		],

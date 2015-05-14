@@ -1,5 +1,4 @@
 define(function(require) {
-	var roomConfig  = require("games/sokoban/room/config");
 	var SokobanLogic  = require("games/sokoban/room/logic");
 	var Records  = require("games/sokoban/room/records");
 	var parseWalls  = require("games/sokoban/room/walls");
@@ -29,11 +28,19 @@ define(function(require) {
 	};
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
+	Room.prototype.parseGrid = function(stringLevel) {
+		stringLevel.split();
+		this.level.levelData
+		console.log(stringLevel);
+
+	};
+
 
 	Room.prototype.parseTiles = function() {
 		var cCol = 0;
 		var stringLevel = this.level.levelData;
-		var iso = roomConfig.roomKinds[this.level.format];
+		var iso = this.level.iso;
+		this.parseGrid(stringLevel);
 
 		this.rows = 0;
 		this.columns = 0;
