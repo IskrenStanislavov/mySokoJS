@@ -10,20 +10,20 @@ define(function(require) {
 		this.rawString 	= data.rawString;
 		this.format 	= data.format;
 		this.levelName 	= data.levelName;
-		if (data.grid){
-			//loaded from storage
+
+		// take the ready grid when loaded from storage
+		if (data.grid) {
 			this.grid = data.grid;
 			return;
 		}
 
 		var iso = roomConfig.roomKinds[this.format];
-		var rows = this.rawString.split(iso.newLineSymbol).map(function(row, rowIndex){
-			return row;
-		});
+		// split rows
+		var rows = this.rawString.split(iso.newLineSymbol).map(function(row, rowIndex){ return row; });
+		//calculate number of columns
 		var countColumns = rows.reduce(function(a, b){ return (a.length>b.length)? a: b; }).length;
-		rows = rows.map(function(row){
-			return row.ljust(countColumns, iso.emptyTile).split('');
-		});
+		//fill with spaces at the end if not a rectangular shape
+		rows = rows.map(function(row){ return row.ljust(countColumns, iso.emptyTile).split(''); });
 
 		this.grid = rows.map(function(row, iRow){
 			return row.map(function(symbol, iColumn){
