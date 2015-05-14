@@ -1,11 +1,4 @@
 //xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
-Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value));
-}
- 
-Storage.prototype.getObject = function(key, defaultValue) {
-    return JSON.parse(this.getItem(key), defaultValue);
-}
 
 define(function(require) {
 	var roomConfig  = require("games/sokoban/room/config");
