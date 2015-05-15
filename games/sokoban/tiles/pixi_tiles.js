@@ -13,7 +13,6 @@ define(function(require) {
 	var PIXI        = require("libs/pixi");
 
 	var Tile = function(tileData){
-		var texturesData = tileConfig[tileData.kind];
 		this.name = this.kind = tileData.kind;
 		this.tileTextures = {};
 		Object.keys(tileConfig[tileData.kind].animations).forEach(function(key, idx){
@@ -61,10 +60,6 @@ define(function(require) {
 		return this.onTarget;
 	};
 
-	Tile.prototype.getKind = function(){
-		return this.kind;
-	};
-
 	Tile.prototype.isWall = function(){
 		return this.kind === "wall";
 	};
@@ -80,12 +75,6 @@ define(function(require) {
 	Tile.prototype.isPlayer = function(){
 		return this.kind === "player";
 	};
-
-	Tile.prototype.setFree = function(){
-		return this.kind = "transparent";
-	};
-
-
 
 	return Tile;
 

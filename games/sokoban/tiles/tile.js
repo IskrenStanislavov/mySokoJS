@@ -64,10 +64,6 @@ define(function(require) {
 		return this.onTarget;
 	};
 
-	Tile.prototype.getKind = function(){
-		return this.kind;
-	};
-
 	Tile.prototype.isWall = function(){
 		return this.kind === "wall";
 	};
@@ -80,18 +76,9 @@ define(function(require) {
 		return this.kind === "empty";
 	};
 
-	Tile.prototype.redrawWall = function(newWall) {
-	};
-
 	Tile.prototype.isPlayer = function(){
 		return this.kind === "player";
 	};
-
-	Tile.prototype.setFree = function(){
-		return this.kind = "transparent";
-	};
-
-
 
 	return Tile;
 
