@@ -10,13 +10,17 @@ define(function(require) {
 		PIXI.DisplayObjectContainer.call(this);
 		this.currentLevel = -1;
 		this.levels = [];
+		var that = this;
 		this.loader = new LevelsLoader({
 			accumulateIn: this.levels,
 			onComplete: function(loadedLevels){
 				console.log("loadedLevels", loadedLevels);
 				this.levels = loadedLevels;
-				this.initLevelSolvedCheck();
-				this.start();
+				this.start(function(){
+					setTimeout(function(){
+						that.next();
+					},1000);
+				});
 			}.bind(this)
 		});
 
@@ -34,9 +38,11 @@ define(function(require) {
 				},1000);
 			};
 		}, 500);
-
-
 	};
+
+	LevelsContainer.prototype.initLevelSolvedCheck = function() {
+	};
+
 
 	LevelsContainer.prototype.markAsSolved = function() {
 		if (this.currentLevel === -1){
@@ -46,13 +52,13 @@ define(function(require) {
 		localStorage.setItem("currentLevel", (this.currentLevel));
 	};
 
-	LevelsContainer.prototype.start = function(){
+	LevelsContainer.prototype.start = function(callback){
 		var levelRoom;
 		if ( !~this.currentLevel ) { //-1
-			levelRoom = new IntroRoom();
+			levelRoom = new IntroRoom(callback);
 		} else {
 			this.currentLevel = JSON.parse(localStorage.getItem("currentLevel") || 0);
-			levelRoom = new Room(this.levels[this.currentLevel]);
+			levelRoom = new Room(this.levels[this.currentLevel], callback);
 		}
 		this.currentLevelObject = this.addChild(levelRoom);
 		return this.currentLevelObject;
@@ -61,7 +67,13 @@ define(function(require) {
 	LevelsContainer.prototype.next = function(){
 		this.markAsSolved();
 		this.removeChild(this.currentLevelObject);
-		this.start();
+		var that = this;
+		this.start(function(){
+			console.log("level done");
+			setTimeout(function(){
+				that.next();
+			},1000);
+		});
 	};
 
 	return LevelsContainer;

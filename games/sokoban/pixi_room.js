@@ -7,7 +7,7 @@ define(function(require) {
 	var Handlers = require("games/sokoban/pixi_handlers");
 
 	
-	var Room = function( level ){
+	var Room = function( level, callback ){
 		PIXI.DisplayObjectContainer.call(this);
 		this.player = null;
 		this.grid = level.grid;
@@ -21,7 +21,7 @@ define(function(require) {
 		// this.recordsBox = new Records();
 		// that.handlers = new Handlers(that, that.commandList);
 		// that.commandList.reset(this.recordsBox);
-		this.handlers = new Handlers(this);//includes the CommandList, need the Record
+		this.handlers = new Handlers(this, callback);//includes the CommandList, need the Record
 	};
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 

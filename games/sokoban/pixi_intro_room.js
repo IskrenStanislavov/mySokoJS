@@ -4,7 +4,7 @@ define(function(require) {
 	var BaseLevel  	= require("games/sokoban/baseLevel");
 	var InfoBox  	= require("games/sokoban/pixi_infoBox");
 
-	var IntroRoom = function() {
+	var IntroRoom = function(callback) {
 		this.initLevelData({
 			testCorners: true,
 		});
@@ -14,7 +14,7 @@ define(function(require) {
 			rawString: this.xData,
 			format: "iso",
 			levelName: "IntroScreen"
-		}));
+		}), callback);
 		this.infoBox = this.addChild(new InfoBox());
 		this.infoBox.x = this.W + 4;
 	};

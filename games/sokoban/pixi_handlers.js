@@ -5,10 +5,10 @@ define(function(require) {
 	var TouchHandlers 	= require("games/sokoban/handlers/pixi_touchHandlers");
 	var CommandList 	= require("games/sokoban/commandList");
 
-	var Handlers = function(room) {
+	var Handlers = function(room, callback) {
 		this.commandList 	= new CommandList;
-		this.touchHandlers 	= new TouchHandlers( this.commandList, room.logic );
-		this.keyHandlers 	= new KeyHandlers( this.commandList );
+		this.touchHandlers 	= new TouchHandlers( this.commandList, room.logic, callback );
+		this.keyHandlers 	= new KeyHandlers( this.commandList, callback );
 		this.commandList.reset({//Record instance required
 			update:function(moves, pushes){
 				console.log("moves:"+moves, "pushes:"+pushes);

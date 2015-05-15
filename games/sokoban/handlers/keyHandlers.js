@@ -3,7 +3,9 @@ define(function(require) {
 	var Logic   = require("games/sokoban/room/logic");
 	var Direction  = require('games/sokoban/room/direction');
 
-	var Handlers = function( commandList ) {
+	var Handlers = function( commandList, callback ) {
+		console.log("solve callback:",callback);
+		this.callback = callback;
 		this.commandList = commandList;
 		this.currentKeyDown = null;
 		this.config = {'moves':{
@@ -83,6 +85,10 @@ define(function(require) {
 			evt = this.getEvent(evt);
 			if ( evt.keyCode === this.currentKeyDown ) {
 				this.currentKeyDown = null;
+			}
+			if ( this.logic.checkForSolved() ){
+				console.log("solved!5745", this.callback);
+				this.callback && this.callback();
 			}
 		},
 
