@@ -14,14 +14,16 @@ define(function(require) {
 
 	var Tile = function(tileData){
 		var texturesData = tileConfig[tileData.kind];
+		this.name = this.kind = tileData.kind;
 		this.tileTextures = {};
 		Object.keys(tileConfig[tileData.kind].animations).forEach(function(key, idx){
 			this.tileTextures[key] = PIXI.Texture.fromFrame(tileData.kind+"_"+key);
 		}.bind(this));
 		PIXI.Sprite.call(this, this.tileTextures.normal);
 		this.cloneAt(tileData.row, tileData.column, tileData.onTarget);
-
-		this.name = this.kind = tileData.kind;
+		if (this.isWall()){
+			this.redrawWall(tileData.texture);
+		}
 	};
 
 	Tile.prototype = Object.create( PIXI.Sprite.prototype );
@@ -86,10 +88,6 @@ define(function(require) {
 	};
 
 	Tile.prototype.redrawWall = function(newWall) {
-		if (!this.tileTextures[newWall]){
-			console.log(newWall,this.tileTextures[newWall]);
-			debugger;
-		}
 		this.setTexture(this.tileTextures[newWall]);
 	};
 

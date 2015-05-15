@@ -5,6 +5,7 @@ define(function(require) {
 			"iso": {
 				"newLineSymbol":";",
 				"emptyTile":" ",
+				"wallSymbol": "W",
 				"P": {
 					"onTarget": false,
 					"interior":	"player"
@@ -44,6 +45,7 @@ define(function(require) {
 			"xsb": {
 				"newLineSymbol":"|",
 				"emptyTile":" ",
+				"wallSymbol": "#",
 				"@": {
 					"onTarget": false,
 					"interior":	"player"

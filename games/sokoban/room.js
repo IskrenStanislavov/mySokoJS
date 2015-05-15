@@ -2,9 +2,7 @@ define(function(require) {
 	var roomConfig  = require("games/sokoban/room/config");
 	var Logic  = require("games/sokoban/room/logic");
 	var Records  = require("games/sokoban/room/records");
-	var parseWalls  = require("games/sokoban/room/walls");
 
-	
 	var Room = function( level, tileFactory ){
 		createjs.Container.call(this);
 		this.tileFactory = tileFactory;
@@ -12,7 +10,6 @@ define(function(require) {
 		this.rows = this.grid.length;
 		this.columns = this.grid[0].length;
 		this.parseTiles();
-		this.parseWalls(this.interiorTiles);
 		this.setDimentions();
 
 		this.initInformations();
@@ -33,7 +30,7 @@ define(function(require) {
 			});
 		});
 	};
-	Room.prototype.parseWalls = parseWalls;
+
 	Room.prototype.setDimentions = function(){
 		this.W = this.columns * this.tileFactory.dimensions.width;
 		this.W += roomConfig.additionalWidth;

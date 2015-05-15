@@ -30,7 +30,11 @@ define(function(require) {
 
 	$.extend(Factory.prototype, {
 		"newTile": function(data) {
-			return this.bases[data.kind].cloneAt(data.row, data.column, data.onTarget );
+			var tile = this.bases[data.kind].cloneAt(data.row, data.column, data.onTarget )
+			if (tile.isWall()){
+				tile.redrawWall(data.texture);
+			}
+			return tile;
 		},
 	});
 

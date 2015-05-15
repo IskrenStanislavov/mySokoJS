@@ -1,7 +1,6 @@
 define(function(require) {
 	var SokobanLogic  = require("games/sokoban/room/logic");
 	var Records  = require("games/sokoban/room/records");
-	var parseWalls  = require("games/sokoban/room/walls");
     var PIXI        = require("libs/pixi");
 	var Tile 		= require('games/sokoban/tiles/pixi_tiles');
 	var tileConfig  = require('games/sokoban/tiles/pixi_config');
@@ -13,7 +12,6 @@ define(function(require) {
 		this.player = null;
 		this.grid = level.grid;
 		this.parseTiles();
-		this.parseWalls(this.interiorTiles);
 		this.setDimentions();
 
 		this.logic = new SokobanLogic(this.player, this.interiorTiles);
@@ -40,7 +38,6 @@ define(function(require) {
 		});
 	};
 
-	Room.prototype.parseWalls = parseWalls;
 	Room.prototype.setDimentions = function(){
 		this.W = this.grid[0].length * tileConfig.dimensions.width;
 		this.H = (this.grid.length+1) * tileConfig.dimensions.height;
