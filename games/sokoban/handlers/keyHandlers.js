@@ -4,7 +4,6 @@ define(function(require) {
 	var Direction  = require('games/sokoban/room/direction');
 
 	var Handlers = function( commandList, callback ) {
-		console.log("solve callback:",callback);
 		this.callback = callback;
 		this.commandList = commandList;
 		this.currentKeyDown = null;
@@ -87,7 +86,6 @@ define(function(require) {
 				this.currentKeyDown = null;
 			}
 			if ( this.logic.checkForSolved() ){
-				console.log("solved!5745", this.callback);
 				this.callback && this.callback();
 			}
 		},

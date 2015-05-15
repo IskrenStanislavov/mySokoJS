@@ -8,7 +8,7 @@ define(function(require) {
 		this.stage = stage;
 		this.commandList = commandList;
 		this.touchHandlers = new TouchHandlers( commandList, stage );
-		this.keyHandlers = new KeyHandlers( commandList, stage );
+		this.keyHandlers = new KeyHandlers( commandList, function(){return;} );
 	};
 
 	$.extend(Handlers.prototype, {
