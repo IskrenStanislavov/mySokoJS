@@ -102,8 +102,6 @@ define(function(require) {
 		} else {
 			return "normal";
 		}
-
-
 	};
 
 	return BaseLevel;

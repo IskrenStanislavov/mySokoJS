@@ -28,17 +28,17 @@ define(function(require) {
 	Tile.prototype.row = 0;
 	Tile.prototype.column = 0;
 
-	Tile.prototype.cloneAt = function(row, column, onTarget) {
+	Tile.prototype.cloneAt = function(row, column, onTarget, texture) {
 		// var clonning = this.clone(); //doesnt work - returns Sprite instance
 		//spriteSheet.clone() cannot be cloned!!
 		var clonning = new Tile(this.kind, this.spriteSheet);
 		clonning.initialPositions.row = row;
 		clonning.initialPositions.column = column;
 		clonning.positionAt(row, column);
-		if (this.isPlayer()) {
-			clonning.name = "player";
-		}
 		clonning.setOnTarget(onTarget);
+		if (clonning.isWall()){
+			clonning.gotoAndStop(texture);
+		}
 		return clonning;
 	};
 
@@ -81,7 +81,6 @@ define(function(require) {
 	};
 
 	Tile.prototype.redrawWall = function(newWall) {
-		this.gotoAndStop(newWall);
 	};
 
 	Tile.prototype.isPlayer = function(){

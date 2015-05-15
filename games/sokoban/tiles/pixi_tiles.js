@@ -20,9 +20,14 @@ define(function(require) {
 			this.tileTextures[key] = PIXI.Texture.fromFrame(tileData.kind+"_"+key);
 		}.bind(this));
 		PIXI.Sprite.call(this, this.tileTextures.normal);
-		this.cloneAt(tileData.row, tileData.column, tileData.onTarget);
-		if (this.isWall()){
-			this.redrawWall(tileData.texture);
+
+		this.initialPositions.row = tileData.row;
+		this.initialPositions.column = tileData.column;
+		this.positionAt(tileData.row, tileData.column);
+		this.setOnTarget(tileData.onTarget);
+
+		if (this.isWall()) {
+			this.setTexture(this.tileTextures[tileData.texture]);
 		}
 	};
 
@@ -32,22 +37,7 @@ define(function(require) {
 
 	Tile.prototype.dimensions = tileConfig.dimensions;
 	Tile.prototype.initialPositions = {"row":0, "column":0};
-	// Tile.prototype.row = 0;
-	// Tile.prototype.column = 0;
 
-	Tile.prototype.cloneAt = function(row, column, onTarget) {
-		// var clonning = this.clone(); //doesnt work - returns Sprite instance
-		//spriteSheet.clone() cannot be cloned!!
-		var clonning = this;
-		clonning.initialPositions.row = row;
-		clonning.initialPositions.column = column;
-		clonning.positionAt(row, column);
-		if (this.isPlayer()) {
-			clonning.name = "player";
-		}
-		clonning.setOnTarget(onTarget);
-		return clonning;
-	};
 
 	Tile.prototype.positionAt = function(row, column){
 		// used to reposition the tile
@@ -85,10 +75,6 @@ define(function(require) {
 
 	Tile.prototype.isFree = function(){
 		return this.kind === "empty";
-	};
-
-	Tile.prototype.redrawWall = function(newWall) {
-		this.setTexture(this.tileTextures[newWall]);
 	};
 
 	Tile.prototype.isPlayer = function(){
