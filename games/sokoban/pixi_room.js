@@ -5,6 +5,7 @@ define(function(require) {
 	var Tile 		= require('games/sokoban/tiles/pixi_tiles');
 	var tileConfig  = require('games/sokoban/tiles/pixi_config');
 	var Handlers = require("games/sokoban/pixi_handlers");
+	var Directions = require("games/sokoban/room/pixi_directions");
 
 	
 	var Room = function( level, callback ){
@@ -14,7 +15,12 @@ define(function(require) {
 		this.parseTiles();
 		this.setDimentions();
 
+
 		this.logic = new SokobanLogic(this.player, this.interiorTiles);
+
+		this.directions = this.addChild(new Directions(this.logic));
+		this.directions.position.set(this.W, this.H);
+
 
 
 		// that.currentLevel = this;
@@ -24,6 +30,7 @@ define(function(require) {
 		this.handlers = new Handlers(this, callback);//includes the CommandList, need the Record
 	};
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
+
 
 	Room.prototype.parseTiles = function() {
 		var that = this;

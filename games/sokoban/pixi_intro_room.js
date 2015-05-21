@@ -6,7 +6,7 @@ define(function(require) {
 
 	var IntroRoom = function(callback) {
 		this.initLevelData({
-			testCorners: true,
+			testCorners: false,
 		});
 		Room.call(this,  new BaseLevel({
 			author: "Isko",
