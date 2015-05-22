@@ -7,7 +7,8 @@ define(function(require){
 
     new CustomLoader({resources:[
         "img/sprite.json",
-        "img/arrow.jpg",
+        "img/arrow.png",
+        "img/arrows.json",
         ], onComplete: function(){
             window.app = new Sokoban();
         }

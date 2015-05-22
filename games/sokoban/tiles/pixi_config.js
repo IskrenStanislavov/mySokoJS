@@ -8,12 +8,11 @@
 define(function(require) {
     require("libs/zepto.min");
 
-	var Config = new Object();
-
-	Config.dimensions = {
+	var Config = {
 		'width' : 50,
 		'height': 50,
 	};
+	Config.dimensions = Object.create(Config);
 
 	Config.delta = Config.deltaX = Config.deltaY = Config.dimensions.width; 
 

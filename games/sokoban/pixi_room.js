@@ -18,8 +18,8 @@ define(function(require) {
 
 		this.logic = new SokobanLogic(this.player, this.interiorTiles);
 
-		this.directions = this.addChild(new Directions(this.logic));
-		this.directions.position.set(this.W, this.H);
+		this.directions = this.addChild(new Directions(this.logic, this.rows, this.columns));
+		this.directions.position.set(0, this.H);
 
 
 
@@ -31,6 +31,18 @@ define(function(require) {
 	};
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
+	Object.defineProperties(Room.prototype, {
+		"rows": {
+			get: function() {
+				return this.grid.length;
+			}
+		},
+		"columns": {
+			get: function() {
+				return this.grid[0].length;
+			}
+		},
+	});
 
 	Room.prototype.parseTiles = function() {
 		var that = this;
@@ -46,8 +58,8 @@ define(function(require) {
 	};
 
 	Room.prototype.setDimentions = function(){
-		this.W = this.grid[0].length * tileConfig.dimensions.width;
-		this.H = (this.grid.length+1) * tileConfig.dimensions.height;
+		this.W = this.columns * tileConfig.width;
+		this.H = this.rows * tileConfig.height;
 	};
 
 	return Room;
