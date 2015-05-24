@@ -1,38 +1,38 @@
 define(function(require) {
+	var CommandList 	= require("games/sokoban/commandList");
 	var SokobanLogic  = require("games/sokoban/room/logic");
-	var Records  = require("games/sokoban/room/records");
+	var Records  	= require("games/sokoban/room/records");
+
+	var Handlers 	= require("games/sokoban/pixi_handlers");
+
     var PIXI        = require("libs/pixi");
 	var Tile 		= require('games/sokoban/tiles/pixi_tiles');
 	var tileConfig  = require('games/sokoban/tiles/pixi_config');
-	var Handlers = require("games/sokoban/pixi_handlers");
-	var Directions = require("games/sokoban/room/pixi_directions");
+	var Directions 	= require("games/sokoban/room/pixi_directions");
+
 
 	
-	var Room = function( level, callback ){
+	var Room = function( level, levelCompleteCallback ){
 		PIXI.DisplayObjectContainer.call(this);
 		this.player = null;
 		this.grid = level.grid;
 		this.parseTiles();
 		this.setDimentions();
 
-
-		this.logic = new SokobanLogic(this.player, this.interiorTiles);
-
 		this.directions = this.addChild(new Directions(this.logic, this.rows, this.columns));
 		this.directions.position.set(0, this.H);
 
-
-
-		// that.currentLevel = this;
-		// this.recordsBox = new Records();
-		// that.handlers = new Handlers(that, that.commandList);
-		// that.commandList.reset(this.recordsBox);
-		this.handlers = new Handlers(this, callback);//includes the CommandList, need the Record
-
 		this.infoBox = this.addChild(new InfoBox());
-		this.infoBox.x = this.W + 4;
+		this.infoBox.position.set(this.W + 4, 0);
 
-		this.handlers.commandList.modified.add(this.infoBox.update.bind(this.infoBox));
+
+
+		this.logic = new SokobanLogic(this.player, this.interiorTiles);
+		this.commandList 	= new CommandList();
+
+		this.commandList.modified.add(this.infoBox.update.bind(this.infoBox));
+
+		this.handlers = new Handlers(this.commandList, this.logic, levelCompleteCallback);
 	};
 
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
