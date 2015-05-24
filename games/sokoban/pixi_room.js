@@ -3,7 +3,7 @@ define(function(require) {
 	var SokobanLogic  = require("games/sokoban/room/logic");
 	var Records  	= require("games/sokoban/room/records");
 
-	var Handlers 	= require("games/sokoban/pixi_handlers");
+	var KeyHandlers 	= require("games/sokoban/handlers/keyHandlers");
 
     var PIXI        = require("libs/pixi");
 	var Tile 		= require('games/sokoban/tiles/pixi_tiles');
@@ -32,7 +32,8 @@ define(function(require) {
 
 		this.commandList.modified.add(this.infoBox.update.bind(this.infoBox));
 
-		this.handlers = new Handlers(this.commandList, this.logic, levelCompleteCallback);
+		this.keyHandlers 	= new KeyHandlers( this.commandList, levelCompleteCallback );
+		this.keyHandlers.refresh(this.logic);
 	};
 
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);

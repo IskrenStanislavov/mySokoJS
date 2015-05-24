@@ -1,6 +1,5 @@
 
 define(function(require) {
-	var Logic   = require("games/sokoban/room/logic");
 	var Direction  = require('games/sokoban/room/direction');
 
 	var Handlers = function( commandList, callback ) {
