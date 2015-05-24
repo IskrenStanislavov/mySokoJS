@@ -33,6 +33,7 @@ define(function(require) {
 	};
 
 	Logic.prototype.getActionData = function( direction ) {
+		direction = Direction.getInstance(direction);
 		var tiles = this.getCloseTiles( direction );
 		if ( tiles[0].isFree() ) {
 			return new Command("move", direction, this.player, tiles, this.interior);

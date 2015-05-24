@@ -42,7 +42,10 @@ define(function(require) {
 		"Revert": new Direction( 4,-1, "Revert"	, "column"	, +1 ),
 	};
 
-
+	Direction.getInstance = function(d){
+		if (!!d.direction){return d;}
+		return Direction.instances[d.capitalize()];
+	};
 
 	return Direction;
 });

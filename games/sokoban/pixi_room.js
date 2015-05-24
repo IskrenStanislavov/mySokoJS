@@ -1,7 +1,7 @@
 define(function(require) {
 	var CommandList 	= require("games/sokoban/commandList");
 	var SokobanLogic  = require("games/sokoban/room/logic");
-	var Records  	= require("games/sokoban/room/records");
+	var Direction   = require('games/sokoban/room/direction');
 
 	var KeyHandlers 	= require("games/sokoban/handlers/keyHandlers");
 
@@ -28,15 +28,15 @@ define(function(require) {
 		this.infoBox = this.addChild(new InfoBox());
 		this.infoBox.position.set(this.W + 4, 0);
 
-
+		var that = this;
 
 		this.logic = new SokobanLogic(this.player, this.interiorTiles);
 		this.commandList 	= new CommandList();
 
-		this.commandList.modified.add(this.infoBox.update.bind(this.infoBox));
-
-		this.keyHandlers 	= new KeyHandlers( this.commandList, levelCompleteCallback );
+		this.keyHandlers 	= new KeyHandlers( levelCompleteCallback );
 		this.keyHandlers.refresh(this.logic);
+
+		this.keyHandlers.action.add(this.handleAction, this);
 
 
 		this.allBoxes = this.interiorTiles.reduce(function(a, b){
@@ -77,6 +77,36 @@ define(function(require) {
 	Room.prototype.setDimentions = function(){
 		this.W = this.columns * tileConfig.width;
 		this.H = this.rows * tileConfig.height;
+	};
+
+		
+	Room.prototype.handleAction = function(eData){
+		switch(eData.action){
+			case "move":
+			var action = this.logic.getActionData(eData.direction);
+			if ( action ){
+				this.commandList.addCommand( action );
+			}
+			break;
+
+			case "undo":
+			this.commandList.goBack();
+			break;
+
+			case "redo":
+			this.commandList.goForward();
+			break;
+
+			case "revertAll":
+			this.commandList.revertAll();
+			break;
+
+			default:
+			return;
+		}
+		var moves = this.commandList.moves;
+		var pushes = this.commandList.pushes;
+		this.infoBox.update(moves, pushes);
 	};
 
 	return Room;

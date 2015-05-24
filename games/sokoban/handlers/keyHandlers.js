@@ -1,17 +1,17 @@
 
 define(function(require) {
-	var Direction  = require('games/sokoban/room/direction');
+	var Signal = require('libs/signals.min');
 
-	var Handlers = function( commandList, callback ) {
+	var Handlers = function( callback ) {
 		this.callback = callback;
-		this.commandList = commandList;
 		this.currentKeyDown = null;
+		this.action = new Signal();
 		this.config = {'moves':{
 			// keyCode | action
-			37: Direction.instances.Left,
-			38: Direction.instances.Up,
-			39: Direction.instances.Right,
-			40: Direction.instances.Down,
+			37: "left",
+			38: "up",
+			39: "right",
+			40: "down",
 		}, "history":{
 			90: "undo",//ctrl+Z
 			89: "redo",//ctrl+Y
@@ -56,25 +56,16 @@ define(function(require) {
 		'handleCtrlCombination': function( keyId ) {
 			//XXX: think of ctrl+left.. as а go to the most left.. posible
 			var change = this.config.history[keyId];
-			if ( change === "undo" ) {
-				this.commandList.goBack();
-			} else if ( change === "redo" ) {
-				this.commandList.goForward();
-			} else if ( change === "revertAll" ){
-				this.commandList.revertAll();
+			if ( change ){
+				this.action.dispatch({action:change, direction:null});
 			}
 			return !!change;
 		},
 
 		'handleSingleKey': function(keyId) {
 			var move = this.config.moves[keyId];
-			if (!move){
-				return !!move;
-			}
-
-			var action = this.logic.getActionData(move);
-			if ( action ){
-				this.commandList.addCommand( action );
+			if (move){
+				this.action.dispatch({action:"move", direction:move});
 			}
 			return !!move;
 		},

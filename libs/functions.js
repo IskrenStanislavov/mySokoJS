@@ -29,6 +29,10 @@ String.prototype.center = String.prototype.center || function( width, padding ) 
 		return this;
 };
 
+String.prototype.capitalize = String.prototype.capitalize || function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+};
+
 Storage.prototype.setObject = Storage.prototype.setObject || function(key, value) {
     this.setItem(key, JSON.stringify(value));
 };
