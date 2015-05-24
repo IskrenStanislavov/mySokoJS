@@ -27,19 +27,19 @@ define(function(require) {
 		}));
 		this.countLabels.position = new PIXI.Point(0, 100);
 
-		this.countLabels = this.addChild(new PIXI.Text("0\n0", {
+		this.countings = this.addChild(new PIXI.Text("0\n0", {
 			font: "bold 14px Arial",
 			fill: '#7f4746',
 			align: 'left',
 			lineHeight:18,
 		}));
-		this.countLabels.position = new PIXI.Point(50, 100);
+		this.countings.position = new PIXI.Point(50, 100);
 
 	};
 	InfoBox.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
 	InfoBox.prototype.update = function(moves, pushes) {
-		this.countLabels.setText( moves + "\n" + pushes );
+		this.countings.setText( moves + "\n" + pushes );
 	};
 
 	return InfoBox;
