@@ -51,6 +51,21 @@ define(function(require) {
 		},
 	});
 
+	Room.prototype.isSolved = function() {
+		if ( this.logic.inDrag() ) {
+			return false;
+		}
+		var checkedTiles = this.interiorTiles.reduce(function(a, b){
+			return a.concat(b);
+		}).filter(function(tile){
+			if (tile.isBox() && !tile.onTarget){
+				return tile;
+			}
+		});
+
+		return !checkedTiles.length;
+	};
+
 	Room.prototype.parseTiles = function() {
 		var that = this;
 		this.interiorTiles = this.grid.map(function(row, iRow){

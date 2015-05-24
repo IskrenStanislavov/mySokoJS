@@ -17,6 +17,21 @@ define(function(require) {
 	};
 	Room.prototype = Object.create(createjs.Container.prototype);
 
+	Room.prototype.isSolved = function() {
+		if ( this.logic.inDrag() ) {
+			return false;
+		}
+		var checkedTiles = this.interiorTiles.reduce(function(a, b){
+			return a.concat(b);
+		}).filter(function(tile){
+			if (tile.isBox() && !tile.onTarget){
+				return tile;
+			}
+		});
+
+		return !checkedTiles.length;
+	};
+
 
 	Room.prototype.parseTiles = function() {
 		var that = this;

@@ -35,7 +35,7 @@ define(function(require) {
 		this.handlers.refresh(this.currentRoom);
 		var that = this;
 		var solveCheck = setInterval(function(){
-			if ( that.currentRoom.logic.checkForSolved() ){
+			if ( that.currentRoom.isSolved() ){
 				clearInterval(solveCheck);
 				setTimeout(function(){
 					that.removeChild(that.currentRoom);

@@ -32,7 +32,7 @@ define(function(require) {
 	LevelsContainer.prototype.initLevelSolvedCheck = function() {
 		var that = this;
 		setInterval(function(){
-			if ( that.currentLevelObject.logic.checkForSolved() ){
+			if ( that.currentLevelObject.isSolved() ){
 				setTimeout(function(){
 					that.next();
 				},1000);
