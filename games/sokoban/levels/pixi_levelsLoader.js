@@ -7,7 +7,7 @@ define(function(require) {
 	var config = {
 		'collectionsToLoad': 1,
 		'collections': [
-			{"path":   "games/sokoban/levels/niveles_homs.json",
+			{"path":   "games/sokoban/levels/collections/niveles_homs.json",
 			"parseData": function(data){
 				var author = data.autorDeNivel;
 				var collectionName = data.nombreDeNivel;
@@ -26,7 +26,7 @@ define(function(require) {
 				this.collectionsToLoad -= 1;
 				this.collectionsToLoad === 0 && this.onLoadCallback && this.onLoadCallback(this.levels);
 			}},
-			{"path":   "games/sokoban/levels/levels_erim_sever.json",
+			{"path":   "games/sokoban/levels/collections/levels_erim_sever.json",
 			"format": "xsb",
 			"parseData": function(data){
 						// that.levels.push(new Level(data[key]));
