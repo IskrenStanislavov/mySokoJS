@@ -1,6 +1,5 @@
 define(function(require) {
     var PIXI  		= require("libs/pixi");
-    var Records  = require("games/sokoban/room/records");
 
 	InfoBox = function() {
 		PIXI.DisplayObjectContainer.call(this);
@@ -28,7 +27,7 @@ define(function(require) {
 		}));
 		this.countLabels.position = new PIXI.Point(0, 100);
 
-		this.countLabels = this.addChild(new PIXI.Text("108\n97", {
+		this.countLabels = this.addChild(new PIXI.Text("0\n0", {
 			font: "bold 14px Arial",
 			fill: '#7f4746',
 			align: 'left',
@@ -36,9 +35,12 @@ define(function(require) {
 		}));
 		this.countLabels.position = new PIXI.Point(50, 100);
 
-		this.records = new Records(this.countLabels);
 	};
 	InfoBox.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
+
+	InfoBox.prototype.update = function(moves, pushes) {
+		this.countLabels.setText( moves + "\n" + pushes );
+	};
 
 	return InfoBox;
 });

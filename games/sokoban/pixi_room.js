@@ -28,7 +28,13 @@ define(function(require) {
 		// that.handlers = new Handlers(that, that.commandList);
 		// that.commandList.reset(this.recordsBox);
 		this.handlers = new Handlers(this, callback);//includes the CommandList, need the Record
+
+		this.infoBox = this.addChild(new InfoBox());
+		this.infoBox.x = this.W + 4;
+
+		this.handlers.commandList.modified.add(this.infoBox.update.bind(this.infoBox));
 	};
+
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
 	Object.defineProperties(Room.prototype, {

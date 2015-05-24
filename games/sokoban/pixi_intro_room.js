@@ -15,8 +15,6 @@ define(function(require) {
 			format: "iso",
 			levelName: "IntroScreen"
 		}), callback);
-		this.infoBox = this.addChild(new InfoBox());
-		this.infoBox.x = this.W + 4;
 	};
 
 	IntroRoom.prototype = Object.create(Room.prototype);
