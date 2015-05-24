@@ -31,6 +31,7 @@ define(function(require) {
 		this.resize();
 
 		this.commandList.reset(this.currentRoom.records);
+		this.commandList.modified.add(this.currentRoom.records.update.bind(this.currentRoom.records));
 		this.handlers.refresh(this.currentRoom);
 		var that = this;
 		var solveCheck = setInterval(function(){

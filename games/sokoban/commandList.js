@@ -1,12 +1,14 @@
 // holds player's actions with undo & redo functionallity
 
 define(function(require) {
+	var Signal = require('libs/signals.min');
 
 	var CommandList = function() {
 		this.position = -1;
 		this.list = [];
 		this.pushes = 0;
 		this.moves = 0;
+		this.modified = new Signal();
 	};
 
 	CommandList.prototype.reset = function(){
@@ -14,6 +16,7 @@ define(function(require) {
 		this.clearFrom(0);
 		this.pushes = 0;
 		this.moves = 0;
+		this.modified.dispatch(this.moves, this.pushes);
 	};
 
 	CommandList.prototype.addCommand = function( command ) {
@@ -26,6 +29,7 @@ define(function(require) {
 		this.pushes += command.countPushes();
 		command.execute();
 		this.position += 1;
+		this.modified.dispatch(this.moves, this.pushes);
 	};
 
 	CommandList.prototype.goBack = function() {
@@ -41,6 +45,7 @@ define(function(require) {
 		this.pushes -= command.countPushes();
 		command.undo();
 		this.position -= 1;
+		this.modified.dispatch(this.moves, this.pushes);
 	};
 
 	CommandList.prototype.cleanUp = function() {
@@ -56,6 +61,7 @@ define(function(require) {
 		this.moves += command.countMoves();
 		this.pushes += command.countPushes();
 		command.redo();
+		this.modified.dispatch(this.moves, this.pushes);
 	};
 
 	CommandList.prototype.shouldReplace = function( ) {
@@ -84,7 +90,6 @@ define(function(require) {
 			this.rawUndo();
 		}
 	};
-
 
 	return CommandList;
 });

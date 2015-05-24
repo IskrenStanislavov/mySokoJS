@@ -68,7 +68,7 @@ define(function(require) {
 				"y":100,
 			},
 			"actionsCount":{
-				'text': "108\n97",
+				'text': "0\n0",
 				'font' : "bold 14px Arial",
 				"lineHeight":18,
 				'color':"#7f4746",
