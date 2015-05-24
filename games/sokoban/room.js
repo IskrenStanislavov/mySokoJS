@@ -14,6 +14,15 @@ define(function(require) {
 
 		this.initInformations();
 		this.logic = new Logic(this.player, this.interiorTiles);
+
+		this.allBoxes = this.interiorTiles.reduce(function(a, b){
+			return a.concat(b);
+		}).filter(function(tile){
+			if (tile.isBox()){
+				return tile;
+			}
+		});
+
 	};
 	Room.prototype = Object.create(createjs.Container.prototype);
 
@@ -21,15 +30,10 @@ define(function(require) {
 		if ( this.logic.inDrag() ) {
 			return false;
 		}
-		var checkedTiles = this.interiorTiles.reduce(function(a, b){
-			return a.concat(b);
-		}).filter(function(tile){
-			if (tile.isBox() && !tile.onTarget){
-				return tile;
-			}
+		var solved = this.allBoxes.every(function(boxTile){
+			return !!boxTile.onTarget;
 		});
-
-		return !checkedTiles.length;
+		return solved;
 	};
 
 

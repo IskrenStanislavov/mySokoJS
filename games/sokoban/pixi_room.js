@@ -16,6 +16,9 @@ define(function(require) {
 		PIXI.DisplayObjectContainer.call(this);
 		this.player = null;
 		this.grid = level.grid;
+		this.rows = this.grid.length;
+		this.columns = this.grid[0].length;
+
 		this.parseTiles();
 		this.setDimentions();
 
@@ -34,36 +37,28 @@ define(function(require) {
 
 		this.keyHandlers 	= new KeyHandlers( this.commandList, levelCompleteCallback );
 		this.keyHandlers.refresh(this.logic);
+
+
+		this.allBoxes = this.interiorTiles.reduce(function(a, b){
+			return a.concat(b);
+		}).filter(function(tile){
+			if (tile.isBox()){
+				return tile;
+			}
+		});
+
 	};
 
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
-
-	Object.defineProperties(Room.prototype, {
-		"rows": {
-			get: function() {
-				return this.grid.length;
-			}
-		},
-		"columns": {
-			get: function() {
-				return this.grid[0].length;
-			}
-		},
-	});
 
 	Room.prototype.isSolved = function() {
 		if ( this.logic.inDrag() ) {
 			return false;
 		}
-		var checkedTiles = this.interiorTiles.reduce(function(a, b){
-			return a.concat(b);
-		}).filter(function(tile){
-			if (tile.isBox() && !tile.onTarget){
-				return tile;
-			}
+		var solved = this.allBoxes.every(function(boxTile){
+			return !!boxTile.onTarget;
 		});
-
-		return !checkedTiles.length;
+		return solved;
 	};
 
 	Room.prototype.parseTiles = function() {
