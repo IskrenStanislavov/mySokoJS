@@ -1,7 +1,6 @@
 //xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
 
 define(function(require) {
-    var PIXI        = require("libs/pixi");
 	var BaseLevel   = require("games/sokoban/baseLevel");
 
 	var config = {
@@ -9,8 +8,6 @@ define(function(require) {
 		'collections': [
 			{"path":   "games/sokoban/levels/collections/niveles_homs.json",
 			"parseData": function(data){
-				var author = data.autorDeNivel;
-				var collectionName = data.nombreDeNivel;
 				Object.keys(data.niveles).forEach(function( levelName, index ) {
 					this.levels.push( new BaseLevel({
 						author: data.autorDeNivel,
@@ -36,32 +33,25 @@ define(function(require) {
 	};
 
 	var LevelsLoader = function(settings){
-		this.accumulateIn = settings.accumulateIn;
+		this.levels = settings.accumulateIn;
 		this.onLoadCallback = settings.onComplete;
 		if ( !localStorage.getItem("levelsPackagesLoaded", 0) ){
 			this.load();
 		} else {
-			this.levels = JSON.parse(localStorage.getItem("gameLevels",null));
+			this.levels.push.apply(this.levels, JSON.parse(localStorage.getItem("gameLevels")));
 			this.levels = this.levels.map(function(level){
 				return new BaseLevel(level);
 			});
-			return this.levels
+			return this.levels;
 		}
 	};
 
 	LevelsLoader.prototype.load = function(){
 		this.collectionsToLoad = config.collectionsToLoad;
-		if ( !this.levels || !this.levels.length ) {
-			this.levels = [];
-			var that = this;
-			config.collections.forEach(function(collection, ix) {
-				$.getJSON(collection.path, collection.parseData.bind(that) );
-			});
-		} else {
-			setTimeout(function(){
-				callback && callback();
-			},500);
-		}
+		var that = this;
+		config.collections.forEach(function(collection, ix) {
+			$.getJSON(collection.path, collection.parseData.bind(that) );
+		});
 	}
 
 	return LevelsLoader;

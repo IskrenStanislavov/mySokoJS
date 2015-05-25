@@ -18,7 +18,6 @@ define(function(require) {
 		this.levels = new Levels(function(){
 			this.start();
 		}.bind(this));
-		this.levels.load();
 	};
 
 	Sokoban.prototype.start = function() {

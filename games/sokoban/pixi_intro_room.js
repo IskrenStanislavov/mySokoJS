@@ -20,11 +20,7 @@ define(function(require) {
 	IntroRoom.prototype = Object.create(Room.prototype);
 
 	IntroRoom.prototype.initLevelData = function(settings) {
-
-		this.xData = "WWWWWW;WP B-W;WWWWWW";//solvable
-		if (true){
-			this.xData = "WWWWWW;WP-B-W;WWWWWW";//test box on a target; n player on a target
-		}
+		this.xData = "WWWWWW;WP-B-W;WWWWWW";//test box on a target; n player on a target
 		//for corner testing
 		if (settings.testCorners){
 			//cross & single edges
