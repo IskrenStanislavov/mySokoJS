@@ -11,12 +11,18 @@
 define(function(require) {
 	var tileConfig  = require('games/sokoban/tiles/config');
 
-	var Tile = function(kind, spriteSheet){
-		this.name = this.kind = kind;
-		if ( spriteSheet === undefined ) {
-			spriteSheet = new createjs.SpriteSheet(tileConfig[kind]);
-		}
+	var Tile = function(data){
+		this.name = this.kind = data.kind;
+		var spriteSheet = new createjs.SpriteSheet(tileConfig[data.kind]);
 		createjs.Sprite.call(this, spriteSheet);
+		this.initialPositions.row = data.row;
+		this.initialPositions.column = data.column;
+		this.positionAt(data.row, data.column);
+		this.setOnTarget(data.onTarget);
+		if (this.isWall()){
+			this.gotoAndStop(data.texture);
+		}
+
 	};
 
 	Tile.prototype = Object.create( createjs.Sprite.prototype );
@@ -27,20 +33,6 @@ define(function(require) {
 	Tile.prototype.initialPositions = {"row":0, "column":0};
 	Tile.prototype.row = 0;
 	Tile.prototype.column = 0;
-
-	Tile.prototype.cloneAt = function(row, column, onTarget, texture) {
-		// var clonning = this.clone(); //doesnt work - returns Sprite instance
-		//spriteSheet.clone() cannot be cloned!!
-		var clonning = new Tile(this.kind, this.spriteSheet);
-		clonning.initialPositions.row = row;
-		clonning.initialPositions.column = column;
-		clonning.positionAt(row, column);
-		clonning.setOnTarget(onTarget);
-		if (clonning.isWall()){
-			clonning.gotoAndStop(texture);
-		}
-		return clonning;
-	};
 
 	Tile.prototype.positionAt = function(row, column){
 		// used to reposition the tile
