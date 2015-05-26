@@ -7,21 +7,25 @@ define(function(require) {
 		this.player = player;
 		this.interior = interior;
 		this.directions = Direction.instances;
-	};
-
-	Logic.prototype.checkForSolved = function(){
-		if ( this.inDrag() ) {
-			return false;
-		}
-		var checkedTiles = this.interior.reduce(function(a, b){
+		this.checkedTiles = this.interior.reduce(function(a, b){
 			return a.concat(b);
 		}).filter(function(tile){
-			if (tile.isBox() && !tile.onTarget){
+			if (tile.isBox()){
 				return tile;
 			}
 		});
+	};
 
-		return !checkedTiles.length;
+	Logic.prototype.isSolved = function(){
+		if ( this.inDrag() ) {
+			return false;
+		}
+		return this.checkedTiles
+		.filter(function(tile){
+			if (!tile.onTarget){
+				return tile;
+			}
+		}).length==0;
 	};
 
 	Logic.prototype.performAction = function(){

@@ -22,7 +22,7 @@ define(function(require) {
 			if ( this.logic.inDrag() ){
 				return event.preventDefault();
 			}
-			if ( this.logic.checkForSolved() ){
+			if ( this.logic.isSolved() ){
 				//wait for a new puzzle
 				return;
 			}
@@ -34,7 +34,7 @@ define(function(require) {
 			if ( !this.logic.inDrag() ){
 				return;
 			}
-			if ( this.logic.checkForSolved() ){
+			if ( this.logic.isSolved() ){
 				//wait for a new puzzle
 				return;
 			}
@@ -48,7 +48,7 @@ define(function(require) {
 			if ( !this.logic.inDrag() ){
 				return;
 			}
-			if ( this.logic.checkForSolved() ){
+			if ( this.logic.isSolved() ){
 				//wait for a new puzzle
 				return;
 			}

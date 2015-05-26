@@ -37,28 +37,12 @@ define(function(require) {
 		this.keyHandlers.refresh(this.logic);
 
 		this.keyHandlers.action.add(this.handleAction, this);
-
-
-		this.allBoxes = this.interiorTiles.reduce(function(a, b){
-			return a.concat(b);
-		}).filter(function(tile){
-			if (tile.isBox()){
-				return tile;
-			}
-		});
-
 	};
 
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
 	Room.prototype.isSolved = function() {
-		if ( this.logic.inDrag() ) {
-			return false;
-		}
-		var solved = this.allBoxes.every(function(boxTile){
-			return !!boxTile.onTarget;
-		});
-		return solved;
+		return this.logic.isSolved();
 	};
 
 	Room.prototype.parseTiles = function() {

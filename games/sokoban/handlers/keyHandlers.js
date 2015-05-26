@@ -28,7 +28,7 @@ define(function(require) {
 		},
 
 		'keyDown': function(evt) {
-			if ( this.logic.checkForSolved() ){
+			if ( this.logic.isSolved() ){
 				//wait for a new puzzle
 				return;
 			}
@@ -75,7 +75,7 @@ define(function(require) {
 			if ( evt.keyCode === this.currentKeyDown ) {
 				this.currentKeyDown = null;
 			}
-			if ( this.logic.checkForSolved() ){
+			if ( this.logic.isSolved() ){
 				this.callback && this.callback();
 			}
 		},

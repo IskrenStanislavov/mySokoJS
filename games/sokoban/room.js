@@ -15,26 +15,12 @@ define(function(require) {
 
 		this.initInformations();
 		this.logic = new Logic(this.player, this.interiorTiles);
-
-		this.allBoxes = this.interiorTiles.reduce(function(a, b){
-			return a.concat(b);
-		}).filter(function(tile){
-			if (tile.isBox()){
-				return tile;
-			}
-		});
-
 	};
+
 	Room.prototype = Object.create(createjs.Container.prototype);
 
 	Room.prototype.isSolved = function() {
-		if ( this.logic.inDrag() ) {
-			return false;
-		}
-		var solved = this.allBoxes.every(function(boxTile){
-			return !!boxTile.onTarget;
-		});
-		return solved;
+		return this.logic.isSolved();
 	};
 
 
