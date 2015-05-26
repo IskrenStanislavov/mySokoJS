@@ -3,11 +3,13 @@
 define(function(require) {
 	var KeyHandlers = require("games/sokoban/handlers/keyHandlers");
 	var TouchHandlers = require("games/sokoban/handlers/touchHandlers");
+	var CommandList = require("games/sokoban/commandList");
 
 	var Handlers = function(stage, commandList) {
 		this.stage = stage;
-		this.commandList = commandList;
-		this.touchHandlers = new TouchHandlers( commandList, stage );
+		this.commandList = new CommandList();
+
+		this.touchHandlers = new TouchHandlers( this.commandList, stage );
 		this.keyHandlers = new KeyHandlers( function(){return;} );
 
 		this.keyHandlers.action.add(this.handleAction, this);

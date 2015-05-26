@@ -29,21 +29,6 @@ define(function(require) {
 
 	LevelsContainer.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
-	LevelsContainer.prototype.initLevelSolvedCheck = function() {
-		var that = this;
-		setInterval(function(){
-			if ( that.currentLevelObject.isSolved() ){
-				setTimeout(function(){
-					that.next();
-				},1000);
-			};
-		}, 500);
-	};
-
-	LevelsContainer.prototype.initLevelSolvedCheck = function() {
-	};
-
-
 	LevelsContainer.prototype.markAsSolved = function() {
 		if (this.currentLevel === -1){
 			this.currentLevel = localStorage.getItem("currentLevel", 0) - 1;
