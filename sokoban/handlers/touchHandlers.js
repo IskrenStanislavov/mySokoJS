@@ -2,10 +2,12 @@
 // see: http://www.javascripttoolbox.com/lib/contextmenu/
 
 define(function(require) {
+	var Signal = require('libs/signals.min');
 
 	var Handlers = function(commandList, callback) {
 		this.commandList = commandList;
-		this.callback = callback;
+		this.callback    = callback;
+		this.action      = new Signal();
 	};
 
 	Handlers.prototype.handleDown = function( event ) {

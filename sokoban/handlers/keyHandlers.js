@@ -2,8 +2,7 @@
 define(function(require) {
 	var Signal = require('libs/signals.min');
 
-	var Handlers = function( callback ) {
-		this.callback = callback;
+	var Handlers = function() {
 		this.currentKeyDown = null;
 		this.action = new Signal();
 		this.config = {'moves':{
@@ -27,13 +26,6 @@ define(function(require) {
 	};
 
 	Handlers.prototype.keyDown = function(evt) {
-		if ( this.logic.isSolved() ){
-			//wait for a new puzzle
-			return;
-		}
-		if ( this.logic.inDrag() ){
-			return;
-		}
 		if (this.currentKeyDown !== null){
 			return;
 		}
@@ -74,10 +66,6 @@ define(function(require) {
 		if ( evt.keyCode === this.currentKeyDown ) {
 			this.currentKeyDown = null;
 		}
-		if ( this.logic.isSolved() && this.callback){
-			this.callback();
-			this.callback = null;
-		}
 	};
 
 	Handlers.prototype.stopBubbleEvent = function(e) {
@@ -95,11 +83,6 @@ define(function(require) {
 			e.preventDefault();
 		}
 		return false;
-	};
-
-	Handlers.prototype.refresh = function(logic) {
-		this.logic = logic;
-		return null;
 	};
 
 	return Handlers;

@@ -13,7 +13,7 @@ define(function(require) {
 
 
 	
-	var Room = function( level, levelCompleteCallback ){
+	var Room = function( level, callback ){
 		PIXI.DisplayObjectContainer.call(this);
 		this.rows = level.grid.length;
 		this.columns = level.grid[0].length;
@@ -41,10 +41,10 @@ define(function(require) {
 		this.commandList 	= new CommandList();
 
 		//handlers
-		this.keyHandlers 	= new KeyHandlers( levelCompleteCallback );
-		this.keyHandlers.refresh(this.logic);
-
+		this.keyHandlers 	= new KeyHandlers( callback );
 		this.keyHandlers.action.add(this.handleAction, this);
+
+		this.onComplete = callback;
 	};
 
 	Room.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
@@ -80,6 +80,11 @@ define(function(require) {
 		var moves = this.commandList.moves;
 		var pushes = this.commandList.pushes;
 		this.infoBox.update(moves, pushes);
+
+		if (this.logic.isSolved() && this.onComplete){
+			this.onComplete();
+			this.onComplete = null;
+		}
 	};
 
 	return Room;

@@ -9,7 +9,7 @@ define(function(require) {
 	var tileConfig  = require('sokoban/config/tiles');
 	var InfoBox  	= require("sokoban/infoBoxEASEL");
 
-	var Room = function( level, levelCompleteCallback ){
+	var Room = function( level, callback ){
 		createjs.Container.call(this);
 		this.rows = level.grid.length;
 		this.columns = level.grid[0].length;
@@ -34,8 +34,10 @@ define(function(require) {
 		this.commandList 	= new CommandList();
 
 		//handlers
-		this.handlers 	= new Handlers( this.commandList, levelCompleteCallback );
+		this.handlers 	= new Handlers( this.commandList );
 		this.handlers.keyHandlers.action.add(this.handleAction, this);
+
+		this.onComplete = callback;
 	};
 
 	Room.prototype = Object.create(createjs.Container.prototype);
@@ -45,6 +47,9 @@ define(function(require) {
 	};
 
 	Room.prototype.handleAction = function(eData){
+		if (this.logic.isSolved() || this.logic.inDrag()){
+			return;
+		}
 		switch(eData.action){
 			case "move":
 			var action = this.logic.getActionData(eData.direction);
@@ -71,6 +76,11 @@ define(function(require) {
 		var moves = this.commandList.moves;
 		var pushes = this.commandList.pushes;
 		this.infoBox.update(moves, pushes);
+
+		if (this.logic.isSolved() && this.onComplete){
+			this.onComplete();
+			this.onComplete = null;
+		}
 	};
 
 	return Room;

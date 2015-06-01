@@ -10,7 +10,6 @@ define(function(require) {
 	};
 
 	Handlers.prototype.refresh = function(logic, stage) {
-		this.keyHandlers && this.keyHandlers.refresh(logic);
 		this.touchHandlers && this.touchHandlers.refresh(logic, stage);
 	};
 
