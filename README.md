@@ -1,6 +1,8 @@
 html5 sokoban test
 ========
 
+both EaselJS & PIXIjs versions with a few differences
+
 -key bindings
 -Command list
 

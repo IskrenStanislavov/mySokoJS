@@ -1,50 +1,15 @@
 define(function(require) {
-	var Command = require("sokoban/command");
-	var CommandList = require("sokoban/commandList");
-	var tileConfig  = require('sokoban/config/tiles');
-	var Direction  = require('sokoban/room/direction');
-
-	var DragCommandList = function(){
-		CommandList.apply(this); //	this.list = [];
-		this.done = true;
-	}
-	DragCommandList.prototype = new CommandList();
-	DragCommandList.prototype.updateActionsInfo = function(){
-		return;// no move update needed
-	};
-	DragCommandList.prototype.CommandList_execute = DragCommandList.prototype.execute
-	DragCommandList.prototype.execute = function(){
-		if (this.done) return;
-		else {
-			this.CommandList_execute.apply(this, arguments);
-		}
-	};
-	DragCommandList.prototype.undo = function(){
-		if (!this.done) return;
-		else {
-			var index = this.list.length - 1;
-			while ( index >= 0 ){
-				this.list[index].undo();
-				index -= 1;
-			}
-		}
-	};
-
-	DragCommandList.prototype.redo = function(){
-		if (!this.done) return;
-		else {
-			this.list.forEach(function( subCommand ){
-				subCommand.redo();
-			});
-		}
-	};
+	var Command    = require("logics/command");
+	var DragList   = require("logics/dragList");
+	var Direction  = require('logics/direction');
+	var tileConfig = require('sokoban/config/tiles');
 
 	var Dragging = function( startEvent ) {
 		this.player = startEvent.target;
 		this.startEvent = startEvent;
 		this.dragEvents = [];
 		this.dragDirections = [];
-		this.dragCommands = new DragCommandList();
+		this.dragCommands = new DragList();
 		this.inProgress = true;
 	};
 
@@ -60,7 +25,7 @@ define(function(require) {
 		}).reduce(function(a,b){
 			return a<b? a:b;
 		});
-		// console.warn(distances); 
+		// console.warn(distances);
 		if ( potentialDistance > 0 ){
 			return null;
 		}

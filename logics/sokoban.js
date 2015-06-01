@@ -1,7 +1,7 @@
 define(function(require) {
-	var Command = require("sokoban/command");
-	var Dragging  = require('sokoban/room/dragging');
-	var Direction  = require('sokoban/room/direction');
+	var Command = require("logics/command");
+	var Dragging  = require('logics/dragging');
+	var Direction  = require('logics/direction');
 
 	var Logic = function(interior){
 		this.interior = interior;

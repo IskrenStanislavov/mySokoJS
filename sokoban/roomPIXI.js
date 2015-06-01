@@ -1,7 +1,7 @@
 define(function(require) {
-	var CommandList 	= require("sokoban/commandList");
-	var SokobanLogic  = require("sokoban/room/logic");
-	var Direction   = require('sokoban/room/direction');
+	var CommandList  = require("logics/commandList");
+	var SokobanLogic = require("logics/sokoban");
+	var Direction    = require('logics/direction');
 
 	var KeyHandlers 	= require("sokoban/handlers/keyHandlers");
 
