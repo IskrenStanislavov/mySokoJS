@@ -2,15 +2,14 @@
 // see: http://www.javascripttoolbox.com/lib/contextmenu/
 
 define(function(require) {
-	var Logic       = require("logics/sokoban");
 
-	var Handlers = function(commandList, stage, callback) {
+	var Handlers = function(commandList, callback) {
 		this.commandList = commandList;
+		this.callback = callback;
 	};
 
 	Handlers.prototype.handleDown = function( event ) {
 	    if ( event.nativeEvent.button == 2 ) { 
-	        alert('rightclick');
 	        return; 
 	    } 
 		if ( this.logic.inDrag() ){
@@ -21,7 +20,6 @@ define(function(require) {
 			return;
 		}
 		this.logic.startDrag(event);
-		console.log('down', event, 'down at:('+this.startX+','+this.startY+')');
 	};
 
 	Handlers.prototype.handleMove = function( event ) {
@@ -48,7 +46,10 @@ define(function(require) {
 		}
 		// this.logic.endDrag( event );
 		this.commandList.addCommand(this.logic.endDrag( event ));
-		console.log('  up', event);
+		if ( this.logic.isSolved() && this.callback){
+			this.callback();
+			this.callback = null;
+		}
 	};
 
 	Handlers.prototype.refresh = function(logic, stage) {
