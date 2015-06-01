@@ -3,56 +3,15 @@
 define(function(require) {
 	var KeyHandlers = require("sokoban/handlers/keyHandlers");
 	var TouchHandlers = require("sokoban/handlers/touchHandlers");
-	var CommandList = require("sokoban/commandList");
 
-	var Handlers = function(stage, commandList) {
-		this.stage = stage;
-		this.commandList = new CommandList();
-
-		this.touchHandlers = new TouchHandlers( this.commandList, stage );
-		this.keyHandlers = new KeyHandlers( function(){return;} );
-
-		this.keyHandlers.action.add(this.handleAction, this);
-
+	var Handlers = function(commandList, callback) {
+		this.touchHandlers = new TouchHandlers( commandList, callback );
+		this.keyHandlers = new KeyHandlers( callback );
 	};
 
-	$.extend(Handlers.prototype, {
-
-		"refresh": function(room) {
-			this.room = room;
-			this.keyHandlers && this.keyHandlers.refresh(room.logic);
-			this.touchHandlers && this.touchHandlers.refresh(room.logic);
-		}
-
-	});
-
-	Handlers.prototype.handleAction = function(eData){
-		switch(eData.action){
-			case "move":
-			var action = this.room.logic.getActionData(eData.direction);
-			if ( action ){
-				this.commandList.addCommand( action );
-			}
-			break;
-
-			case "undo":
-			this.commandList.goBack();
-			break;
-
-			case "redo":
-			this.commandList.goForward();
-			break;
-
-			case "revertAll":
-			this.commandList.revertAll();
-			break;
-
-			default:
-			return;
-		}
-		var moves = this.commandList.moves;
-		var pushes = this.commandList.pushes;
-		this.room.records.update(moves, pushes);
+	Handlers.prototype.refresh = function(logic, stage) {
+		this.keyHandlers && this.keyHandlers.refresh(logic);
+		this.touchHandlers && this.touchHandlers.refresh(logic, stage);
 	};
 
 	return Handlers;

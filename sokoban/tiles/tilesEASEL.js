@@ -9,14 +9,12 @@
 
 
 define(function(require) {
-	var tileConfig  = require('sokoban/tiles/config');
+	var tileConfig  = require('sokoban/config/tiles');
 
 	var Tile = function(data){
 		this.name = this.kind = data.kind;
 		var spriteSheet = new createjs.SpriteSheet(tileConfig[data.kind]);
 		createjs.Sprite.call(this, spriteSheet);
-		this.initialPositions.row = data.row;
-		this.initialPositions.column = data.column;
 		this.positionAt(data.row, data.column);
 		this.setOnTarget(data.onTarget);
 		if (this.isWall()){
@@ -30,7 +28,6 @@ define(function(require) {
 	Tile.dimensions = tileConfig.dimensions;
 
 	Tile.prototype.dimensions = tileConfig.dimensions;
-	Tile.prototype.initialPositions = {"row":0, "column":0};
 	Tile.prototype.row = 0;
 	Tile.prototype.column = 0;
 
@@ -48,7 +45,7 @@ define(function(require) {
 		if (value){
 			this.gotoAndStop( "onTarget" );
 		} else {
-			this.gotoAndStop( this.kind );
+			this.gotoAndStop( "normal" );
 		}
 	};
 

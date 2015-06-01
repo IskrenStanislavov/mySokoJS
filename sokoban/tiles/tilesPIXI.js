@@ -9,7 +9,7 @@
 
 
 define(function(require) {
-	var tileConfig  = require('sokoban/tiles/pixi_config');
+	var tileConfig  = require('sokoban/config/tiles');
 	var PIXI        = require("libs/pixi");
 
 	var Tile = function(tileData){
@@ -20,8 +20,6 @@ define(function(require) {
 		}.bind(this));
 		PIXI.Sprite.call(this, this.tileTextures.normal);
 
-		this.initialPositions.row = tileData.row;
-		this.initialPositions.column = tileData.column;
 		this.positionAt(tileData.row, tileData.column);
 		this.setOnTarget(tileData.onTarget);
 
@@ -35,8 +33,6 @@ define(function(require) {
 	Tile.dimensions = tileConfig.dimensions;
 
 	Tile.prototype.dimensions = tileConfig.dimensions;
-	Tile.prototype.initialPositions = {"row":0, "column":0};
-
 
 	Tile.prototype.positionAt = function(row, column){
 		// used to reposition the tile

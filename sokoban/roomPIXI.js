@@ -6,36 +6,30 @@ define(function(require) {
 	var KeyHandlers 	= require("sokoban/handlers/keyHandlers");
 
     var PIXI        = require("libs/pixi");
-	var Tile 		= require('sokoban/tiles/pixi_tiles');
-	var tileConfig  = require('sokoban/tiles/pixi_config');
+	var Tile 		= require('sokoban/tiles/tilesPIXI');
+	var tileConfig  = require('sokoban/config/tiles');
 	var Directions 	= require("sokoban/room/pixi_directions");
-	var InfoBox  	= require("sokoban/pixi_infoBox");
+	var InfoBox  	= require("sokoban/infoBoxPIXI");
 
 
 	
 	var Room = function( level, levelCompleteCallback ){
 		PIXI.DisplayObjectContainer.call(this);
-		this.player = null;
-		this.grid = level.grid;
-		this.rows = this.grid.length;
-		this.columns = this.grid[0].length;
+		this.rows = level.grid.length;
+		this.columns = level.grid[0].length;
 
 		// this.setDimentions();
 		this.W = this.columns * tileConfig.width;
 		this.H = this.rows * tileConfig.height;
 		// this.parseTiles();
 		var that = this;
-		this.interiorTiles = this.grid.map(function(row, iRow){
+		this.interiorTiles = level.grid.map(function(row, iRow){
 			return row.map(function(tileData, iColumn){
-				var tile = that.addChild(new Tile(tileData));
-				if (!that.player && tile.isPlayer()){
-					that.player = tile;
-				}
-				return tile;
+				return that.addChild(new Tile(tileData));
 			});
 		});
 
-		this.logic = new SokobanLogic(this.player, this.interiorTiles);
+		this.logic = new SokobanLogic(this.interiorTiles);
 
 		//graphix
 		this.directions = this.addChild(new Directions(this.logic, this.rows, this.columns));

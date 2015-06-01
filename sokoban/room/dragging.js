@@ -1,7 +1,7 @@
 define(function(require) {
 	var Command = require("sokoban/command");
 	var CommandList = require("sokoban/commandList");
-	var tileConfig  = require('sokoban/tiles/config');
+	var tileConfig  = require('sokoban/config/tiles');
 	var Direction  = require('sokoban/room/direction');
 
 	var DragCommandList = function(){

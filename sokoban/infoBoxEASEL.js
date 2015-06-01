@@ -1,5 +1,5 @@
 define(function(require) {
-	var tileConfig  = require('sokoban/tiles/config');
+	var tileConfig  = require('sokoban/config/tiles');
 
 	var InfoBox = function() {
 		createjs.Container.call(this);
@@ -48,6 +48,9 @@ define(function(require) {
 	};
 
 	InfoBox.prototype = Object.create(createjs.Container.prototype);
+	InfoBox.prototype.update = function(moves, pushes) {
+		this.counts.text = [moves,pushes].join('\n');
+	};
 	return InfoBox;
 });
 

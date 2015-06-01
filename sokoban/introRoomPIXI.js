@@ -1,9 +1,8 @@
 define(function(require) {
-    var PIXI  		= require("libs/pixi");
-    var Room  		= require("sokoban/room");
+    var Room  		= require("sokoban/roomPIXI");
 	var BaseLevel  	= require("sokoban/baseLevel");
 
-	var IntroLevel = function(callback) {
+	var IntroRoom = function(callback) {
 		this.initLevelData({
 			testCorners: false,
 		});
@@ -16,9 +15,9 @@ define(function(require) {
 		}), callback);
 	};
 
-	IntroLevel.prototype = Object.create(Room.prototype);
+	IntroRoom.prototype = Object.create(Room.prototype);
 
-	IntroLevel.prototype.initLevelData = function(settings) {
+	IntroRoom.prototype.initLevelData = function(settings) {
 		this.xData = "WWWWWW;WP-B-W;WWWWWW";//test box on a target; n player on a target
 		//for corner testing
 		if (settings.testCorners){
@@ -48,6 +47,6 @@ define(function(require) {
 		}
 	};
 
-	return IntroLevel;
+	return IntroRoom;
 });
 

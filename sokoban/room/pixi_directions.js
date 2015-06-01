@@ -1,7 +1,7 @@
 define(function(require) {
     var PIXI        = require("libs/pixi");
     var GridButton  = require("sokoban/grid/button");
-    var tileConfig  = require('sokoban/tiles/pixi_config');
+    var tileConfig  = require('sokoban/config/tiles');
 
 	var Directions = function( logics, nRows, nColumns ) {
 		PIXI.DisplayObjectContainer.call(this);

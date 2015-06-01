@@ -3,12 +3,11 @@ define(function(require){
     require("libs/functions");
 
     var CustomLoader    = require("libs/loader");
-	var RoomsContainer 	= require("sokoban/pixi_rooms");
-	var Stage  			= require("libs/custom_stage");
+	var RoomsContainer 	= require("sokoban/roomsPIXI");
+	var Stage  			= require("libs/stagePIXI");
 
     new CustomLoader({resources:[
         "img/sprite.json",
-        "img/arrow.png",
         "img/arrows.json",
         ], onComplete: function(){
             var sokoban = new Stage({

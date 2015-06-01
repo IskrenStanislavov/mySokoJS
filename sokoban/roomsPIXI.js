@@ -2,8 +2,8 @@
 
 define(function(require) {
     var PIXI       	 = require("libs/pixi");
-	var Room  		 = require("sokoban/pixi_room");
-	var IntroRoom 	 = require("sokoban/pixi_introRoom");
+	var Room  		 = require("sokoban/roomPIXI");
+	var IntroRoom 	 = require("sokoban/introRoomPIXI");
 	var LevelsLoader = require("sokoban/levels/levelsLoader");
 
 	var LevelsContainer = function() {
@@ -24,7 +24,6 @@ define(function(require) {
 
 	};
 			
-
 	LevelsContainer.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
 	LevelsContainer.prototype.markAsSolved = function() {

@@ -3,13 +3,19 @@ define(function(require) {
 	var Dragging  = require('sokoban/room/dragging');
 	var Direction  = require('sokoban/room/direction');
 
-	var Logic = function(player, interior){
-		this.player = player;
+	var Logic = function(interior){
 		this.interior = interior;
 		this.directions = Direction.instances;
-		this.checkedTiles = this.interior.reduce(function(a, b){
+
+		var flat = interior.reduce(function(a, b){
 			return a.concat(b);
-		}).filter(function(tile){
+		});
+		this.player = flat.filter(function(tile){
+			if (tile.isPlayer()){
+				return tile;
+			}
+		})[0];
+		this.boxTiles = flat.filter(function(tile){
 			if (tile.isBox()){
 				return tile;
 			}
@@ -20,8 +26,7 @@ define(function(require) {
 		if ( this.inDrag() ) {
 			return false;
 		}
-		return this.checkedTiles
-		.filter(function(tile){
+		return this.boxTiles.filter(function(tile){
 			if (!tile.onTarget){
 				return tile;
 			}

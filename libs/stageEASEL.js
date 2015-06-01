@@ -10,13 +10,27 @@ define(function(require) {
 
 	Stage.prototype = Object.create( createjs.Stage.prototype );
 
+	Stage.prototype._update = Stage.prototype.update;
+	Stage.prototype.update = function(){
+		this.resize();
+		this._update();
+	};
+
+	Stage.prototype._getChildAt = Stage.prototype.getChildAt;
+	Stage.prototype.getChildAt = function(index){
+		if (index < 0){
+			index += this.children.length;
+		}
+		return this._getChildAt(index);
+	};
+
 	Stage.prototype.initSettings = function(settings) {
 		this.enableMouseOver(-1);
 		this.enableDOMEvents(false);// mouse events
 
 		createjs.Ticker.useRAF = true;
 		createjs.Ticker.setFPS(25);
-		createjs.Ticker.addEventListener("tick", this);//update the stage
+		createjs.Ticker.addEventListener("tick", this.update.bind(this));//update the stage
 
 		if ( settings && settings.showBG ) {
 			this.bg = new createjs.Shape();
@@ -25,9 +39,17 @@ define(function(require) {
 		}
 	};
 
-	Stage.prototype.setAutoFit = function(fittable) {
-		this.fittable = fittable;
+	Stage.prototype.setAutoFit = function() {
+		if (this.children.length===0) {
+			return;
+		}
+		this.fittable = this.getChildAt(-1);
+		if ( !this.fittable.W || !this.fittable.H ){
+			return;
+		}
+
 	};
+
 
 	//XXX: http://html5hub.com/screen-size-management-in-mobile-html5-games/
 
@@ -47,7 +69,8 @@ define(function(require) {
 	};
 
 	Stage.prototype.resize = function() {
-		if ( !this.fittable ){
+		this.setAutoFit();
+		if ( !this.fittable || !this.fittable.H ||!this.fittable.W ){
 			return;
 		}
 

@@ -21,88 +21,86 @@ define(function(require) {
 		document.onkeyup = this.keyUp.bind(this);
 	};
 
-	$.extend(Handlers.prototype, {
 
-		'getEvent': function(evt) {
-			return (evt) ? evt : ((window.event) ? window.event : null);
-		},
+	Handlers.prototype.getEvent = function(evt) {
+		return (evt) ? evt : ((window.event) ? window.event : null);
+	};
 
-		'keyDown': function(evt) {
-			if ( this.logic.isSolved() ){
-				//wait for a new puzzle
-				return;
+	Handlers.prototype.keyDown = function(evt) {
+		if ( this.logic.isSolved() ){
+			//wait for a new puzzle
+			return;
+		}
+		if ( this.logic.inDrag() ){
+			return;
+		}
+		if (this.currentKeyDown !== null){
+			return;
+		}
+		evt = this.getEvent(evt);
+		if (evt) {
+			var stopBubble;
+			if ( evt.ctrlKey ) {
+				stopBubble = this.handleCtrlCombination(evt.keyCode);
+			} else {
+				stopBubble = this.handleSingleKey(evt.keyCode);
 			}
-			if ( this.logic.inDrag() ){
-				return;
+			if (stopBubble) {
+				this.currentKeyDown = evt.keyCode;
+				this.stopBubbleEvent(evt);
 			}
-			if (this.currentKeyDown !== null){
-				return;
-			}
-			evt = this.getEvent(evt);
-			if (evt) {
-				var stopBubble;
-				if ( evt.ctrlKey ) {
-					stopBubble = this.handleCtrlCombination(evt.keyCode);
-				} else {
-					stopBubble = this.handleSingleKey(evt.keyCode);
-				}
-				if (stopBubble) {
-					this.currentKeyDown = evt.keyCode;
-					this.stopBubbleEvent(evt);
-				}
-			}
-		},
+		}
+	};
 
-		'handleCtrlCombination': function( keyId ) {
-			//XXX: think of ctrl+left.. as а go to the most left.. posible
-			var change = this.config.history[keyId];
-			if ( change ){
-				this.action.dispatch({action:change, direction:null});
-			}
-			return !!change;
-		},
+	Handlers.prototype.handleCtrlCombination = function( keyId ) {
+		//XXX: think of ctrl+left.. as а go to the most left.. posible
+		var change = this.config.history[keyId];
+		if ( change ){
+			this.action.dispatch({action:change, direction:null});
+		}
+		return !!change;
+	};
 
-		'handleSingleKey': function(keyId) {
-			var move = this.config.moves[keyId];
-			if (move){
-				this.action.dispatch({action:"move", direction:move});
-			}
-			return !!move;
-		},
+	Handlers.prototype.handleSingleKey = function(keyId) {
+		var move = this.config.moves[keyId];
+		if (move){
+			this.action.dispatch({action:"move", direction:move});
+		}
+		return !!move;
+	};
 
-		"keyUp": function(evt) {
-			evt = this.getEvent(evt);
-			if ( evt.keyCode === this.currentKeyDown ) {
-				this.currentKeyDown = null;
-			}
-			if ( this.logic.isSolved() ){
-				this.callback && this.callback();
-			}
-		},
+	Handlers.prototype.keyUp = function(evt) {
+		evt = this.getEvent(evt);
+		if ( evt.keyCode === this.currentKeyDown ) {
+			this.currentKeyDown = null;
+		}
+		if ( this.logic.isSolved() && this.callback){
+			this.callback();
+			this.callback = null;
+		}
+	};
 
-		'stopBubbleEvent': function(e) {
-			//e.cancelBubble is supported by IE - this will kill the bubbling process.
-			if (document.all) {
-				e.keyCode = 0;
-				e.cancelBubble = true;
-				e.returnValue = false;
-				e.retainFocus = true;
-			}
-
-			//e.stopPropagation works in Firefox.
-			if (e.stopPropagation) {
-				e.stopPropagation();
-				e.preventDefault();
-			}
-			return false;
-		},
-
-		"refresh": function(logic) {
-			this.logic = logic;
-			return null;
+	Handlers.prototype.stopBubbleEvent = function(e) {
+		//e.cancelBubble is supported by IE - this will kill the bubbling process.
+		if (document.all) {
+			e.keyCode = 0;
+			e.cancelBubble = true;
+			e.returnValue = false;
+			e.retainFocus = true;
 		}
 
-	});
+		//e.stopPropagation works in Firefox.
+		if (e.stopPropagation) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+		return false;
+	};
+
+	Handlers.prototype.refresh = function(logic) {
+		this.logic = logic;
+		return null;
+	};
 
 	return Handlers;
 });

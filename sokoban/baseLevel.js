@@ -1,7 +1,7 @@
 //xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
 
 define(function(require) {
-	var roomConfig  = require("sokoban/room/config");
+	var roomConfig  = require("sokoban/config/room");
 	var WEIGHT_TO_WALL = {
 		"31": 'cross', //all
 
