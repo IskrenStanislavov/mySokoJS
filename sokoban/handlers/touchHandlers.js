@@ -3,10 +3,10 @@
 
 define(function(require) {
 	var Signal = require('libs/signals.min');
+	var Dragging  = require('logics/dragging');
 
-	var Handlers = function(commandList, callback) {
+	var Handlers = function(commandList) {
 		this.commandList = commandList;
-		this.callback    = callback;
 		this.action      = new Signal();
 	};
 
@@ -14,51 +14,41 @@ define(function(require) {
 	    if ( event.nativeEvent.button == 2 ) { 
 	        return; 
 	    } 
-		if ( this.logic.inDrag() ){
+		if ( this.inDrag() ){
 			return event.preventDefault();
 		}
-		if ( this.logic.isSolved() ){
-			//wait for a new puzzle
-			return;
-		}
-		this.logic.startDrag(event);
+		this.drag = new Dragging( event );
+		this.drag.getActionData = this.logic.getActionData.bind(this.logic);
+		this.action.dispatch({type:"touch", action:"startDrag", direction:null});
 	};
 
 	Handlers.prototype.handleMove = function( event ) {
-		if ( !this.logic.inDrag() ){
+		if ( !this.inDrag() ){
 			return;
 		}
-		if ( this.logic.isSolved() ){
-			//wait for a new puzzle
-			return;
-		}
-
 		this.stopBubbleEvent(event);
-		this.logic.updateDragPosition(event);
-		this.stage.update();
+		this.drag.updatePosition(event);
+		this.action.dispatch({type:"touch", action:"drag", direction:null});
 	};
 
 	Handlers.prototype.handleUp = function( event ) {
-		if ( !this.logic.inDrag() ){
+		if ( !this.inDrag() ){
 			return;
 		}
-		if ( this.logic.isSolved() ){
-			//wait for a new puzzle
-			return;
-		}
-		// this.logic.endDrag( event );
-		this.commandList.addCommand(this.logic.endDrag( event ));
-		if ( this.logic.isSolved() && this.callback){
-			this.callback();
-			this.callback = null;
-		}
+		this.commandList.addCommand(this.drag.end(event));
+		this.drag = null;
+
+		this.action.dispatch({type:"touch", action:"endDrag", direction:null});
+	};
+
+	Handlers.prototype.inDrag = function(){
+		return this.drag && this.drag.inProgress;
 	};
 
 	Handlers.prototype.refresh = function(logic, stage) {
 		// enable touch interactions if supported on the current device:
-		this.stage = stage;
 		this.logic = logic;
-		createjs.Touch.enable( this.stage, true, true ); //single touch, prevent default
+		this.stage = stage;
 		this.stage.on('mousedown', this.handleDown, this);
 		this.stage.on('pressmove', this.handleMove, this);
 		this.stage.on('pressup', this.handleUp, this);

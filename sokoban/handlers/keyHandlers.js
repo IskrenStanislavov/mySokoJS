@@ -48,7 +48,7 @@ define(function(require) {
 		//XXX: think of ctrl+left.. as а go to the most left.. posible
 		var change = this.config.history[keyId];
 		if ( change ){
-			this.action.dispatch({action:change, direction:null});
+			this.action.dispatch({type:"key", action:change, direction:null});
 		}
 		return !!change;
 	};
@@ -56,7 +56,7 @@ define(function(require) {
 	Handlers.prototype.handleSingleKey = function(keyId) {
 		var move = this.config.moves[keyId];
 		if (move){
-			this.action.dispatch({action:"move", direction:move});
+			this.action.dispatch({type:"key", action:"move", direction:move});
 		}
 		return !!move;
 	};

@@ -2,6 +2,7 @@ define(function(require) {
 
 	var Stage = function( canvasId, settings ){
 		createjs.Stage.call(this, canvasId);
+		createjs.Touch.enable(this, true, true ); //single touch, prevent default
 
 		this.initSettings(settings);
 		this.fittable = null;

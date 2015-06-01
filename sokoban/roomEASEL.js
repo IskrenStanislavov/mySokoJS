@@ -18,13 +18,13 @@ define(function(require) {
 		this.H = this.rows * tileConfig.height;
 
 		var that = this;
-		this.interiorTiles = level.grid.map(function(row, iRow){
+		this.tiles = level.grid.map(function(row, iRow){
 			return row.map(function(tileData, iColumn){
 				return that.addChild(new Tile(tileData));
 			});
 		});
 
-		this.logic = new SokobanLogic(this.interiorTiles);
+		this.logic = new SokobanLogic(this.tiles);
 
 		//graphix
 		this.infoBox = this.addChild(new InfoBox());
@@ -36,6 +36,7 @@ define(function(require) {
 		//handlers
 		this.handlers 	= new Handlers( this.commandList );
 		this.handlers.keyHandlers.action.add(this.handleAction, this);
+		this.handlers.touchHandlers.action.add(this.handleAction, this);
 
 		this.onComplete = callback;
 	};
@@ -47,7 +48,12 @@ define(function(require) {
 	};
 
 	Room.prototype.handleAction = function(eData){
-		if (this.logic.isSolved() || this.logic.inDrag()){
+		if (this.logic.isSolved() && this.onComplete){
+			this.onComplete();
+			this.onComplete = null;
+			this.infoBox.update(this.commandList);
+		}
+		if (this.logic.isSolved() || (this.logic.inDrag() && eData.type === 'key')){
 			return;
 		}
 		switch(eData.action){
@@ -70,17 +76,19 @@ define(function(require) {
 			this.commandList.revertAll();
 			break;
 
+			case "startDrag":
+			this.logic.startDrag();
+			break;
+
+			case "endDrag":
+			this.logic.endDrag();
+			break;
+
 			default:
 			return;
 		}
-		var moves = this.commandList.moves;
-		var pushes = this.commandList.pushes;
-		this.infoBox.update(moves, pushes);
+		this.infoBox.update(this.commandList);
 
-		if (this.logic.isSolved() && this.onComplete){
-			this.onComplete();
-			this.onComplete = null;
-		}
 	};
 
 	return Room;

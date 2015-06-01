@@ -48,8 +48,8 @@ define(function(require) {
 	};
 
 	InfoBox.prototype = Object.create(createjs.Container.prototype);
-	InfoBox.prototype.update = function(moves, pushes) {
-		this.counts.text = [moves,pushes].join('\n');
+	InfoBox.prototype.update = function(obj) {
+		this.counts.text = [obj.moves, obj.pushes].join('\n');
 	};
 	return InfoBox;
 });

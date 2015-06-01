@@ -23,13 +23,13 @@ define(function(require) {
 		this.H = this.rows * tileConfig.height;
 		// this.parseTiles();
 		var that = this;
-		this.interiorTiles = level.grid.map(function(row, iRow){
+		this.tiles = level.grid.map(function(row, iRow){
 			return row.map(function(tileData, iColumn){
 				return that.addChild(new Tile(tileData));
 			});
 		});
 
-		this.logic = new SokobanLogic(this.interiorTiles);
+		this.logic = new SokobanLogic(this.tiles);
 
 		//graphix
 		this.directions = this.addChild(new Directions(this.logic, this.rows, this.columns));

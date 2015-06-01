@@ -1,6 +1,6 @@
 define(function(require) {
 	var Command = require("logics/command");
-	var Dragging  = require('logics/dragging');
+	// var Dragging  = require('logics/dragging');
 	var Direction  = require('logics/direction');
 
 	var Logic = function(interior){
@@ -23,9 +23,6 @@ define(function(require) {
 	};
 
 	Logic.prototype.isSolved = function(){
-		if ( this.inDrag() ) {
-			return false;
-		}
 		return this.boxTiles.filter(function(tile){
 			if (!tile.onTarget){
 				return tile;
@@ -56,26 +53,15 @@ define(function(require) {
 	Logic.prototype.getAllowedMoves = function( direction ) {};//solver related in future
 
 	Logic.prototype.inDrag = function(){
-		return this.drag && this.drag.inProgress;
+		return this._inDrag === true;
 	};
 
 	Logic.prototype.startDrag = function( startEvent ) {
-		this.drag = new Dragging( startEvent );
-		console.log(this.drag);
-		this.drag.getActionData = this.getActionData.bind(this);
-		return this.drag;
-	};
-
-	Logic.prototype.updateDragPosition = function( dragEvent ) {
-		// dragEvent is touchmove/mousemove event, but not the original w3c one
-		this.drag.updatePosition( dragEvent );
+		this._inDrag = true;
 	};
 
 	Logic.prototype.endDrag = function( dragEvent ) {
-		// dragEvent is touchmove/mousemove event, but not the original w3c one
-		var drags = this.drag.end( dragEvent );
-		this.drag = null;
-		return drags;
+		this._inDrag = false;
 	};
 
 	return Logic;
