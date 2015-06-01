@@ -1,30 +1,19 @@
 define(function(require) {
-	var roomConfig  = require("games/sokoban/room/config");
 	var Logic  = require("games/sokoban/room/logic");
+
+	var roomConfig  = require("games/sokoban/room/config");
+
 	var Records  = require("games/sokoban/room/records");
 	var Tile 		= require('games/sokoban/tiles/tile');
 	var tileConfig  = require('games/sokoban/tiles/config');
+	var InfoBox  	= require("games/sokoban/infoBox");
 
 	var Room = function( level ){
 		createjs.Container.call(this);
 		this.grid = level.grid;
 		this.rows = this.grid.length;
 		this.columns = this.grid[0].length;
-		this.parseTiles();
-		this.setDimentions();
-
-		this.initInformations();
-		this.logic = new Logic(this.player, this.interiorTiles);
-	};
-
-	Room.prototype = Object.create(createjs.Container.prototype);
-
-	Room.prototype.isSolved = function() {
-		return this.logic.isSolved();
-	};
-
-
-	Room.prototype.parseTiles = function() {
+		//this.parseTiles();
 		var that = this;
 		this.interiorTiles = this.grid.map(function(row, iRow){
 			return row.map(function(tileData, iColumn){
@@ -35,59 +24,24 @@ define(function(require) {
 				return tile;
 			});
 		});
-	};
 
-	Room.prototype.setDimentions = function(){
+		// this.setDimentions();
 		this.W = this.columns * tileConfig.dimensions.width;
 		this.W += roomConfig.additionalWidth;
 		this.H = this.rows * tileConfig.dimensions.height;
+
+
+		this.infoBox = this.addChild(new InfoBox());
+		this.infoBox.set({x:(0.5 + this.columns) * tileConfig.dimensions.width});
+		this.records = new Records(this.infoBox.counts);
+
+		this.logic = new Logic(this.player, this.interiorTiles);
 	};
 
-	Room.prototype.initInformations = function() {
-		this.infoContainer = this.addChild(new createjs.Container()).set({
-			"x": (0.5 + this.columns) * tileConfig.dimensions.width,
-			"name": "info",
-		});
+	Room.prototype = Object.create(createjs.Container.prototype);
 
-		// this.texts = roomConfig.texts;
-		this.texts = {
-			"title": {
-				'text': "Authors:",
-				'font' : "22px Verdana",
-				"lineHeight":22,
-				'color':"#7f4746",
-				// 'color':"#998892",
-				"x":19,
-			},
-			"names": {
-				'text': "\n\nGerry Wiseman - skin\nIskren Stanislavov - logics",
-				'font' : "13px Arial",
-				"lineHeight":16,
-				'color':"#998892",
-			},
-			"actionsLabel":{
-				'text': "Moves:\nPushes:",
-				'font' : "13px Arial",
-				"lineHeight":18,
-				'color':"#998892",
-				"x":0,
-				"y":100,
-			},
-			"actionsCount":{
-				'text': "0\n0",
-				'font' : "bold 14px Arial",
-				"lineHeight":18,
-				'color':"#7f4746",
-				"x":50,
-				"y":100,
-			},
-		};
-
-		this.infoContainer.addChild(new createjs.Text()).set(this.texts.title);
-		this.infoContainer.addChild(new createjs.Text()).set(this.texts.names);
-		this.infoContainer.addChild(new createjs.Text()).set(this.texts.actionsLabel);
-		this.counts = this.infoContainer.addChild(new createjs.Text()).set(this.texts.actionsCount);
-		this.records = new Records(this.counts);
+	Room.prototype.isSolved = function() {
+		return this.logic.isSolved();
 	};
 
 	return Room;

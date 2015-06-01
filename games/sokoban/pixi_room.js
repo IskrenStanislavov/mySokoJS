@@ -9,6 +9,7 @@ define(function(require) {
 	var Tile 		= require('games/sokoban/tiles/pixi_tiles');
 	var tileConfig  = require('games/sokoban/tiles/pixi_config');
 	var Directions 	= require("games/sokoban/room/pixi_directions");
+	var InfoBox  	= require("games/sokoban/pixi_infoBox");
 
 
 	
@@ -19,20 +20,33 @@ define(function(require) {
 		this.rows = this.grid.length;
 		this.columns = this.grid[0].length;
 
-		this.parseTiles();
-		this.setDimentions();
+		// this.setDimentions();
+		this.W = this.columns * tileConfig.width;
+		this.H = this.rows * tileConfig.height;
+		// this.parseTiles();
+		var that = this;
+		this.interiorTiles = this.grid.map(function(row, iRow){
+			return row.map(function(tileData, iColumn){
+				var tile = that.addChild(new Tile(tileData));
+				if (!that.player && tile.isPlayer()){
+					that.player = tile;
+				}
+				return tile;
+			});
+		});
 
+		this.logic = new SokobanLogic(this.player, this.interiorTiles);
+
+		//graphix
 		this.directions = this.addChild(new Directions(this.logic, this.rows, this.columns));
 		this.directions.position.set(0, this.H);
-
 		this.infoBox = this.addChild(new InfoBox());
 		this.infoBox.position.set(this.W + 4, 0);
 
-		var that = this;
-
-		this.logic = new SokobanLogic(this.player, this.interiorTiles);
+		//history
 		this.commandList 	= new CommandList();
 
+		//handlers
 		this.keyHandlers 	= new KeyHandlers( levelCompleteCallback );
 		this.keyHandlers.refresh(this.logic);
 
@@ -45,25 +59,6 @@ define(function(require) {
 		return this.logic.isSolved();
 	};
 
-	Room.prototype.parseTiles = function() {
-		var that = this;
-		this.interiorTiles = this.grid.map(function(row, iRow){
-			return row.map(function(tileData, iColumn){
-				var tile = that.addChild(new Tile(tileData));
-				if (!that.player && tile.isPlayer()){
-					that.player = tile;
-				}
-				return tile;
-			});
-		});
-	};
-
-	Room.prototype.setDimentions = function(){
-		this.W = this.columns * tileConfig.width;
-		this.H = this.rows * tileConfig.height;
-	};
-
-		
 	Room.prototype.handleAction = function(eData){
 		switch(eData.action){
 			case "move":

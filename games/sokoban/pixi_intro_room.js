@@ -2,7 +2,6 @@ define(function(require) {
     var PIXI  		= require("libs/pixi");
     var Room  		= require("games/sokoban/pixi_room");
 	var BaseLevel  	= require("games/sokoban/baseLevel");
-	var InfoBox  	= require("games/sokoban/pixi_infoBox");
 
 	var IntroRoom = function(callback) {
 		this.initLevelData({
