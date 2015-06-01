@@ -1,13 +1,13 @@
 define(function(require) {
-	var Levels = require("games/sokoban/levels");
-	var Room  = require("games/sokoban/room");
-	var Stage  = require("libs/stage");
-	var Handlers = require("games/sokoban/handlers");
+	var RoomsContainer 	= require("games/sokoban/rooms");
+	var Room  			= require("games/sokoban/room");
+	var Stage  			= require("libs/stage");
+	var Handlers 		= require("games/sokoban/handlers");
 
 	var Sokoban = function(){
 		Stage.call(this, "game", {"showBG":true});
 		this.handlers = new Handlers(this);
-		this.levels = new Levels(function(){
+		this.levels = new RoomsContainer(function(){
 			this.start();
 		}.bind(this));
 	};

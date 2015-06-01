@@ -1,5 +1,5 @@
 define(function(require) {
-	var LevelsContainer = require("games/sokoban/pixi_levelsContainer");
+	var RoomsContainer 	= require("games/sokoban/pixi_rooms");
 	var Stage  			= require("libs/custom_stage");
     var PIXI        	= require("libs/pixi");
 
@@ -10,7 +10,7 @@ define(function(require) {
 			stageColor: "black",
 			canvasId: "game"
 		});
-		this.addChild(new LevelsContainer());
+		this.addChild(new RoomsContainer());
 	};
 
 	Sokoban.prototype = Object.create(Stage.prototype);

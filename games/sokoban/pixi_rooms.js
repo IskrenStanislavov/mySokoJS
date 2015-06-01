@@ -3,7 +3,7 @@
 define(function(require) {
     var PIXI       	 = require("libs/pixi");
 	var Room  		 = require("games/sokoban/pixi_room");
-	var IntroRoom 	 = require("games/sokoban/pixi_intro_room");
+	var IntroRoom 	 = require("games/sokoban/pixi_introRoom");
 	var LevelsLoader = require("games/sokoban/levels/levelsLoader");
 
 	var LevelsContainer = function() {
@@ -14,8 +14,6 @@ define(function(require) {
 		this.loader = new LevelsLoader({
 			accumulateIn: this.levels,
 			onComplete: function(loadedLevels){
-				console.log("loadedLevels", loadedLevels);
-				// this.levels = loadedLevels;
 				this.start(function(){
 					setTimeout(function(){
 						that.next();
@@ -54,7 +52,6 @@ define(function(require) {
 		this.removeChild(this.currentLevelObject);
 		var that = this;
 		this.start(function(){
-			console.log("level done");
 			setTimeout(function(){
 				that.next();
 			},1000);
