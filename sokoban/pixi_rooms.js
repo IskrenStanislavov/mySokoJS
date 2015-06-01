@@ -2,9 +2,9 @@
 
 define(function(require) {
     var PIXI       	 = require("libs/pixi");
-	var Room  		 = require("games/sokoban/pixi_room");
-	var IntroRoom 	 = require("games/sokoban/pixi_introRoom");
-	var LevelsLoader = require("games/sokoban/levels/levelsLoader");
+	var Room  		 = require("sokoban/pixi_room");
+	var IntroRoom 	 = require("sokoban/pixi_introRoom");
+	var LevelsLoader = require("sokoban/levels/levelsLoader");
 
 	var LevelsContainer = function() {
 		PIXI.DisplayObjectContainer.call(this);

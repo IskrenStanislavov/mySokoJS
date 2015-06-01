@@ -1,8 +1,8 @@
 define(function(require) {
-	var Command = require("games/sokoban/command");
-	var CommandList = require("games/sokoban/commandList");
-	var tileConfig  = require('games/sokoban/tiles/config');
-	var Direction  = require('games/sokoban/room/direction');
+	var Command = require("sokoban/command");
+	var CommandList = require("sokoban/commandList");
+	var tileConfig  = require('sokoban/tiles/config');
+	var Direction  = require('sokoban/room/direction');
 
 	var DragCommandList = function(){
 		CommandList.apply(this); //	this.list = [];

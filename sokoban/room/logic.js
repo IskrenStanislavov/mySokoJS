@@ -1,7 +1,7 @@
 define(function(require) {
-	var Command = require("games/sokoban/command");
-	var Dragging  = require('games/sokoban/room/dragging');
-	var Direction  = require('games/sokoban/room/direction');
+	var Command = require("sokoban/command");
+	var Dragging  = require('sokoban/room/dragging');
+	var Direction  = require('sokoban/room/direction');
 
 	var Logic = function(player, interior){
 		this.player = player;

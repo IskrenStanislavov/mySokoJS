@@ -9,30 +9,34 @@
 
 
 define(function(require) {
-	var tileConfig  = require('games/sokoban/tiles/config');
+	var tileConfig  = require('sokoban/tiles/pixi_config');
+	var PIXI        = require("libs/pixi");
 
-	var Tile = function(data){
-		this.name = this.kind = data.kind;
-		var spriteSheet = new createjs.SpriteSheet(tileConfig[data.kind]);
-		createjs.Sprite.call(this, spriteSheet);
-		this.initialPositions.row = data.row;
-		this.initialPositions.column = data.column;
-		this.positionAt(data.row, data.column);
-		this.setOnTarget(data.onTarget);
-		if (this.isWall()){
-			this.gotoAndStop(data.texture);
+	var Tile = function(tileData){
+		this.name = this.kind = tileData.kind;
+		this.tileTextures = {};
+		Object.keys(tileConfig[tileData.kind].animations).forEach(function(key, idx){
+			this.tileTextures[key] = PIXI.Texture.fromFrame(tileData.kind+"_"+key);
+		}.bind(this));
+		PIXI.Sprite.call(this, this.tileTextures.normal);
+
+		this.initialPositions.row = tileData.row;
+		this.initialPositions.column = tileData.column;
+		this.positionAt(tileData.row, tileData.column);
+		this.setOnTarget(tileData.onTarget);
+
+		if (this.isWall()) {
+			this.setTexture(this.tileTextures[tileData.texture]);
 		}
-
 	};
 
-	Tile.prototype = Object.create( createjs.Sprite.prototype );
+	Tile.prototype = Object.create( PIXI.Sprite.prototype );
 
 	Tile.dimensions = tileConfig.dimensions;
 
 	Tile.prototype.dimensions = tileConfig.dimensions;
 	Tile.prototype.initialPositions = {"row":0, "column":0};
-	Tile.prototype.row = 0;
-	Tile.prototype.column = 0;
+
 
 	Tile.prototype.positionAt = function(row, column){
 		// used to reposition the tile
@@ -46,9 +50,9 @@ define(function(require) {
 	Tile.prototype.setOnTarget = function( value ){
 		this.onTarget = value;
 		if (value){
-			this.gotoAndStop( "onTarget" );
+			this.setTexture(this.tileTextures.onTarget);
 		} else {
-			this.gotoAndStop( this.kind );
+			this.setTexture(this.tileTextures.normal);
 		}
 	};
 

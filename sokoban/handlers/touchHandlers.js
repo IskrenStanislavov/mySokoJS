@@ -2,7 +2,7 @@
 // see: http://www.javascripttoolbox.com/lib/contextmenu/
 
 define(function(require) {
-	var Logic       = require("games/sokoban/room/logic");
+	var Logic       = require("sokoban/room/logic");
 
 	var Handlers = function(commandList, stage) {
 		this.stage = stage;

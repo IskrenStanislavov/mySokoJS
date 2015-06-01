@@ -1,6 +1,6 @@
 define(function(require){
     var PIXI        = require("libs/pixi");
-    var tileConfig  = require('games/sokoban/tiles/pixi_config');
+    var tileConfig  = require('sokoban/tiles/pixi_config');
 
     var GridPoint = function(column, row){
     	this._row = 0;

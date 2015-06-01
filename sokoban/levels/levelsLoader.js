@@ -1,12 +1,12 @@
 //xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
 
 define(function(require) {
-	var BaseLevel   = require("games/sokoban/baseLevel");
+	var BaseLevel   = require("sokoban/baseLevel");
 
 	var config = {
 		'collectionsToLoad': 1,
 		'collections': [
-			{"path":   "games/sokoban/levels/collections/niveles_homs.json",
+			{"path":   "sokoban/levels/collections/niveles_homs.json",
 			"parseData": function(data){
 				Object.keys(data.niveles).forEach(function( levelName, index ) {
 					this.levels.push( new BaseLevel({
@@ -23,7 +23,7 @@ define(function(require) {
 				this.collectionsToLoad -= 1;
 				this.collectionsToLoad === 0 && this.onLoadCallback && this.onLoadCallback(this.levels);
 			}},
-			{"path":   "games/sokoban/levels/collections/levels_erim_sever.json",
+			{"path":   "sokoban/levels/collections/levels_erim_sever.json",
 			"format": "xsb",
 			"parseData": function(data){
 						// that.levels.push(new Level(data[key]));

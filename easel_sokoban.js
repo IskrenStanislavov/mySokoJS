@@ -1,8 +1,12 @@
-define(function(require) {
-	var RoomsContainer 	= require("games/sokoban/rooms");
-	var Room  			= require("games/sokoban/room");
+// Sokoban TODO: board like array of the tiles!!!! 
+
+define(function(require){
+    require("libs/zepto.min");
+    require("libs/functions");
+	var RoomsContainer 	= require("sokoban/rooms");
+	var Room  			= require("sokoban/room");
 	var Stage  			= require("libs/stage");
-	var Handlers 		= require("games/sokoban/handlers");
+	var Handlers 		= require("sokoban/handlers");
 
 	var Sokoban = function(){
 		Stage.call(this, "game", {"showBG":true});
@@ -35,7 +39,7 @@ define(function(require) {
 			};
 		}, 500);
 	};
-
-	return Sokoban;
+	return new Sokoban();
 });
+
 

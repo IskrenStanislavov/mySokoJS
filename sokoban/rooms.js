@@ -1,9 +1,9 @@
 //xsb format: http://sokosolve.sourceforge.net/FileFormatXSB.html
 
 define(function(require) {
-	var roomConfig   = require("games/sokoban/room/config");
-	var IntroRoom    = require("games/sokoban/introRoom");
-	var LevelsLoader = require("games/sokoban/levels/levelsLoader");
+	var roomConfig   = require("sokoban/room/config");
+	var IntroRoom    = require("sokoban/introRoom");
+	var LevelsLoader = require("sokoban/levels/levelsLoader");
 
 	var Levels = function( callback ) {
 		// this.onLoadCallback = callback;

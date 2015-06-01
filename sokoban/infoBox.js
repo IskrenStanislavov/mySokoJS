@@ -1,5 +1,5 @@
 define(function(require) {
-	var tileConfig  = require('games/sokoban/tiles/config');
+	var tileConfig  = require('sokoban/tiles/config');
 
 	var InfoBox = function() {
 		createjs.Container.call(this);

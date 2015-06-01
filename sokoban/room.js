@@ -1,12 +1,12 @@
 define(function(require) {
-	var Logic  = require("games/sokoban/room/logic");
+	var Logic  = require("sokoban/room/logic");
 
-	var roomConfig  = require("games/sokoban/room/config");
+	var roomConfig  = require("sokoban/room/config");
 
-	var Records  = require("games/sokoban/room/records");
-	var Tile 		= require('games/sokoban/tiles/tile');
-	var tileConfig  = require('games/sokoban/tiles/config');
-	var InfoBox  	= require("games/sokoban/infoBox");
+	var Records  = require("sokoban/room/records");
+	var Tile 		= require('sokoban/tiles/tile');
+	var tileConfig  = require('sokoban/tiles/config');
+	var InfoBox  	= require("sokoban/infoBox");
 
 	var Room = function( level ){
 		createjs.Container.call(this);

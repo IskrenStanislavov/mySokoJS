@@ -1,9 +1,9 @@
 //XXX: detect handlers by userAgent/device
 
 define(function(require) {
-	var KeyHandlers = require("games/sokoban/handlers/keyHandlers");
-	var TouchHandlers = require("games/sokoban/handlers/touchHandlers");
-	var CommandList = require("games/sokoban/commandList");
+	var KeyHandlers = require("sokoban/handlers/keyHandlers");
+	var TouchHandlers = require("sokoban/handlers/touchHandlers");
+	var CommandList = require("sokoban/commandList");
 
 	var Handlers = function(stage, commandList) {
 		this.stage = stage;

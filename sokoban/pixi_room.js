@@ -1,15 +1,15 @@
 define(function(require) {
-	var CommandList 	= require("games/sokoban/commandList");
-	var SokobanLogic  = require("games/sokoban/room/logic");
-	var Direction   = require('games/sokoban/room/direction');
+	var CommandList 	= require("sokoban/commandList");
+	var SokobanLogic  = require("sokoban/room/logic");
+	var Direction   = require('sokoban/room/direction');
 
-	var KeyHandlers 	= require("games/sokoban/handlers/keyHandlers");
+	var KeyHandlers 	= require("sokoban/handlers/keyHandlers");
 
     var PIXI        = require("libs/pixi");
-	var Tile 		= require('games/sokoban/tiles/pixi_tiles');
-	var tileConfig  = require('games/sokoban/tiles/pixi_config');
-	var Directions 	= require("games/sokoban/room/pixi_directions");
-	var InfoBox  	= require("games/sokoban/pixi_infoBox");
+	var Tile 		= require('sokoban/tiles/pixi_tiles');
+	var tileConfig  = require('sokoban/tiles/pixi_config');
+	var Directions 	= require("sokoban/room/pixi_directions");
+	var InfoBox  	= require("sokoban/pixi_infoBox");
 
 
 	
