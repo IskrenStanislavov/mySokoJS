@@ -1,0 +1,4 @@
+add django REST server:
+- picking levels
+- adding new levels
+- user statistics on levels
